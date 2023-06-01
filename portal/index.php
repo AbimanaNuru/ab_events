@@ -76,7 +76,7 @@ if (isset($_POST['login'])) {
     <link href="./assets/css/pages/auth-light.css" rel="stylesheet" />
 </head>
 
-<body style="background:url(../img/breadcrumb_new.png)">
+<body style="background:url(../img/breadcrumb_new.PNG)">
     <div class="content">
 
         <div class="brand">
