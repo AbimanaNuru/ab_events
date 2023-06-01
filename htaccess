@@ -1,0 +1,14 @@
+
+
+RewriteEngine on
+RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
+RewriteRule ^ /%1 [NC,L,R]
+
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^ %{REQUEST_URI}.php [NC,L]
+
+RewriteEngine on
+ErrorDocument 404 /404.php
+
+php_value upload_max_filesize 100M
+   php_value post_max_size 100M
