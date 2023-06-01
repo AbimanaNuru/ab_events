@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
   <title>Home | AB Events | an exceptional experience</title>
-  <link rel="icon" href="img/ab_favicon.PNG">
+  <link rel="icon" href="img/ab_favicon.png">
 
 
   <!-- Google Font -->
