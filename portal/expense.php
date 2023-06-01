@@ -1,9 +1,9 @@
 <?php
 include_once('config.php');
 session_start();
+$ab_user_id = $_SESSION['ab_user_id'];
 include "sessionexpired.php";
 
-$ab_user_id = $_SESSION['ab_user_id'];
 
 
 
@@ -18,7 +18,7 @@ if (isset($_POST['save_expense'])) {
     // get the image extension
     $extension1 = substr($d, strlen($d) - 4, strlen($d));
     // allowed extensions
-    $allowed_extensions = array(".JPG", ".PNG", ".JPEG", ".jpg", ".jpeg", ".png", ".gif");
+    $allowed_extensions = array(".JPG", ".PNG", ".JPEG", ".jpg", ".jpeg", ".png", ".gif",".pdf",".PDF");
     // Validation for allowed extensions
     if (!in_array($extension1, $allowed_extensions)) {
         $fail = "Invalid format. Only jpg / jpeg/ png /gif format allowed";

@@ -49,6 +49,7 @@
             <div class="footer__social">
                 
                 <a href="https://www.instagram.com/elegancedecor_250/"><button type="button" class="btn btn-info rounded-circle btn-sm" ><i class="fa fa-instagram"  style="margin-top: -20px;"></i></button> <span class="social_footer_title">Elegance Decor</span></a>
+                <a href="https://www.youtube.com/@abeventsgroup490"><button type="button" class="btn btn-info rounded-circle btn-sm" ><i class="fa fa-youtube-play"  style="margin-top: -20px;"></i></button> <span class="social_footer_title">AB events Group</span></a>
                 <br>
                 <a href="https://www.instagram.com/fotoland_250/"><button type="button" class="btn btn-info rounded-circle  btn-sm"><i class="fa fa-instagram"></i></button> <span class="social_footer_title">Fotoland</span></a>
                 <a href="https://www.instagram.com/magicsound_250/"><button type="button" class="btn btn-info rounded-circle  btn-sm"><i class="fa fa-instagram"></i></button> <span class="social_footer_title">Magic Sound</span></a>        

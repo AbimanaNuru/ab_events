@@ -1,9 +1,9 @@
 <?php
 include_once('config.php');
 session_start();
+$ab_user_id = $_SESSION['ab_user_id'];
 include "sessionexpired.php";
 
-$ab_user_id = $_SESSION['ab_user_id'];
 
 if (isset($_POST['add_category'])) {
     $name = mysqli_real_escape_string($connection, $_POST['category_name']);

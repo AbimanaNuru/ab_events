@@ -1,6 +1,7 @@
 <?php
 include_once('config.php');
 session_start();
+$ab_user_id = $_SESSION['ab_user_id'];
 include "sessionexpired.php";
 
 ?>
@@ -39,72 +40,91 @@ include "sessionexpired.php";
                 <div class="row">
 
                     <div class="col-lg-3 col-md-6">
-                        <div class="ibox bg-danger color-white widget-stat">
-                            <div class="ibox-body">
-                                <h2 class="m-b-5 font-strong">
-                                    <?php
-                                    $query = "SELECT * FROM ab_users";
-                                    $result = mysqli_query($connection, $query);
-                                    $ab_user = mysqli_num_rows($result);
-                                    echo "<b style='color:black;'>$ab_user</b>";
-                                    ?>
-                                </h2>
-                                <div class="m-b-5">AB EVENTS USERS</div><i class="fa fa-users widget-stat-icon"></i>
+                        <a href="ab_events_users.php">
+                            <div class="ibox bg-danger color-white widget-stat">
+                                <div class="ibox-body">
+                                    <h2 class="m-b-5 font-strong">
+                                        <?php
+                                        $query = "SELECT * FROM ab_users";
+                                        $result = mysqli_query($connection, $query);
+                                        $ab_user = mysqli_num_rows($result);
+                                        echo "<b style='color:black;'>$ab_user</b>";
+                                        ?>
+                                    </h2>
+                                    <div class="m-b-5">AB EVENTS USERS</div><i class="fa fa-users widget-stat-icon"></i>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
 
                     <div class="col-lg-3 col-md-6">
-                        <div class="ibox bg-danger color-white widget-stat">
-                            <div class="ibox-body">
-                                <h2 class="m-b-5 font-strong">
+                        <a href="clients.php">
 
-                                    <?php
-                                    $query = "SELECT * FROM ab_events_clients";
-                                    $result = mysqli_query($connection, $query);
-                                    $clients = mysqli_num_rows($result);
-                                    echo "<b style='color:black;'>$clients</b>";
-                                    ?>
-                                </h2>
-                                <div class="m-b-5">ALL CLIENTS</div><i class="fa fa-users widget-stat-icon"></i>
+                            <div class="ibox bg-danger color-white widget-stat">
+                                <div class="ibox-body">
+                                    <h2 class="m-b-5 font-strong">
+
+                                        <?php
+                                        $query = "SELECT * FROM ab_events_clients";
+                                        $result = mysqli_query($connection, $query);
+                                        $clients = mysqli_num_rows($result);
+                                        echo "<b style='color:black;'>$clients</b>";
+                                        ?>
+                                    </h2>
+                                    <div class="m-b-5">ALL CLIENTS</div><i class="fa fa-users widget-stat-icon"></i>
+                                </div>
                             </div>
-                        </div>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6">
+                        <a href="materials.php">
+
+                            <div class="ibox bg-danger color-white widget-stat">
+                                <div class="ibox-body">
+                                    <h2 class="m-b-5 font-strong">
+                                        <?php
+                                        $query = "SELECT * FROM ab_events_material";
+                                        $result = mysqli_query($connection, $query);
+                                        $material = mysqli_num_rows($result);
+                                        echo "<b style='color:black;'>$material</b>";
+                                        ?>
+                                    </h2>
+                                    <div class="m-b-5">MATERIAL CATEGORIES</div><i class="fa fa-product-hunt widget-stat-icon"></i>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="ibox bg-danger color-white widget-stat">
-                            <div class="ibox-body">
-                                <h2 class="m-b-5 font-strong">
-                                    <?php
-                                    $query = "SELECT * FROM ab_events_material";
-                                    $result = mysqli_query($connection, $query);
-                                    $material = mysqli_num_rows($result);
-                                    echo "<b style='color:black;'>$material</b>";
-                                    ?>
-                                </h2>
-                                <div class="m-b-5">MATERIAL CATEGORIES</div><i class="fa fa-product-hunt widget-stat-icon"></i>
+                        <a href="materials.php">
+
+                            <div class="ibox bg-danger color-white widget-stat">
+                                <div class="ibox-body">
+                                    <h2 class="m-b-5 font-strong"> <?php
+                                                                    $query = "SELECT * FROM ab_material_category";
+                                                                    $result = mysqli_query($connection, $query);
+                                                                    $category = mysqli_num_rows($result);
+                                                                    echo "<b style='color:black;'>$category</b>";
+                                                                    ?>
+                                    </h2>
+                                    <div class="m-b-5"> ALL MATERIAL</div><i class="fa fa-product-hunt widget-stat-icon"></i>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="ibox bg-danger color-white widget-stat">
-                            <div class="ibox-body">
-                                <h2 class="m-b-5 font-strong"> <?php
-                                                                $query = "SELECT * FROM ab_material_category";
-                                                                $result = mysqli_query($connection, $query);
-                                                                $category = mysqli_num_rows($result);
-                                                                echo "<b style='color:black;'>$category</b>";
-                                                                ?>
-                                </h2>
-                                <div class="m-b-5"> ALL MATERIAL</div><i class="fa fa-product-hunt widget-stat-icon"></i>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
-                <div id="chart-container" style="background-color: #FFFFFF; padding: 5px; border-radius: 20px;">
+                <?php
+                // Financial
 
-                    <canvas id="ab_chart"></canvas>
-                </div>
+                if ($user_type == 'Administrator') {
 
+                ?>
+                    <div id="chart-container" style="background-color: #FFFFFF; padding: 5px; border-radius: 20px;">
+
+                        <canvas id="ab_chart"></canvas>
+                    </div>
+                <?php
+                } ?>
             </div>
             <!-- END PAGE CONTENT-->
             <!-- <footer class="page-footer">
@@ -142,7 +162,9 @@ include "sessionexpired.php";
             $("#ab_chart").ready();
             ab_chart_v1()
         });
-        function ab_chart_v1() {            {
+
+        function ab_chart_v1() {
+            {
                 $.get("chart_data.php", {
                         // function: "ab_chart"
                     },

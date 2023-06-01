@@ -99,6 +99,7 @@
                         <h2>Fotoland</h2>
                         <div class="footer__social">
                             <a href="https://www.instagram.com/fotoland_250/"><button type="button" class="btn btn-info rounded-circle"><i class="fa fa-instagram"></i></button></a>
+                            <a href="https://www.youtube.com/@abeventsgroup490"><button type="button" class="btn btn-info rounded-circle"><i class="fa fa-youtube-play"></i></button></a>
 
                         </div>
 

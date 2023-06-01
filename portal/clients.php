@@ -1,8 +1,8 @@
 <?php
 include_once('config.php');
 session_start();
-include "sessionexpired.php";
 $ab_user_id = $_SESSION['ab_user_id'];
+include "sessionexpired.php";
 
 
 

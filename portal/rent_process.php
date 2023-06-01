@@ -1,9 +1,9 @@
 <?php
 include_once('config.php');
 session_start();
+$ab_user_id = $_SESSION['ab_user_id'];
 include "sessionexpired.php";
 
-$ab_user_id = $_SESSION['ab_user_id'];
 
 if (isset($_POST['process_rents'])) {
 
@@ -274,7 +274,7 @@ if (isset($_POST['make_change'])) {
                                         </div>
 
                                         <div class="col-sm-6 form-group">
-                                            <label class="form-control-label">Select Client</label>
+                                            <label class="form-control-label">Select Client <b class="required">*</b></label>
                                             <select class="form-control select2_demo_1" name="m_client" required>
                                                 <option value="">Select Client:</option>
                                                 <?php
@@ -293,7 +293,7 @@ if (isset($_POST['make_change'])) {
 
                                             <div class="row">
                                                 <div class="col-sm-3 form-group">
-                                                    <label class="form-control-label">Select Material</label>
+                                                    <label class="form-control-label">Select Material <b class="required">*</b></label>
                                                     <select class="form-control select2_demo_1 get_product" name="m_name[]" required>
                                                         <option value="">Select Material:</option>
                                                         <?php
@@ -307,18 +307,18 @@ if (isset($_POST['make_change'])) {
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-3 form-group">
-                                                    <label>Quantity:</label>
+                                                    <label>Quantity <b class="required">*</b></label>
                                                     <input type="text" class="form-control box2" name="m_quantity[]" pattern="[0-9]+" required onchange="code(2)" placeholder="Quantity">
                                                 </div>
 
                                                 <div class="col-sm-3 form-group">
-                                                    <label>Price:</label>
+                                                    <label>Price <b class="required">*</b></label>
                                                     <select class="form-control box1" name="m_price[]" required onchange="code(1)">
                                                         <option value="">Product Price</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-3 form-group">
-                                                    <label>Total Price:</label>
+                                                    <label>Total Price <b class="required">*</b></label>
                                                     <input type="text" class="form-control cost" readonly pattern="[0-9]+" required name="m_total_price" onfocus="code()" placeholder="">
 
                                                 </div>
@@ -328,21 +328,30 @@ if (isset($_POST['make_change'])) {
                                     </div>
                                     <p id="add-product" class="btn btn-sm" style="background-color: #700018; color:white;"><i class="fa fa-plus" aria-hidden="true"></i> Add Material</p>
                                     <div class="row">
-                                        <div class="col-sm-4 form-group">
-                                            <label>Rent Date</label>
+                                        <div class="col-sm-3 form-group">
+                                            <label>Rent Date <b class="required">*</b></label>
                                             <input class="form-control rent-date-input" type="date" name="rent_date" required>
                                         </div>
-                                        <div class="col-sm-4 form-group">
-                                            <label>Return Date</label>
+                                        <div class="col-sm-3 form-group">
+                                            <label>Return Date <b class="required">*</b></label>
                                             <input class="form-control rent-date-input" type="date" name="return_date" required>
                                         </div>
 
 
 
 
-                                        <div class="col-sm-4 form-group">
-                                            <label>Support Doocuments</label>
+                                        <div class="col-sm-3 form-group">
+                                            <label>Support Doocuments <b class="required">*</b></label>
                                             <input class="form-control" type="file" name="support_documents" required>
+                                        </div>
+                                        <div class="col-sm-3 form-group">
+                                            <label>Payment Mode</label>
+                                            <select class="form-control" type="file" name="support_documents" >
+                                                <option>Select Payment Mode</option>
+                                                <option value="Cash">Cash</option>
+                                                <option value="Momo">Momo</option>
+                                                <option value="Cards">Cards</option>
+                                            </select>
                                         </div>
                                     </div>
 

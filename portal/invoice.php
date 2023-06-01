@@ -12,7 +12,7 @@ $invoice_i_code = $_GET['invoice_code'];
 <html lang="en">
 
 <head>
-    <title>Invoice | AB Events | an exceptional experience</title>
+    <title>Invoice_<?php echo $invoice_i_code ?> </title>
     <link rel="icon" href="../img/ab_favicon.png"> <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -84,7 +84,6 @@ AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_even
                 <div class="row row-cols-sm-2 row-cols-1">
                     <div class="col-6 d-flex justify-content-start">
                         <div> <!-- div wrapper around header and address to make content stack properly-->
-                            <strong>Dates:</strong><br>
                             <h6><b>Rent Date:</b> <?php echo $row['rent_process_rent_date']  ?></h6>
                             <h6><b>Return Date:</b> <?php echo $row['rent_process_return_date']  ?></h6>
                         </div>
@@ -111,7 +110,7 @@ AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_even
                     </div>
                     <div class="col-6 d-flex justify-content-end">
                         <div>
-                            <strong>Rents To:</strong><br>
+                            <strong>Rented By:</strong><br>
                             <address class="address"><b>AB EVENTS GROUP</b><br>
                                 +250 788 643 162<br>+250 788 336 932<br>
                                 info@ab.events.rw
@@ -190,7 +189,9 @@ AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_even
         <footer>
             <div class="row">
                 <div class="col-12">
-                    <p><strong>NOTE: </strong>&nbsp;Every Material Is Rented Per Day. .</p>
+                    <h5><strong>NOTE: </strong>&nbsp;</h5>
+                    <h6>- Materials are rented per day, delay in tetourning materials are subject to additional charges.</h6>
+                    <h6>- Ibikoresho bikodeshwa ku munsi, iyo utinze gutirura, habarwa iminsi ibikoresgo bimaze nabyo bikishurwa</h6>
                 </div>
             </div>
         </footer>

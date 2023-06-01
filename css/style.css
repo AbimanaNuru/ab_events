@@ -1038,6 +1038,27 @@ ol {
 	font-family: "Poppins", sans-serif;
 	margin-bottom: 6px;
 }
+.brand_link {
+	color: white;
+	font-weight: bold;
+	background-color: #700018;
+	padding: 8px;
+	font-size: 12px;
+	border-radius: 5px;
+  }
+
+  .brand_link:hover {
+	color: black;
+	font-weight: bold;
+	background-color: white;
+	border: 2px solid black;
+	padding: 8px;
+	font-size: 12px;
+	border-radius: 5px;
+  }
+  .brank_summary{
+	font-size: 13px;
+  }
 
 .team__text .team__title span {
 	font-size: 14px;

@@ -3,9 +3,9 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
 ?>
 <style>
     .side-menu li a.active {
-    color: #fff;
-    background-color: #6F0118;
-}
+        color: #fff;
+        background-color: #6F0118;
+    }
 </style>
 
 
@@ -24,7 +24,7 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
                 <a class="nav-link sidebar-toggler js-sidebar-toggler"><i class="ti-menu"></i></a>
             </li>
 
-            <li id="clock" style="color: #6F0118; font-weight: bold;">  </li>
+            <li id="clock" style="color: #6F0118; font-weight: bold;"> </li>
         </ul>
         <!-- END TOP-LEFT TOOLBAR-->
         <!-- START TOP-RIGHT TOOLBAR-->
@@ -92,12 +92,22 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
                     <span class="nav-label">AB Events Expense</span>
                 </a>
             </li>
-            <li>
-                <a href="ab_events_users.php" class="<?= ($activePage == 'ab_events_users') ? 'active' : ''; ?>">
-                    <i class="sidebar-item-icon fa fa-users"></i>
-                    <span class="nav-label">AB Events Users</span>
-                </a>
-            </li>
+
+
+            <?php
+            // Financial
+          
+            if ($user_type == 'Administrator') {
+
+            ?>
+                <li>
+                    <a href="ab_events_users.php" class="<?= ($activePage == 'ab_events_users') ? 'active' : ''; ?>">
+                        <i class="sidebar-item-icon fa fa-users"></i>
+                        <span class="nav-label">AB Events Users</span>
+                    </a>
+                </li>
+            <?php
+            } ?>
             <li>
                 <a href="reporting.php?report_by=1 MONTH" class="<?= ($activePage == 'reporting') ? 'active' : ''; ?>">
 
@@ -127,7 +137,7 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
 </nav>
 
 <script>
-      function updateClock() {
+    function updateClock() {
         var now = new Date();
         var year = now.getFullYear();
         var month = (now.getMonth() + 1).toString().padStart(2, "0");
@@ -137,24 +147,24 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
         var seconds = now.getSeconds().toString().padStart(2, "0");
 
         var dateTimeString =
-          year +
-          "-" +
-          month +
-          "-" +
-          day +
-          " " +
-          hours +
-          ":" +
-          minutes +
-          ":" +
-          seconds;
+            year +
+            "-" +
+            month +
+            "-" +
+            day +
+            " " +
+            hours +
+            ":" +
+            minutes +
+            ":" +
+            seconds;
 
         document.getElementById("clock").textContent = dateTimeString;
 
         // Update the clock every second
         setTimeout(updateClock, 1000);
-      }
+    }
 
-      // Start the clock
-      updateClock();
-    </script>
+    // Start the clock
+    updateClock();
+</script>

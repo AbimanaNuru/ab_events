@@ -24,35 +24,12 @@
   <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
   <link rel="stylesheet" href="css/slick.css" type="text/css" />
   <link rel="stylesheet" href="css/style.css" type="text/css" />
-  <style>
-    .service_card {
-      border: 2px solid #700018;
-      padding: 20px;
-      border-radius: 10px;
-    }
 
-    .brand_link {
-      color: white;
-      font-weight: bold;
-      background-color: #700018;
-      padding: 8px;
-      font-size: 12px;
-      border-radius: 5px;
-    }
 
-    .brand_link:hover {
-      color: black;
-      font-weight: bold;
-      background-color: white;
-      border: 2px solid black;
-      padding: 8px;
-      font-size: 12px;
-      border-radius: 5px;
-    }
-    .brank_summary{
-      font-size: 13px;
-    }
-  </style>
+  <!-- Bootstrap JavaScript and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body>
@@ -130,6 +107,7 @@
           </p>
 
           <div class="hero__social">
+            <a href="https://www.youtube.com/@abeventsgroup490"><button type="button" class="btn btn-info rounded-circle btn-sm"><i class="fa fa-youtube-play"></i></button><span class="social_footer_title"> Elegance Decor</span></a>
             <a href="https://www.instagram.com/elegancedecor_250/"><button type="button" class="btn btn-info rounded-circle btn-sm"><i class="fa fa-instagram"></i></button><span class="social_footer_title"> Elegance Decor</span></a>
             <a href="https://www.instagram.com/fotoland_250/"><button type="button" class="btn btn-info rounded-circle btn-sm"><i class="fa fa-instagram"></i></button><span class="social_footer_title"> Fotoland</span></a>
             <a href="https://www.instagram.com/magicsound_250/"><button type="button" class="btn btn-info rounded-circle btn-sm"><i class="fa fa-instagram"></i></button><span class="social_footer_title"> Magic Sound</span> </a>
@@ -191,6 +169,7 @@
               </p>
             </div>
             <a href="about_us.php" class="primary-btn normal-btn">Read More</a>
+            <a href="about_us.php" id="videoModalButton" data-bs-toggle="modal" data-bs-target="#videoModal" class="primary-btn normal-btn">AB EVENTS GROUP VIDEOS</a>
           </div>
         </div>
         <div class="col-lg-4">
@@ -248,7 +227,7 @@
 
             <img src="img/magic.png" style="width:95px;" alt="">
             <h4>Magic Sound</h4>
-            <p class="brank_summary">We have trained sound engineers that take time to understand the needs of our clients in term of the event content, kind of event, Sound system needs depending on the size of the event and venu</p> 
+            <p class="brank_summary">We have trained sound engineers that take time to understand the needs of our clients in term of the event content, kind of event, Sound system needs depending on the size of the event and venu</p>
             <br>
             <a href="magic-sound.php" class="brand_link">Read More</a>
           </div>
@@ -516,6 +495,35 @@
   <script src="js/owl.carousel.min.js"></script>
   <script src="js/slick.min.js"></script>
   <script src="js/main.js"></script>
+
+  <!-- Start Of Modal -->
+  <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="videoModalLabel">AB EVENTS SERVICES</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <iframe width="100%" height="500px;" src="https://www.youtube.com/embed/UYhcSquc18Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Of Modal -->
+  <script>
+    $(document).ready(function() {
+      $('#videoModal').on('shown.bs.modal', function() {
+        var video = document.getElementById('modalVideo');
+        video.play();
+      });
+
+      $('#videoModal').on('hidden.bs.modal', function() {
+        var video = document.getElementById('modalVideo');
+        video.pause();
+      });
+    });
+  </script>
 </body>
 
 </html>
