@@ -77,13 +77,27 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
                 </a>
             </li>
 
-            <li class="<?= ($activePage == 'rent_process') || ($activePage == 'ab_events_reminder') ? 'active' : ''; ?>">
+            <li class="<?= ($activePage == 'rent_process') || ($activePage == 'add_new_rent_process') ||
+                            ($activePage == 'transaction_detailed_view') || ($activePage == 'ab_events_reminder') ? 'active' : ''; ?>">
                 <a href="javascript:;"><i class="sidebar-item-icon fa fa-bar-chart"></i>
                     <span class="nav-label">AB Events Rents</span><i class="fa fa-angle-left arrow"></i></a>
                 <ul class="nav-2-level collapse">
                     <li>
+                        <a class="<?= ($activePage == 'add_new_rent_process') ? 'active' : ''; ?>" href="add_new_rent_process">Add Rent Process</a>
+                    </li>
+                    <li>
                         <a class="<?= ($activePage == 'rent_process') ? 'active' : ''; ?>" href="rent_process">Manage Rents</a>
                     </li>
+                    <?php
+                    // Financial
+                    if ($user_type == 'Administrator') {
+                    ?>
+
+                        <li>
+                            <a class="<?= ($activePage == 'transaction_detailed_view') ? 'active' : ''; ?>" href="transaction_detailed_view">Transaction Detailed View</a>
+                        </li>
+                    <?php
+                    } ?>
                     <li>
                         <a class="<?= ($activePage == 'ab_events_reminder') ? 'active' : ''; ?>" href="ab_events_reminder">AB Events Reminder</a>
                     </li>
@@ -97,7 +111,7 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
                     <span class="nav-label">Materials</span>
                 </a>
             </li>
-          
+
             <li>
                 <a href="expense.php" class="<?= ($activePage == 'expense') ? 'active' : ''; ?>">
                     <i class="sidebar-item-icon fa fa-users"></i>
@@ -108,9 +122,7 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
 
             <?php
             // Financial
-
             if ($user_type == 'Administrator') {
-
             ?>
                 <li>
                     <a href="ab_events_users.php" class="<?= ($activePage == 'ab_events_users') ? 'active' : ''; ?>">

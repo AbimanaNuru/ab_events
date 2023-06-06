@@ -279,169 +279,29 @@ if (isset($_POST['make_change_rent_transactions'])) {
                 <div class="row">
 
                     <div class="col-md-12">
-                        <div class="ibox">
-
-                            <?php
-                            // Display the success or failure message
-                            if (isset($_POST['process_rents'])) {
-
-                                if ($insertSuccess) {
-                                    echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-                                    <strong>All Material Added Successfully!</strong>
-                                    </div>";
-                                } else {
-                                    // At least one insert failed
-                                    if (!$sqlSuccess or !$sql2Success) {
-                                        echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-                                        <strong>Something Wrong!</strong>";
-                                    }
-                                }
-                            }
-
-                            if (isset($success) & !empty($success)) {
-                                echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-		<strong>$success!</strong>
-	</div>";
-                            }
-                            if (isset($fail) & !empty($fail)) {
-                                echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-		<strong>$fail!</strong>
-	</div>";
-                            }
-
-                            ?>
-                            <div class="ibox-head">
-                                <div class="ibox-title">Rent Material</div>
-                                <div class="ibox-tools">
-                                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-
-                                </div>
-                            </div>
-                            <div class="ibox-body">
-                                <form action="" method="POST" id="myForm" onsubmit="return validateForm()" enctype="multipart/form-data">
-                                    <div class="row">
-                                        <div class="col-md-6  form-group">
-                                            <label>Rents ID: <b class="required">*</b></label>
-                                            <div class="form-group">
-                                                <input class="form-control" minlength="20" maxlength="20" type="text" name="rents_id" style="background-color: #700018; color:white;" value="<?php
-                                                                                                                                                                                                $length = 6;
-                                                                                                                                                                                                $randomString = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, $length);
-                                                                                                                                                                                                usleep(1000); // pause for 100 microseconds
-                                                                                                                                                                                                $dateTime = date("YmdHis");
-                                                                                                                                                                                                echo "R_" . $randomString . $dateTime;
-                                                                                                                                                                                                ?>" required>
-
-
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-6 form-group">
-                                            <label class="form-control-label">Select Client <b class="required">*</b></label>
-                                            <select class="form-control select2_demo_1" name="m_client" required>
-                                                <option value="">Select Client:</option>
-                                                <?php
-                                                $query = "SELECT * FROM `ab_events_clients` ";
-                                                if ($result = mysqli_query($connection, $query)) {
-                                                    while ($row = mysqli_fetch_array($result)) {
-                                                        echo "<option value=" . $row['client_id'] . ">" . $row['client_phonenumber'] . " [" . $row['client_fullname'] . "]</option>";
-                                                    }
-                                                }  ?>
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div id="products-container">
-                                        <div class="product-row">
-
-                                            <div class="row">
-                                                <div class="col-sm-3 form-group">
-                                                    <label class="form-control-label">Select Material <b class="required">*</b></label>
-                                                    <select class="form-control select2_demo_1 get_product get_quantity" name="m_name[]" required>
-                                                        <option value="">Select Material:</option>
-                                                        <?php
-                                                        $query = "SELECT * FROM `ab_events_material` ";
-                                                        if ($result = mysqli_query($connection, $query)) {
-                                                            while ($row = mysqli_fetch_array($result)) { ?>
-                                                                <option value="<?php echo $row['ab_events_material_id'] ?>"><?php echo $row['ab_events_material_name'] ?></option>
-                                                        <?php }
-                                                        }  ?>
-
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-sm-2 form-group">
-                                                    <label>Av.Qty <b class="required">*</b></label>
-                                                    <select class="form-control box_avialable" required>
-                                                        <option value="">Available Qty</option>
-
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-1 form-group">
-                                                    <label>Qty <b class="required">*</b></label>
-                                                    <input class="form-control box2" placeholder="Qty" name="m_quantity[]" required onchange="code(1)">
-                                                </div>
-
-                                                <div class="col-sm-3 form-group">
-                                                    <label>Price <b class="required">*</b></label>
-                                                    <select class="form-control box1" name="m_price[]" required onchange="code(1)">
-                                                        <option value="">Product Price</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-2 form-group">
-                                                    <label>Total Price <b class="required">*</b></label>
-                                                    <input type="text" class="form-control cost" readonly pattern="[0-9]+" required name="m_total_price" onfocus="code()" placeholder="">
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p id="add-product" class="btn btn-sm" style="background-color: #700018; color:white;"><i class="fa fa-plus" aria-hidden="true"></i> Add Material</p>
-                                    <div class="row">
-                                        <div class="col-sm-2 form-group">
-                                            <label>Rent Date <b class="required">*</b></label>
-                                            <input class="form-control rent-date-input" type="date" name="rent_date" required>
-                                        </div>
-                                        <div class="col-sm-2 form-group">
-                                            <label>Return Date <b class="required">*</b></label>
-                                            <input class="form-control rent-date-input" type="date" name="return_date" required>
-                                        </div>
-                                        <div class="col-sm-2 form-group">
-                                            <label>Day <b class="required">*</b></label>
-                                            <input class="form-control" type="text" pattern="[0-9]+" id="days-count-input" name="rent_day" readonly required>
-                                        </div>
-
-
-                                        <div class="col-sm-3 form-group">
-                                            <label>Support Doocuments <b class="required">*</b></label>
-                                            <input class="form-control" type="file" name="support_documents" required>
-                                        </div>
-                                        <div class="col-sm-3 form-group">
-                                            <label>Payment Mode</label>
-                                            <select class="form-control" name="payment_mode">
-                                                <option>Select Payment Mode</option>
-                                                <option value="Cash">Cash</option>
-                                                <option value="Momo">Momo</option>
-                                                <option value="Cards">Cards</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <button class="btn btn-dark btn-block" name="process_rents" type="submit">Save</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-
-
-
-
+                        <?php
+                        if (isset($success) & !empty($success)) {
+                            echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                            <strong>$success!</strong>
+                        </div>";
+                        }
+                        if (isset($fail) & !empty($fail)) {
+                            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            <strong>$fail!</strong>
+                        </div>";
+                        } ?>
                         <div class="ibox">
                             <div class="ibox-head">
                                 <div class="ibox-title">Rents</div>
-                                <a href="transaction_detailed_view"><button class='btn btn-dark' id='day1'>Transaction Detailed View</button></a>
+                                <?php
+                                // Financial
+                                if ($user_type == 'Administrator') {
+                                ?>
+
+                                    <a href="transaction_detailed_view"><button class='btn btn-dark' id='day1'>Transaction Detailed View</button></a>
+                                <?php
+                                }
+                                ?>
 
                             </div>
                             <div class="ibox-body">
@@ -512,7 +372,10 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                                     <td> <?php echo $row['rent_transaction_return_date']; ?></td>
                                                     <td> <?php
                                                             if ($row['rent_transaction_status'] == 'Not Returned') {
-                                                                echo "  <a class='badge badge-danger badge-pill' data-toggle='modal' data-target='#edit$rents_id' style='color:white;'>Edit </a>";
+                                                                // Financial
+                                                                if ($user_type == 'Administrator') {
+                                                                    echo "  <a class='badge badge-danger badge-pill' data-toggle='modal' data-target='#edit$rents_id' style='color:white;'>Edit </a>";
+                                                                }
 
                                                                 echo "  <a class='badge badge-danger badge-pill' data-toggle='modal' data-target='#$rents_id' style='color:white;'>Return </a>";
                                                             } else {
@@ -722,7 +585,6 @@ if (isset($_POST['make_change_rent_transactions'])) {
     <script src="assets/js/app.min.js" type="text/javascript"></script>
     <!-- PAGE LEVEL SCRIPTS-->
     <script src="assets/js/scripts/form-plugins.js" type="text/javascript"></script>
-
     <!-- DataTables -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
@@ -732,47 +594,6 @@ if (isset($_POST['make_change_rent_transactions'])) {
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
 
     <script>
-        const avQuantityInput = document.querySelector('.box_avialable');
-        const quantityInput = document.querySelector('.box2');
-
-        avQuantityInput.addEventListener('select', validateForm);
-        quantityInput.addEventListener('input', validateForm);
-
-        function validateForm() {
-            const avQuantity = parseInt(avQuantityInput.value);
-            const quantity = parseInt(quantityInput.value);
-
-            if (quantity > avQuantity) {
-                // Set a custom error message for the quantityInput
-                quantityInput.setCustomValidity("Quantity cannot be greater than Av Quantity!");
-            } else {
-                // Reset the error message if the validation passes
-                quantityInput.setCustomValidity("");
-            }
-        }
-
-
-        var rentDateInputs = document.getElementsByClassName('rent-date-input');
-
-        for (var i = 0; i < rentDateInputs.length; i++) {
-            rentDateInputs[i].addEventListener('input', validateDates);
-        }
-
-        function validateDates() {
-            var rentDateInput = document.getElementsByClassName('rent-date-input')[0];
-            var returnDateInput = document.getElementsByClassName('rent-date-input')[1];
-            var daysCountInput = document.getElementById('days-count-input');
-            var rentDate = new Date(rentDateInput.value);
-            var returnDate = new Date(returnDateInput.value);
-            if (returnDate < rentDate) {
-                returnDateInput.setCustomValidity('Return date cannot be earlier than rent date');
-            } else {
-                returnDateInput.setCustomValidity('');
-                var timeDiff = Math.abs(returnDate.getTime() - rentDate.getTime());
-                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                daysCountInput.value = diffDays;
-            }
-        }
         $(document).ready(function() {
             $('#example').DataTable({
                 lengthMenu: [
@@ -781,153 +602,6 @@ if (isset($_POST['make_change_rent_transactions'])) {
                 ]
             });
         });
-    </script>
-    <script>
-        // Get all elements with the specified class name
-        var rentDateInputs = document.getElementsByClassName("rent-date-input");
-
-        // Get the current date
-        var today = new Date().toISOString().split('T')[0];
-
-        // Set the minimum value for each input field to today's date
-        for (var i = 0; i < rentDateInputs.length; i++) {
-            rentDateInputs[i].setAttribute('min', today);
-        }
-
-
-
-        function code() {
-            var box1 = document.getElementsByClassName('box1');
-            var box2 = document.getElementsByClassName('box2');
-            var costs = document.getElementsByClassName('cost');
-
-            for (var i = 0; i < costs.length; i++) {
-                var total = parseFloat(box1[i].value) * parseFloat(box2[i].value);
-                costs[i].value = total;
-            }
-        }
-
-
-        $(document).ready(function() {
-            $(document).on('change', '.get_product', function() {
-
-                var product_id = this.value;
-                var $box1 = $(this).closest('.row').find('.box1');
-
-                $.ajax({
-                    url: "get_price",
-                    type: "POST",
-                    data: {
-                        product_id: product_id,
-                    },
-                    cache: false,
-                    success: function(result) {
-                        $box1.html(result);
-                    }
-                });
-            });
-        });
-        $(document).ready(function() {
-            $(document).on('change', '.get_quantity', function() {
-
-                var product_id = this.value;
-                var $box_available = $(this).closest('.row').find('.box_avialable');
-
-                $.ajax({
-                    url: "get_quantiry",
-                    type: "POST",
-                    data: {
-                        product_id: product_id,
-                    },
-                    cache: false,
-                    success: function(result) {
-                        $box_available.html(result);
-                    }
-                });
-            });
-        });
-
-
-        const productsContainer = document.getElementById('products-container');
-        const addProductButton = document.getElementById('add-product');
-
-        let productIndex = 1;
-
-        addProductButton.addEventListener('click', function(event) {
-            event.preventDefault();
-
-            // Create the HTML elements for the product fields
-            const productFields = `
-    <div class="product-row">
-      <div class="row">
-        <div class="col-sm-3 form-group">
-          <label class="form-control-label">Select Material</label>
-          <select class="form-control select2_demo_1 get_product get_quantity" name="m_name[]" required>
-            <option value="">Select Material:</option>
-            <?php
-            $query = "SELECT * FROM `ab_events_material` ";
-            if ($result = mysqli_query($connection, $query)) {
-                while ($row = mysqli_fetch_array($result)) { ?>
-                <option value="<?php echo $row['ab_events_material_id'] ?>"><?php echo $row['ab_events_material_name'] ?> [Qty:<?php echo $row['ab_events_material_available_qty'] ?>]</option>
-            <?php }
-            } ?>
-          </select>
-        </div>
-        <div class="col-sm-2 form-group">
-                                                    <label>Av.Qty <b class="required">*</b></label>
-                                                    <select class="form-control box_avialable">
-
-                                                    </select>
-                                                </div>
-        <div class="col-sm-1 form-group">
-          <label>Qty <b class="required">*</b></label>
-          <input type="text" class="form-control box2" name="m_quantity[]" pattern="[0-9]+" required onchange="validateQuantity(this)" placeholder="Qty ">
-        </div>
-        <div class="col-sm-3 form-group">
-          <label>Price:</label>
-          <select class="form-control box1" name="m_price[]" required onchange="code(1)">
-            <option value="">Product Price</option>
-          </select>
-        </div>
-        <div class="col-sm-2 form-group">
-          <label>Total Price:</label>
-          <input type="text" class="form-control cost" readonly pattern="[0-9]+" required name="m_total_price" onfocus="code()" placeholder="">
-        </div>
-        <span class="remove-product"> <i class="fa fa-trash" style="color:red;"></i></span>
-      </div>
-    </div>
-  `;
-
-            // Append the product fields to the container
-            productsContainer.insertAdjacentHTML('beforeend', productFields);
-
-            // Increment the product index for the next product
-            productIndex++;
-
-            // Attach an event listener to the remove button for this product
-            const removeButton = productsContainer.querySelector('.product-row:last-of-type .remove-product');
-            removeButton.addEventListener('click', function(event) {
-                event.preventDefault();
-
-                // Remove the product field from the container
-                const productField = removeButton.parentNode;
-                productField.remove();
-            });
-        });
-
-        function validateQuantity(input) {
-            const avQuantityInput = input.parentNode.parentNode.querySelector('.box_avialable');
-            const avQuantity = parseInt(avQuantityInput.value);
-            const quantity = parseInt(input.value);
-
-            if (quantity > avQuantity) {
-                // Set a custom error message for the input
-                input.setCustomValidity("Quantity cannot be greater than Av Quantity!");
-            } else {
-                // Reset the error message if the validation passes
-                input.setCustomValidity("");
-            }
-        }
     </script>
 
     <script type="text/javascript">

@@ -3,6 +3,10 @@ include_once('config.php');
 session_start();
 $ab_user_id = $_SESSION['ab_user_id'];
 include "sessionexpired.php";
+if ($user_type !='Administrator') {
+    header("location: dashboard.php");
+}
+
 
 
 if (isset($_POST['qty_make_change'])) {
