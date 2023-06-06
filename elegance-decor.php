@@ -70,7 +70,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="header__widget">
-                        <a href="index.php" class="primary-btn normal-btn"> <b style="color:white;">Book Us</b></a>
+                        <a href="book_us" class="primary-btn normal-btn"> <b style="color:white;">Book Us</b></a>
 
                     </div>
                 </div>

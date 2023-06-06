@@ -4,6 +4,13 @@ session_start();
 $ab_user_id = $_SESSION['ab_user_id'];
 include "sessionexpired.php";
 
+if ($user_type !='Administrator') {
+    header("location: dashboard.php");
+}
+
+
+
+
 if (isset($_POST['invite_user'])) {
 
     $name = mysqli_real_escape_string($connection, $_POST['full_name']);
@@ -12,7 +19,7 @@ if (isset($_POST['invite_user'])) {
     $type = mysqli_real_escape_string($connection, $_POST['user_type']);
 
     $length = 4;
-    $randomString= substr(str_shuffle('0123456789'), 0, $length);
+    $randomString = substr(str_shuffle('0123456789'), 0, $length);
 
     $password = md5($randomString);
 
@@ -247,8 +254,8 @@ if (isset($_POST['invite_user'])) {
     </div>
 
     <!-- create form html for submiting username and password   -->
-    
-  
+
+
     <!-- BEGIN PAGA BACKDROPS-->
     <div class="sidenav-backdrop backdrop"></div>
     <div class="preloader-backdrop">

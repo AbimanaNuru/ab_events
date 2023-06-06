@@ -1,6 +1,7 @@
 <?php
 include_once('config.php');
 session_start();
+$ab_user_id = $_SESSION['ab_user_id'];
 include "sessionexpired.php";
 
 $invoice_i_code = $_GET['invoice_code'];
@@ -67,31 +68,34 @@ This will only have the address line at a smaller font for the small breakpoints
 
 
 
-        $result = mysqli_query($connection, "SELECT  * FROM ab_events_material_rent_process,ab_events_clients WHERE 
-        ab_events_clients.client_id  = ab_events_material_rent_process.rent_process_client_id  AND ab_events_material_rent_process.rent_process_rent_id = '$invoice_i_code' GROUP BY ab_events_material_rent_process.rent_process_rent_id");
+
+        $result = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction,ab_events_clients
+WHERE ab_events_rent_transaction.rent_transaction_clients_id =  ab_events_clients.client_id AND  ab_events_rent_transaction.rent_transaction_code = '$invoice_i_code' ");
 
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                $rents_id = $row['rent_process_rent_id'];
+                $rents_id = $row['rent_transaction_code'];
+                $rent_day = $row['rent_transaction_day'];
 
                 $submenu =  mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process,ab_events_material,ab_material_category WHERE
 ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab_events_material_id 
 AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_events_material_category AND ab_events_material_rent_process.rent_process_rent_id = '$invoice_i_code'");
-                $sump = mysqli_query($connection, "SELECT  SUM(rent_process_total_price) as total_trans_money FROM ab_events_material_rent_process WHERE rent_process_rent_id = '$invoice_i_code'");
+                $sump = mysqli_query($connection, "SELECT  SUM(rent_transaction_total_per_day) as total_trans_money FROM ab_events_rent_transaction WHERE rent_transaction_code = '$invoice_i_code'");
 
         ?>
 
                 <div class="row row-cols-sm-2 row-cols-1">
                     <div class="col-6 d-flex justify-content-start">
                         <div> <!-- div wrapper around header and address to make content stack properly-->
-                            <h6><b>Rent Date:</b> <?php echo $row['rent_process_rent_date']  ?></h6>
-                            <h6><b>Return Date:</b> <?php echo $row['rent_process_return_date']  ?></h6>
+                            <h6><b>Rent Date:</b> <?php echo $row['rent_transaction_rent_date']  ?></h6>
+                            <h6><b>Return Date:</b> <?php echo $row['rent_transaction_return_date']  ?></h6>
+                            <h6><b>Day:</b> <?php echo $rent_day; ?></h6>
                         </div>
                     </div>
                     <div class="col-6 d-flex justify-content-end">
                         <div>
                             <strong>Invoice Code:</strong><br>
-                            <h6><?php echo $row['rent_process_rent_id'] ?></h6>
+                            <h6><?php echo $row['rent_transaction_code'] ?></h6>
                         </div>
                     </div>
                 </div>
@@ -162,11 +166,16 @@ AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_even
                         <tfoot>
 
                             <tr>
-                                <td colspan="4">Total: </td>
-                                <td class="text-end"><?php while ($Totalprice = mysqli_fetch_assoc($sump)) {
-                                                            $total_p = number_format($Totalprice['total_trans_money']);
+                                <td colspan="4"> <b> Price Per Day:</b> </td>
+                                <td class="text-end"><?php while ($price_per_day = mysqli_fetch_assoc($sump)) {
+                                                            $total_p = $price_per_day['total_trans_money'];
                                                             echo "<b>$total_p Rwf</b>";
+                                                            $invoice_total =  number_format($total_p * $rent_day);
                                                         } ?></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4"> <b> Total:</b></td>
+                                <td class="text-end"><?php echo "<b>$invoice_total Rwf</b>";  ?></td>
                             </tr>
                         </tfoot>
                     </table>

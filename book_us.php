@@ -1,3 +1,29 @@
+<?php
+include "portal/config.php";
+if (isset($_POST['book_us'])) {
+
+    $name = mysqli_real_escape_string($connection, $_POST['fname']);
+    $phone = mysqli_real_escape_string($connection, $_POST['phone']);
+    $email = mysqli_real_escape_string($connection, $_POST['email']);
+    $service = mysqli_real_escape_string($connection, $_POST['service']);
+    $comment = mysqli_real_escape_string($connection, $_POST['comment']);
+
+    // Query for insertion data into database  
+    $query = mysqli_query($connection, "insert into ab_events_booking
+  (ab_events_booking_fullname,ab_events_booking_phone,ab_events_booking_email,ab_events_booking_service,ab_events_booking_comment,ab_events_booking_date)
+  values('$name','$phone','$email','$service','$comment',NOW())");
+    if ($query) {
+        // echo "<script> alert('Success') </script>";
+        $success = "Thank you for book us";
+        header("Refresh: 3; url= book_us.php");
+    } else {
+        $fail = "Something Wrong";
+        header("Refresh: 2; url= book_us.php");
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -125,25 +151,37 @@
                         <h2>AB EVENTS GROUP</h2>
                     </div>
                     <div class="">
-                        <form action="#">
+                        <?php
+                        if (isset($success) & !empty($success)) {
+                            echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+		<strong><i class='fa fa-spinner fa-spin' aria-hidden='true' ></i> $success!</strong>
+	</div>";
+                        }
+                        if (isset($fail) & !empty($fail)) {
+                            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+		<strong><i class='fa fa-spinner fa-spin' aria-hidden='true' ></i>  $fail!</strong>
+	</div>";
+                        }
+                        ?>
+                        <form action="" method="POST">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 book_div">
                                     <label for="">Full Name:</label>
-                                    <input type="text" class="form-control" required placeholder="Provide Your Full Name">
+                                    <input type="text" class="form-control" name="fname" required placeholder="Provide Your Full Name">
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 book_div">
                                     <label for="">Phone Number:</label>
-                                    <input type="text" class="form-control" required placeholder="Provide Your Phone Number">
+                                    <input type="text" class="form-control" name="phone" required placeholder="Provide Your Phone Number">
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-6 book_div">
                                     <label for="">Email Address:</label>
-                                    <input type="text" class="form-control" required placeholder="Provide your Email Address">
+                                    <input type="text" class="form-control" name="email" required placeholder="Provide your Email Address">
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-6 book_div">
                                     <label for="">Service:</label>
-                                    <select name="" id="" required class="form-control">
+                                    <select name="service" id="" required class="form-control">
                                         <option value="">Select Service</option>
                                         <option value="Photography">Photography</option>
                                         <option value="Weeding Planning">Weeding Planning</option>
@@ -156,10 +194,10 @@
 
 
                                 <div class="col-lg-12 book_div">
-                                    <textarea placeholder="Provide Additional Information" rows="7" required class="form-control"></textarea>
+                                    <textarea placeholder="Provide Additional Information" name="comment" rows="7" required class="form-control"></textarea>
                                 </div>
                                 <div class="col-lg-12 book_div">
-                                    <button type="submit" class="site-btn btn-block">Book Us</button>
+                                    <button type="submit" name="book_us" class="site-btn btn-block">Book Us</button>
                                 </div>
                             </div>
                         </form>

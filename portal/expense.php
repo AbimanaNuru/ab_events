@@ -12,13 +12,14 @@ if (isset($_POST['save_expense'])) {
     $e_name = mysqli_real_escape_string($connection, $_POST['expense_name']);
     $e_class = mysqli_real_escape_string($connection, $_POST['expense_class']);
     $e_cost = mysqli_real_escape_string($connection, $_POST['expense_cost']);
+    $e_date = mysqli_real_escape_string($connection, $_POST['expense_done_date']);
     $d = mysqli_real_escape_string($connection, $_FILES["support_documents"]["name"]);
 
 
     // get the image extension
     $extension1 = substr($d, strlen($d) - 4, strlen($d));
     // allowed extensions
-    $allowed_extensions = array(".JPG", ".PNG", ".JPEG", ".jpg", ".jpeg", ".png", ".gif",".pdf",".PDF");
+    $allowed_extensions = array(".JPG", ".PNG", ".JPEG", ".jpg", ".jpeg", ".png", ".gif", ".pdf", ".PDF");
     // Validation for allowed extensions
     if (!in_array($extension1, $allowed_extensions)) {
         $fail = "Invalid format. Only jpg / jpeg/ png /gif format allowed";
@@ -30,8 +31,8 @@ if (isset($_POST['save_expense'])) {
         move_uploaded_file($_FILES["support_documents"]["tmp_name"], "expense_support_documents/" . $d);
         // Query for insertion data into database  
         $query = mysqli_query($connection, "insert into ab_events_expense(
-            expense_added_by,expense_name,expense_class,expense_cost,expense_support_document,expense_date) 
-VALUES('$ab_user_id','$e_name','$e_class','$e_cost','$d',NOW())");
+            expense_added_by,expense_name,expense_class,expense_cost,ab_events_expense_done_data,expense_support_document,expense_date) 
+VALUES('$ab_user_id','$e_name','$e_class','$e_cost','$e_date','$d',NOW())");
         if ($query) {
             $success = "Expense Added Successfully";
             header("Refresh: 3; url= expense.php");
@@ -121,12 +122,16 @@ VALUES('$ab_user_id','$e_name','$e_class','$e_cost','$d',NOW())");
                             <form action="" method="post" enctype="multipart/form-data">
                                 <div class="row">
 
-                                    <div class="col-sm-6 form-group">
+                                    <div class="col-sm-4 form-group">
                                         <label>Expense Name <b class="t_required">*</b></label>
                                         <input class="form-control" type="text" required name="expense_name" placeholder="Provide Expense Name">
                                     </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label>Expense Date <b class="t_required">*</b></label>
+                                        <input class="form-control" type="date" required name="expense_done_date" placeholder="Provide Expense Name">
+                                    </div>
 
-                                    <div class="col-sm-6 form-group">
+                                    <div class="col-sm-4 form-group">
                                         <label>Expense Class <b class="t_required">*</b></label>
                                         <select class="form-control" required name="expense_class">
 
@@ -171,6 +176,7 @@ VALUES('$ab_user_id','$e_name','$e_class','$e_cost','$d',NOW())");
                                 <tr>
                                     <th>Support Documents</th>
                                     <th>P_Name</th>
+                                    <th>P_Date</th>
                                     <th>P_Class</th>
                                     <th>P_Cost /Rwf</th>
                                     <th>Date</th>
@@ -180,6 +186,7 @@ VALUES('$ab_user_id','$e_name','$e_class','$e_cost','$d',NOW())");
                                 <tr>
                                     <th>Support Documents</th>
                                     <th>P_Name</th>
+                                    <th>P_Date</th>
                                     <th>P_Class</th>
                                     <th>P_Cost /Rwf</th>
                                     <th>Date</th>
@@ -200,11 +207,13 @@ VALUES('$ab_user_id','$e_name','$e_class','$e_cost','$d',NOW())");
                                     $e_cost = $ab_material['expense_cost'];
                                     $e_documents = $ab_material['expense_support_document'];
                                     $e_date = $ab_material['expense_date'];
+                                    $done_date = $ab_material['ab_events_expense_done_data'];
 
                                 ?>
                                     <tr>
                                         <td><img src="expense_support_documents/<?php echo $e_documents ?>" alt="" style="width:70px;"></td>
                                         <td><b><?php echo $e_name; ?></b></td>
+                                        <td><b><?php echo $done_date; ?></b></td>
                                         <td><?php echo $e_class; ?></td>
                                         <td><b><?php echo $e_cost; ?></b></td>
                                         <td><?php echo $e_date; ?></td>

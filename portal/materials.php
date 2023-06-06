@@ -37,8 +37,7 @@ if (isset($_POST['save_material'])) {
     $allowed_extensions = array(".JPG", ".PNG", ".JPEG", ".jpg", ".jpeg", ".png", ".gif");
     // Validation for allowed extensions
     if (!in_array($extension1, $allowed_extensions)) {
-        $fail = "Invalid format. Only jpg / jpeg/ png /gif format allowed";
-        header("Refresh: 1; url= materials.php");
+        echo ("<script>  alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');location.href='materials.php';   </script>");
     } elseif ($available_qty > $qty_material) {
         echo ("<script>  alert('Something Wrong on Material Quantity');location.href='materials.php';   </script>");
     } else {
@@ -59,6 +58,85 @@ VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$qty_m
     }
 }
 
+
+
+if (isset($_POST['update_category'])) {
+
+    $c_id = mysqli_real_escape_string($connection, $_POST['category_id']);
+    $c_name = mysqli_real_escape_string($connection, $_POST['category_name']);
+
+    // Query for insertion data into database  
+    $query = mysqli_query($connection, "UPDATE ab_material_category SET ab_material_category_name = '$c_name'  WHERE ab_material_category_id = '$c_id'");
+
+    if ($query) {
+        // echo "<script> alert('Success') </script>";
+        echo ("<script>  alert('Category Edited Successfully');location.href='materials.php';   </script>");
+    } else {
+        echo ("<script>  alert('Something Wrong');location.href='materials.php';   </script>");
+    }
+}
+
+
+
+
+if (isset($_POST['update_material_info'])) {
+    // Posted Values    
+    $m_category = mysqli_real_escape_string($connection, $_POST['material_category']);
+    $m_name = mysqli_real_escape_string($connection, $_POST['material_name']);
+    $indi_price = mysqli_real_escape_string($connection, $_POST['individually_price']);
+    $corp_price = mysqli_real_escape_string($connection, $_POST['corporate_price']);
+    $qty_material = mysqli_real_escape_string($connection, $_POST['material_qty']);
+    $available_qty = mysqli_real_escape_string($connection, $_POST['available_qty']);
+    $material_id = mysqli_real_escape_string($connection, $_POST['material_id']);
+    if ($available_qty > $qty_material) {
+        echo ("<script>  alert('Something Wrong In Material Quantity');location.href='materials.php';   </script>");
+    } else {
+        // Query for insertion data into database  
+        $query = mysqli_query($connection, "UPDATE  ab_events_material SET 
+    ab_events_material_category = '$m_category',
+    ab_events_material_name = '$m_name',
+        ab_events_material_individual_price = '$indi_price',
+        ab_events_material_corporate_price = '$corp_price',
+        ab_events_material_quantities = '$qty_material',
+        ab_events_material_available_qty = '$available_qty'
+         WHERE ab_events_material_id ='$material_id'");
+        if ($query) {
+
+            echo ("<script>  alert('Material Edited Successfully');location.href='materials.php'; </script>");
+        } else {
+            echo ("<script>  alert('Something Wrong');location.href='materials.php';   </script>");
+        }
+    }
+}
+
+
+if (isset($_POST['update_material_image'])) {
+    // Posted Values    
+
+    $d = mysqli_real_escape_string($connection, $_FILES["material_image"]["name"]);
+    $material_id = mysqli_real_escape_string($connection, $_POST['material_id']);
+    // get the image extension
+    $extension1 = substr($d, strlen($d) - 4, strlen($d));
+    // allowed extensions
+    $allowed_extensions = array(".JPG", ".PNG", ".JPEG", ".jpg", ".jpeg", ".png", ".gif");
+    // Validation for allowed extensions
+    if (!in_array($extension1, $allowed_extensions)) {
+        echo ("<script>  alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');location.href='materials.php';   </script>");
+    } else {
+        //rename the image file
+        $d = md5($d) . $extension1;
+        // Code for move image into directory
+        move_uploaded_file($_FILES["material_image"]["tmp_name"], "material_image/" . $d);
+        // Query for insertion data into database  
+        $query = mysqli_query($connection, "UPDATE ab_events_material SET ab_events_material_image = '$d' WHERE  ab_events_material_id ='$material_id'");
+        if ($query) {
+
+            echo ("<script>  alert('Material Image Edited Successfully');location.href='materials.php';   </script>");
+        } else {
+            echo ("<script>  alert('Something Wrong');location.href='materials.php';   </script>");
+        }
+    }
+}
 
 
 ?>
@@ -93,6 +171,12 @@ VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$qty_m
     <style>
         .t_required {
             color: red;
+        }
+
+        .table td,
+        .table th {
+            padding: 3px;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -254,15 +338,13 @@ VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$qty_m
                                                     // $client_id = $clients['client_id'];
                                                     $cat_name = $material_category['ab_material_category_name'];
                                                     $cat_date = $material_category['ab_material_date'];
-
-
-
+                                                    $cat_id = $material_category['ab_material_category_id'];
                                                 ?>
                                                     <tr>
 
                                                         <td><?php echo $cat_name; ?></td>
                                                         <td>
-                                                            <button class="btn btn-info btn-xs m-r-5" data-toggle="modal" data-target="#clients" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></button>
+                                                            <button class="btn btn-info btn-xs m-r-5" data-toggle="modal" data-target="#category<?php echo $cat_id; ?>" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></button>
                                                         </td>
 
                                                         <!-- <td>
@@ -270,6 +352,38 @@ VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$qty_m
                                                         <button class="btn btn-danger btn-xs" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash font-14"></i></button>
                                                     </td> -->
                                                     </tr>
+
+
+                                                    <div class="modal fade" id="category<?php echo $cat_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Category</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form action="" method="POST">
+                                                                        <input type="hidden" name="category_id" value="<?php echo $cat_id; ?>">
+                                                                        <div class="form-group">
+                                                                            <label>Category Name</label>
+                                                                            <input class="form-control" type="text" name="category_name" value="<?php echo $cat_name; ?>" required placeholder="Provide Client Fullname">
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <button class="btn btn-dark btn-block" name="update_category" type="submit">Save Changes</button>
+                                                                        </div>
+
+                                                                    </form>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 <?php } ?>
 
                                             </tbody>
@@ -300,7 +414,7 @@ VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$qty_m
                                 <th>Individual Price /Rwf</th>
                                 <th>Corporate Price /Rwf</th>
                                 <th>M_Added.by</th>
-                                <!-- <th>Actions</th> -->
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -313,7 +427,7 @@ VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$qty_m
                                 <th>Individual Price /Rwf</th>
                                 <th>Corporate Price /Rwf</th>
                                 <th>M_Added.by</th>
-                                <!-- <th>Actions</th> -->
+                                <th>Actions</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -335,6 +449,7 @@ VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$qty_m
                                 $price_2 = $ab_material['ab_events_material_corporate_price'];
                                 $material_quantity = $ab_material['ab_events_material_quantities'];
                                 $available_quantity = $ab_material['ab_events_material_available_qty'];
+                                $material_id = $ab_material['ab_events_material_id'];
                             ?>
                                 <tr>
                                     <td><img src="material_image/<?php echo $image ?>" alt="" style="width:70px;"></td>
@@ -345,11 +460,95 @@ VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$qty_m
                                     <td><?php echo $price_1; ?></td>
                                     <td><?php echo $price_2; ?></td>
                                     <td><?php echo $added_by; ?></td>
-                                    <!-- <td>
-                                        <button class="btn btn-info btn-xs m-r-5" data-toggle="modal" data-target="#clients" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></button>
-                                    </td> -->
+                                    <td>
+                                        <button class="btn btn-info btn-xs m-r-5" data-toggle="modal" data-target="#material<?php echo $material_id; ?>" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></button>
+                                    </td>
 
                                 </tr>
+
+                                <div class="modal fade bd-example-modal-lg" id="material<?php echo $material_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Edit Material Details</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="" method="POST">
+                                                    <h5> <b> Material Basic Information</b></h5>
+                                                    <input type="hidden" name="material_id" value="<?php echo $material_id; ?>">
+                                                    <div class="row">
+                                                        <div class="col-sm-6 form-group">
+                                                            <label>Select Category </label>
+                                                            <select class="form-control " name="material_category" required>
+                                                                <option value="<?php echo $material_id; ?>"><?php echo $cat_name; ?></option>
+                                                                <?php
+                                                                $query = "SELECT * FROM `ab_material_category` ";
+                                                                if ($result = mysqli_query($connection, $query)) {
+                                                                    while ($row = mysqli_fetch_array($result)) {
+                                                                        $show_category = $row['ab_material_category_name'];
+                                                                        $show_category_id = $row['ab_material_category_id'];
+                                                                ?>
+                                                                        <option value="<?php echo $show_category_id; ?>"><?php echo $show_category; ?></option>
+
+                                                                <?php }
+                                                                }  ?>
+
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-6 form-group">
+                                                            <label>Material Name</label>
+                                                            <input class="form-control" type="text" name="material_name" value="<?php echo $name; ?>" required placeholder="Provide Client Fullname">
+                                                        </div>
+
+                                                        <div class="col-sm-6 form-group">
+                                                            <label>Price For Individual Client <b class="t_required">*</b></label>
+                                                            <input class="form-control" type="text" pattern="[0-9]+" value="<?php echo $price_1; ?>" required name="individually_price" placeholder="Provide Price For Individual Client">
+                                                        </div>
+                                                        <div class="col-sm-6 form-group">
+                                                            <label>Price For Corporate Client <b class="t_required">*</b></label>
+                                                            <input class="form-control" type="text" pattern="[0-9]+" required value="<?php echo $price_2; ?>" name="corporate_price" placeholder="Provide Price For Corporate Client">
+                                                        </div>
+                                                        <div class="col-sm-6 form-group">
+                                                            <label>Total Quantities <b class="t_required">*</b></label>
+                                                            <input class="form-control" type="text" pattern="[0-9]+" value="<?php echo $material_quantity; ?>" placeholder="Total Quantities" required name="material_qty">
+                                                        </div>
+                                                        <div class="col-sm-6 form-group">
+                                                            <label>Available Quantities <b class="t_required">*</b></label>
+                                                            <input class="form-control" type="text" placeholder="Available Quantities" value="<?php echo $available_quantity; ?>" pattern="[0-9]+" required name="available_qty">
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button class="btn btn-dark btn-block" name="update_material_info" type="submit">Save Changes</button>
+                                                    </div>
+
+                                                </form>
+
+                                                <form action="" method="post" enctype="multipart/form-data">
+                                                    <h5> <b> Material Image</b></h5>
+                                                    <input type="hidden" name="material_id" value="<?php echo $material_id; ?>">
+
+                                                    <div class="row">
+                                                        <div class="col-sm-12 form-group">
+                                                            <label>Material Image <b class="t_required">*</b></label>
+                                                            <input class="form-control" type="file" required name="material_image">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button class="btn btn-dark btn-block" name="update_material_image" type="submit">Save Changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php } ?>
 
                         </tbody>

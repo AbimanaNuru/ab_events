@@ -173,7 +173,7 @@ include "sessionexpired.php";
                         var m_price = [];
 
                         for (var l in l_date) {
-                            m_date.push(l_date[l].rent_process_rent_date);
+                            m_date.push(l_date[l]. rent_transaction_rent_date);
                             m_price.push(l_date[l].price);
                         }
                         var chartdata_loan = {

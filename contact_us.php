@@ -136,7 +136,7 @@
                         </div>
                         <div class="contact__widget__item__text">
                             <h5>Email Address</h5>
-                            <span>info@ab.events.rw</span>
+                            <span>info@abeventsgroup.com</span>
                         </div>
                     </div>
                 </div>

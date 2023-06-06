@@ -5,7 +5,7 @@ include "sessionexpired.php";
 
 
 $product_id = $_POST["product_id"];
-$result = mysqli_query($connection, "SELECT * FROM  ab_events_material where ab_events_material_id  = $product_id ");
+$result = mysqli_query($connection, "SELECT * FROM  ab_events_material where ab_events_material_id  = '$product_id' ");
 ?>
 <?php
 while ($row = mysqli_fetch_array($result)) {

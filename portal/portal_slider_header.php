@@ -1,5 +1,8 @@
 <?php
 $activePage = basename($_SERVER['PHP_SELF'], ".php");
+$currentDate = date("Y-m-d");
+// Retrieve the date for the past 30 days
+$past30Days = date("Y-m-d", strtotime("-30 days"));
 ?>
 <style>
     .side-menu li a.active {
@@ -73,19 +76,28 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
                     <span class="nav-label">AB Events Clients</span>
                 </a>
             </li>
+
+            <li class="<?= ($activePage == 'rent_process') || ($activePage == 'ab_events_reminder') ? 'active' : ''; ?>">
+                <a href="javascript:;"><i class="sidebar-item-icon fa fa-bar-chart"></i>
+                    <span class="nav-label">AB Events Rents</span><i class="fa fa-angle-left arrow"></i></a>
+                <ul class="nav-2-level collapse">
+                    <li>
+                        <a class="<?= ($activePage == 'rent_process') ? 'active' : ''; ?>" href="rent_process">Manage Rents</a>
+                    </li>
+                    <li>
+                        <a class="<?= ($activePage == 'ab_events_reminder') ? 'active' : ''; ?>" href="ab_events_reminder">AB Events Reminder</a>
+                    </li>
+
+                </ul>
+            </li>
+
             <li>
                 <a href="materials.php" class="<?= ($activePage == 'materials') ? 'active' : ''; ?>">
                     <i class="sidebar-item-icon fa fa-product-hunt"></i>
                     <span class="nav-label">Materials</span>
                 </a>
             </li>
-            <li>
-                <a href="rent_process.php" class="<?= ($activePage == 'rent_process') ? 'active' : ''; ?>">
-                    <i class="sidebar-item-icon fa fa-tasks"></i>
-                    <span class="nav-label">AB Events Rents</span>
-                </a>
-            </li>
-
+          
             <li>
                 <a href="expense.php" class="<?= ($activePage == 'expense') ? 'active' : ''; ?>">
                     <i class="sidebar-item-icon fa fa-users"></i>
@@ -96,7 +108,7 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
 
             <?php
             // Financial
-          
+
             if ($user_type == 'Administrator') {
 
             ?>
@@ -106,15 +118,30 @@ $activePage = basename($_SERVER['PHP_SELF'], ".php");
                         <span class="nav-label">AB Events Users</span>
                     </a>
                 </li>
+
             <?php
             } ?>
             <li>
-                <a href="reporting.php?report_by=1 MONTH" class="<?= ($activePage == 'reporting') ? 'active' : ''; ?>">
-
-                    <i class="sidebar-item-icon fa fa-bar-chart"></i>
-                    <span class="nav-label">AB Events Report</span>
+                <a href="ab_booking.php" class="<?= ($activePage == 'ab_booking') ? 'active' : ''; ?>">
+                    <i class="sidebar-item-icon fa fa-calendar-check-o"></i>
+                    <span class="nav-label">AB Events Booking</span>
                 </a>
             </li>
+
+            <li class="<?= ($activePage == 'period_reporting') || ($activePage == 'date_reporting') ? 'active' : ''; ?>">
+                <a href="javascript:;"><i class="sidebar-item-icon fa fa-bar-chart"></i>
+                    <span class="nav-label">AB Events Report</span><i class="fa fa-angle-left arrow"></i></a>
+                <ul class="nav-2-level collapse">
+                    <li>
+                        <a class="<?= ($activePage == 'period_reporting') ? 'active' : ''; ?>" href="period_reporting.php?report_by=1 MONTH">Report By Period</a>
+                    </li>
+                    <li>
+                        <a class="<?= ($activePage == 'date_reporting') ? 'active' : ''; ?>" href="date_reporting?start_date=<?php echo $past30Days; ?>&end_date=<?php echo $currentDate; ?>">Report By Date</a>
+                    </li>
+
+                </ul>
+            </li>
+
 
             <li class="heading"><b>ADDITIONAL FEATURES</b></li>
 
