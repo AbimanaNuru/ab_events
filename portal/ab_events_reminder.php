@@ -5,18 +5,18 @@ $ab_user_id = $_SESSION['ab_user_id'];
 include "sessionexpired.php";
 $today = date("Y-m-d");
 
-$query = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction, ab_events_clients
-          WHERE ab_events_rent_transaction.rent_transaction_clients_id = ab_events_clients.client_id AND client_phonenumber ='0789424105'");
+
+
 
 if (isset($_POST['send_Reminder'])) {
+    $send_to = $_POST['phone_number'];
     $send_message = mysqli_real_escape_string($connection, $_POST['send_message']);
-    while ($row = mysqli_fetch_assoc($query)) {
-        $send_to = $row['client_phonenumber'];
 
-        // Your existing code for sending the SMS
+    // Loop through the $send_to array
+    foreach ($send_to as $phoneNumber) {
         $data = array(
             "sender" => 'AB EVENTS',
-            "recipients" => $send_to,
+            "recipients" => $phoneNumber,
             "message" => $send_message,
             "dlrurl" => ""
         );
@@ -36,11 +36,15 @@ if (isset($_POST['send_Reminder'])) {
         $result = curl_exec($ch);
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+
+        // Handle the result and HTTP status code as per your requirements
     }
 
     $success = "SMS sent successfully.";
     header("Refresh: 2; url=ab_events_reminder.php");
 }
+
+
 ?>
 
 
@@ -96,14 +100,14 @@ if (isset($_POST['send_Reminder'])) {
         <div class="content-wrapper">
             <!-- START PAGE CONTENT-->
             <div class="page-heading">
-                <h1 class="page-title">Material Rents Managements</h1>
+                <h1 class="page-title">Material Rents reminder</h1>
 
             </div>
             <div class="page-content fade-in-up">
                 <div class="row">
 
                     <div class="col-md-12">
-                        
+
 
 
                         <?php
@@ -118,65 +122,6 @@ if (isset($_POST['send_Reminder'])) {
 	</div>";
                         }
                         ?>
-                        <div class="ibox">
-                            <div class="ibox-head">
-                                <div class="ibox-title">Add Expense</div>
-                                <div class="ibox-tools">
-                                    <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
-
-                                </div>
-                            </div>
-                            <div class="ibox-body">
-                                <form action="" method="post" enctype="multipart/form-data">
-                                    <div class="row">
-
-                                        <?php
-
-                                        // Execute the SQL query
-                                        $query = "SELECT * FROM ab_events_rent_transaction, ab_events_clients
-          WHERE ab_events_rent_transaction.rent_transaction_clients_id = ab_events_clients.client_id 
-  
- ";
-
-                                        $result = mysqli_query($connection, $query);
-
-                                        // Check if the query was successful
-                                        if ($result) {
-                                            // Fetch phone numbers from the result
-                                            $phoneNumbers = array();
-                                            while ($row = mysqli_fetch_assoc($result)) {
-                                                $phoneNumbers[] = $row['client_phonenumber'];
-                                            }
-                                            // Concatenate phone numbers into a string
-                                            $phoneString = implode(', ', $phoneNumbers);
-                                        ?>
-                                            <div class="col-md-12">
-                                                <label for="">Add Recipients:</label>
-                                                <textarea name="sent_to" id="" class="form-control" placeholder="Provide Comments" cols="3" rows="2" required><?php echo $phoneString; ?></textarea>
-                                            </div>
-                                        <?php  } else {
-                                            echo "Error executing the query: " . mysqli_error($connection);
-                                        }
-                                        ?>
-
-                                        <div class="col-md-12">
-                                            <label for="">Customize Message</label>
-                                            <textarea name="send_message" id="" class="form-control" maxlength="160" placeholder="Provide Comments" cols="3" rows="2" required></textarea>
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <br>
-
-                                            <div class="form-group">
-                                                <button class="btn btn-dark btn-block" name="send_Reminder" type="submit">Send</button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </form>
-                            </div>
-                        </div>
 
 
 
@@ -184,125 +129,134 @@ if (isset($_POST['send_Reminder'])) {
 
                         <div class="ibox">
                             <div class="ibox-head">
-                                <div class="ibox-title">Reminder List</div>
+                                <div class="ibox-title">Reminder</div>
 
                             </div>
                             <div class="ibox-body">
-                                <table id="example" class="table is-striped responsive nowrap" style="width:100%">
+                                <form action="" method="POST">
 
-                                    <thead>
-                                        <tr>
-                                            <th>Rent ID</th>
-                                            <th>C_Name</th>
-                                            <th>C_Phone</th>
-                                            <th>Detail</th>
-                                            <th>Price/Day</th>
-                                            <th>Day</th>
-                                            <th>Total/Rwf</th>
-                                            <th>Rent Date</th>
-                                            <th>Return Date</th>
-                                            <th>Actions</th>
+                                    <label for="">Customize Message</label>
+                                    <textarea name="send_message" id="" class="form-control" maxlength="160" placeholder="Provide Comments" cols="3" rows="2" required>Hello. It's Time To Return Materials . Materials are rented per day, delays in returning materials are subject to additional charges.</textarea>
+                                    <br>
+                                    <button class="btn btn-dark btn-block" name="send_Reminder" type="submit">Send Message</button>
 
+                                    <br>
 
+                                    <table id="example" class="table is-striped responsive nowrap" style="width:100%">
 
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Rent ID</th>
-                                            <th>C_Name</th>
-                                            <th>C_Phone</th>
-                                            <th>Detail</th>
-                                            <th>Price/Day</th>
-                                            <th>Day</th>
-                                            <th>Total/Rwf</th>
-                                            <th>Rent Date</th>
-                                            <th>Return Date</th>
-                                            <th>Actions</th>
+                                        <thead>
+                                            <tr>
+                                                <th><input type="checkbox" class="check-all"></th>
+                                                <th>C_Name</th>
+                                                <th>C_Phone</th>
+                                                <th>Detail</th>
+                                                <th>Price/Day</th>
+                                                <th>Day</th>
+                                                <th>Total/Rwf</th>
+                                                <th>Rent Date</th>
+                                                <th>Return Date</th>
+                                                <th>Actions</th>
 
 
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
 
-                                        <?php
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th></th>
+                                                <th>C_Name</th>
+                                                <th>C_Phone</th>
+                                                <th>Detail</th>
+                                                <th>Price/Day</th>
+                                                <th>Day</th>
+                                                <th>Total/Rwf</th>
+                                                <th>Rent Date</th>
+                                                <th>Return Date</th>
+                                                <th>Actions</th>
 
-                                        $result = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction,ab_events_clients
+
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+
+                                            <?php
+
+                                            $result = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction,ab_events_clients
                                         WHERE ab_events_rent_transaction.rent_transaction_clients_id =  ab_events_clients.client_id 
                                         AND ab_events_rent_transaction.rent_transaction_return_date <= '$today' AND ab_events_rent_transaction.rent_transaction_status = 'Not Returned' ");
 
 
-                                        if (mysqli_num_rows($result) > 0) {
-                                            while ($row = mysqli_fetch_assoc($result)) {
-                                                $rents_id = $row['rent_transaction_code'];
-                                                $day = $row['rent_transaction_day'];
-                                                $price_day = $row['rent_transaction_total_per_day'];
-                                                $toatl_day_price = $day * $price_day;
-                                                $submenu =  mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process,ab_events_material WHERE
+                                            if (mysqli_num_rows($result) > 0) {
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    $rents_id = $row['rent_transaction_code'];
+                                                    $day = $row['rent_transaction_day'];
+                                                    $price_day = $row['rent_transaction_total_per_day'];
+                                                    $toatl_day_price = $day * $price_day;
+                                                    $submenu =  mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process,ab_events_material WHERE
                     ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab_events_material_id  AND ab_events_material_rent_process.rent_process_rent_id = '$rents_id'");
 
 
-                                        ?>
+                                            ?>
 
-                                                <tr>
+                                                    <tr>
 
-                                                    <td><b><?php echo $rents_id; ?> </b></td>
-                                                    <td> <?php echo $row['client_fullname']; ?> </td>
-                                                    <td> <?php echo $row['client_phonenumber']; ?> </td>
-                                                    <td> <a class='badge badge-info badge-pill' data-toggle='modal' data-target='#view<?php echo $rents_id; ?>' style='color:white;'>View Details </a></td>
-                                                    <td> <?php echo $row['rent_transaction_total_per_day']; ?></td>
-                                                    <td> <?php echo $row['rent_transaction_day']; ?></td>
-                                                    <td> <?php echo " <b>$toatl_day_price</b>"; ?></td>
-                                                    <td> <?php echo $row['rent_transaction_rent_date']; ?></td>
-                                                    <td> <?php echo $row['rent_transaction_return_date']; ?></td>
-                                                    <td> <?php
-                                                            if ($row['rent_transaction_status'] == 'Not Returned') {
+                                                        <td><input type="checkbox" name="phone_number[]" value="<?php echo $row['client_phonenumber']; ?>" checked></td>
+                                                        <td> <?php echo $row['client_fullname']; ?> </td>
+                                                        <td> <?php echo $row['client_phonenumber']; ?> </td>
+                                                        <td> <a class='badge badge-info badge-pill' data-toggle='modal' data-target='#view<?php echo $rents_id; ?>' style='color:white;'>View Details </a></td>
+                                                        <td> <?php echo $row['rent_transaction_total_per_day']; ?></td>
+                                                        <td> <?php echo $row['rent_transaction_day']; ?></td>
+                                                        <td> <?php echo " <b>$toatl_day_price</b>"; ?></td>
+                                                        <td> <?php echo $row['rent_transaction_rent_date']; ?></td>
+                                                        <td> <?php echo $row['rent_transaction_return_date']; ?></td>
+                                                        <td> <?php
+                                                                if ($row['rent_transaction_status'] == 'Not Returned') {
 
-                                                                echo "  <a class='badge badge-danger badge-pill' style='color:white;'>Not Return </a>";
-                                                            }
-                                                            ?>
-                                                        </span></a>
-                                                    </td>
-                                                </tr>
+                                                                    echo "  <a class='badge badge-danger badge-pill' style='color:white;'>Not Return </a>";
+                                                                }
+                                                                ?>
+                                                            </span></a>
+                                                        </td>
+                                                    </tr>
 
-                                                <!-- start view detail modal -->
-                                                <div class="modal fade bd-example-modal-lg" id="view<?php echo  $rents_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLongTitle"><b>Rent Transaction Details</b></h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="row" style="padding:10px;">
-                                                                <div class="col-md-4"><b>Material Name</b></div>
-                                                                <div class="col-md-4"><b>Quantity</b></div>
-                                                                <div class="col-md-4"><b>Totla Price</b></div>
-                                                            </div>
-                                                            <?php
-                                                            $sump = mysqli_query($connection, "SELECT  SUM(rent_process_total_price) as total_trans_money FROM ab_events_material_rent_process WHERE rent_process_rent_id = '$rents_id'");
-
-                                                            while ($sub = mysqli_fetch_assoc($submenu)) {
-                                                                $m_name = $sub['ab_events_material_name'];
-                                                                $m_quantity = $sub['rent_process_qty'];
-                                                                $m_price = number_format($sub['rent_process_total_price']);
-
-                                                            ?>
-                                                                <div class="row" style="padding:10px;">
-                                                                    <div class="col-md-4"><?php echo $m_name; ?></div>
-                                                                    <div class="col-md-4"><?php echo $m_quantity; ?></div>
-                                                                    <div class="col-md-4"><?php echo $m_price; ?></div>
+                                                    <!-- start view detail modal -->
+                                                    <div class="modal fade bd-example-modal-lg" id="view<?php echo  $rents_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle"><b>Rent Transaction Details</b></h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
                                                                 </div>
-                                                            <?php }
-                                                            ?>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                                <div class="row" style="padding:10px;">
+                                                                    <div class="col-md-4"><b>Material Name</b></div>
+                                                                    <div class="col-md-4"><b>Quantity</b></div>
+                                                                    <div class="col-md-4"><b>Totla Price</b></div>
+                                                                </div>
+                                                                <?php
+                                                                $sump = mysqli_query($connection, "SELECT  SUM(rent_process_total_price) as total_trans_money FROM ab_events_material_rent_process WHERE rent_process_rent_id = '$rents_id'");
+
+                                                                while ($sub = mysqli_fetch_assoc($submenu)) {
+                                                                    $m_name = $sub['ab_events_material_name'];
+                                                                    $m_quantity = $sub['rent_process_qty'];
+                                                                    $m_price = number_format($sub['rent_process_total_price']);
+
+                                                                ?>
+                                                                    <div class="row" style="padding:10px;">
+                                                                        <div class="col-md-4"><?php echo $m_name; ?></div>
+                                                                        <div class="col-md-4"><?php echo $m_quantity; ?></div>
+                                                                        <div class="col-md-4"><?php echo $m_price; ?></div>
+                                                                    </div>
+                                                                <?php }
+                                                                ?>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <!-- end view detail modal -->
+                                                    <!-- end view detail modal -->
 
 
 
@@ -310,16 +264,17 @@ if (isset($_POST['send_Reminder'])) {
 
 
 
-                                        <?php
+                                            <?php
+                                                }
+                                            } else {
+                                                echo "<h5 style='color:red; '>No Ordered Product</h5>";
                                             }
-                                        } else {
-                                            echo "<h5 style='color:red; '>No Ordered Product</h5>";
-                                        }
-                                        ?>
+                                            ?>
 
-                                    </tbody>
+                                        </tbody>
 
-                                </table>
+                                    </table>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -365,6 +320,16 @@ if (isset($_POST['send_Reminder'])) {
     <!-- DataTables Responsive -->
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Check or uncheck all checkboxes when the header checkbox is clicked
+            $('.check-all').on('click', function() {
+                var isChecked = $(this).is(':checked');
+                $('tbody').find(':checkbox').prop('checked', isChecked);
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             $('#example').DataTable({

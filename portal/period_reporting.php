@@ -86,6 +86,10 @@ if (!isset($sort) || empty($sort)) {
             border: 2px solid #6F0118;
             border-top: none;
         }
+
+        .ab_event_color {
+            background-color: #6F0118;
+        }
     </style>
 </head>
 
@@ -105,7 +109,7 @@ if (!isset($sort) || empty($sort)) {
                 <div class="col-lg-6">
                     <form action="">
                         <div class="form-group">
-                            <label>Selct Period <b class="t_required">*</b></label>
+                            <label>Selct Period</label>
                             <select class="form-control" required name="report_by" required>
 
                                 <option value="<?php echo $sort; ?>"><?php echo $sort; ?></option>
@@ -159,7 +163,7 @@ if (!isset($sort) || empty($sort)) {
             <div class="page-content fade-in-up">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
-                        <div class="ibox bg-info color-white widget-stat">
+                        <div class="ibox ab_event_color color-white widget-stat">
                             <div class="ibox-body">
                                 <h2 class="m-b-5 font-strong">
                                     <?php
@@ -170,7 +174,7 @@ if (!isset($sort) || empty($sort)) {
                                         $sum = number_format($row['total_price']);
                                         echo "<b>$sum Rwf</b>";
                                     } else {
-                                        echo "<b style='color:black;'>0</b>"; // If no rows are found, display 0 as the sum
+                                        echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                     }
                                     ?>
                                 </h2>
@@ -180,7 +184,7 @@ if (!isset($sort) || empty($sort)) {
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <a href="expense">
-                            <div class="ibox bg-info color-white widget-stat">
+                            <div class="ibox ab_event_color color-white widget-stat">
                                 <div class="ibox-body">
                                     <h2 class="m-b-5 font-strong"> <?php
                                                                     $query = "SELECT SUM(expense_cost) AS total_price FROM ab_events_expense WHERE ab_events_expense_done_data >= DATE_SUB('$today', INTERVAL $sort)";
@@ -188,9 +192,9 @@ if (!isset($sort) || empty($sort)) {
                                                                     if ($result && mysqli_num_rows($result) > 0) {
                                                                         $row = mysqli_fetch_assoc($result);
                                                                         $sum = number_format($row['total_price']);
-                                                                        echo "<b style='color:black;'>$sum Rwf</b>";
+                                                                        echo "<b >$sum Rwf</b>";
                                                                     } else {
-                                                                        echo "<b style='color:black;'>0</b>"; // If no rows are found, display 0 as the sum
+                                                                        echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                                                     }
                                                                     ?>
 
@@ -205,7 +209,7 @@ if (!isset($sort) || empty($sort)) {
 
                     <div class="col-lg-4 col-md-6">
                         <a href="clients">
-                            <div class="ibox bg-info color-white widget-stat">
+                            <div class="ibox ab_event_color color-white widget-stat">
                                 <div class="ibox-body">
                                     <h2 class="m-b-5 font-strong">
 
@@ -213,7 +217,7 @@ if (!isset($sort) || empty($sort)) {
                                         $query = "SELECT * FROM ab_events_clients WHERE client_joining_date >= DATE_SUB('$today', INTERVAL $sort)";
                                         $result = mysqli_query($connection, $query);
                                         $clients = mysqli_num_rows($result);
-                                        echo "<b style='color:black;'>$clients</b>";
+                                        echo "<b >$clients</b>";
                                         ?>
                                     </h2>
                                     <div class="m-b-5">ALL CLIENTS</div><i class="fa fa-users widget-stat-icon"></i>
@@ -277,7 +281,7 @@ if (!isset($sort) || empty($sort)) {
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr style="background-color: green; color:#F1F1F1; font-weight: bold;">
+                                            <tr style="background-color: #6E0017; color:#F1F1F1; font-weight: bold;">
                                                 <td>1Total</td>
                                                 <td></td>
                                                 <td></td>
@@ -294,7 +298,7 @@ if (!isset($sort) || empty($sort)) {
                                                         $sum = number_format($row['total_price']);
                                                         echo "<b>$sum Rwf</b>";
                                                     } else {
-                                                        echo "<b style='color:black;'>0</b>"; // If no rows are found, display 0 as the sum
+                                                        echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                                     }
                                                     ?>
                                                 </td>
@@ -471,6 +475,7 @@ ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab
                                                 <th>Expense Cost</th>
                                                 <th>Date</th>
                                                 <th>Added By</th>
+                                                <th>Added On</th>
 
 
                                             </tr>
@@ -482,10 +487,12 @@ ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab
                                                 <th>Expense Cost</th>
                                                 <th>Date</th>
                                                 <th>Added By</th>
+                                                <th>Added On</th>
+
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr style="background-color: green; color:#F1F1F1; font-weight: bold;">
+                                            <tr style="background-color: #6E0017; color:#F1F1F1; font-weight: bold;">
                                                 <td>1Total</td>
                                                 <td></td>
 
@@ -498,12 +505,13 @@ ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab
                                                     if ($result && mysqli_num_rows($result) > 0) {
                                                         $row = mysqli_fetch_assoc($result);
                                                         $sum = number_format($row['total_price']);
-                                                        echo "<b style='color:black;'>$sum Rwf</b>";
+                                                        echo "<b >$sum Rwf</b>";
                                                     } else {
-                                                        echo "<b style='color:black;'>0</b>"; // If no rows are found, display 0 as the sum
+                                                        echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                                     }
                                                     ?>
                                                 </td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
 
@@ -521,8 +529,9 @@ ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab
                                                         <td> <?php echo $row['expense_name']; ?> </td>
                                                         <td> <?php echo $row['expense_class']; ?> </td>
                                                         <td> <?php echo $row['expense_cost']; ?> </td>
-                                                        <td> <?php echo $row['expense_date']; ?></td>
+                                                        <td> <?php echo $row['ab_events_expense_done_data']; ?></td>
                                                         <td> <b><?php echo $row['ab_user_fullname']; ?></b></td>
+                                                        <td> <?php echo $row['expense_date']; ?></td>
 
                                                     </tr>
 

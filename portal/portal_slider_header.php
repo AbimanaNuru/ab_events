@@ -9,6 +9,12 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
         color: #fff;
         background-color: #6F0118;
     }
+
+    #sidebar {
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scrollbar-color: green; 
+    }
 </style>
 
 
@@ -94,7 +100,7 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
                     ?>
 
                         <li>
-                            <a class="<?= ($activePage == 'transaction_detailed_view') ? 'active' : ''; ?>" href="transaction_detailed_view">Transaction Detailed View</a>
+                            <a class="<?= ($activePage == 'transaction_detailed_view') ? 'active' : ''; ?>" href="transaction_detailed_view">Detailed View</a>
                         </li>
                     <?php
                     } ?>

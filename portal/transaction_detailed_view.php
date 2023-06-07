@@ -202,7 +202,7 @@ if (isset($_POST['qty_make_change'])) {
                                                     <td> <?php echo $row['rent_transaction_rent_date']; ?></td>
                                                     <td> <?php echo $row['rent_transaction_return_date']; ?></td>
                                                     <td> <?php if ($row['rent_transaction_status'] == 'Not Returned') {
-                                                                echo "  <span class='badge badge-danger badge-pill' style='color:white;'>Return </span>";
+                                                                echo "  <span class='badge badge-danger badge-pill' style='color:white;'>Not Returned </span>";
                                                             } else {
                                                                 echo "  <span class='badge badge-success badge-pill'style='color:white;'>Returned </span>";
                                                             }

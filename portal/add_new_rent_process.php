@@ -418,12 +418,13 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                             <input class="form-control" type="file" name="support_documents" required>
                                         </div>
                                         <div class="col-sm-3 form-group">
-                                            <label>Payment Mode</label>
-                                            <select class="form-control" name="payment_mode">
-                                                <option>Select Payment Mode</option>
+                                            <label>Payment Mode <b class="required">*</b></label>
+                                            <select class="form-control" name="payment_mode" required>
+                                                <option value="">Select Payment Mode</option>
                                                 <option value="Cash">Cash</option>
                                                 <option value="Momo">Momo</option>
                                                 <option value="Cards">Cards</option>
+                                                <option value="Other">Other</option>
                                             </select>
                                         </div>
                                     </div>

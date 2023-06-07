@@ -89,6 +89,9 @@ $end_date = $_GET['end_date'];
             border: 2px solid #ccc;
             border-top: none;
         }
+        .ab_event_color {
+            background-color: #6F0118;
+        }
     </style>
 </head>
 
@@ -165,7 +168,7 @@ $end_date = $_GET['end_date'];
             <div class="page-content fade-in-up">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
-                        <div class="ibox bg-info color-white widget-stat">
+                        <div class="ibox ab_event_color color-white widget-stat">
                             <div class="ibox-body">
                                 <h2 class="m-b-5 font-strong">
                                     <?php
@@ -176,7 +179,7 @@ $end_date = $_GET['end_date'];
                                         $sum = number_format($row['total_price']);
                                         echo "<b>$sum Rwf</b>";
                                     } else {
-                                        echo "<b style='color:black;'>0</b>"; // If no rows are found, display 0 as the sum
+                                        echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                     }
                                     ?>
                                 </h2>
@@ -186,7 +189,7 @@ $end_date = $_GET['end_date'];
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <a href="expense">
-                            <div class="ibox bg-info color-white widget-stat">
+                            <div class="ibox ab_event_color color-white widget-stat">
                                 <div class="ibox-body">
                                     <h2 class="m-b-5 font-strong"> <?php
                                                                     $query = "SELECT SUM(expense_cost) AS total_price FROM ab_events_expense WHERE ab_events_expense_done_data BETWEEN '$start_date' AND '$end_date'";
@@ -194,9 +197,9 @@ $end_date = $_GET['end_date'];
                                                                     if ($result && mysqli_num_rows($result) > 0) {
                                                                         $row = mysqli_fetch_assoc($result);
                                                                         $sum = number_format($row['total_price']);
-                                                                        echo "<b style='color:black;'>$sum Rwf</b>";
+                                                                        echo "<b >$sum Rwf</b>";
                                                                     } else {
-                                                                        echo "<b style='color:black;'>0</b>"; // If no rows are found, display 0 as the sum
+                                                                        echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                                                     }
                                                                     ?>
                                     </h2>
@@ -210,7 +213,7 @@ $end_date = $_GET['end_date'];
 
                     <div class="col-lg-4 col-md-6">
                         <a href="clients">
-                            <div class="ibox bg-info color-white widget-stat">
+                            <div class="ibox ab_event_color color-white widget-stat">
                                 <div class="ibox-body">
                                     <h2 class="m-b-5 font-strong">
 
@@ -218,7 +221,7 @@ $end_date = $_GET['end_date'];
                                         $query = "SELECT * FROM ab_events_clients WHERE client_joining_date BETWEEN '$start_date' AND '$end_date'";
                                         $result = mysqli_query($connection, $query);
                                         $clients = mysqli_num_rows($result);
-                                        echo "<b style='color:black;'>$clients</b>";
+                                        echo "<b >$clients</b>";
                                         ?>
                                     </h2>
                                     <div class="m-b-5">ALL CLIENTS</div><i class="fa fa-users widget-stat-icon"></i>
@@ -282,7 +285,7 @@ $end_date = $_GET['end_date'];
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr style="background-color: green; color:#F1F1F1; font-weight: bold;">
+                                            <tr style="background-color: #6F0118; color:#F1F1F1; font-weight: bold;">
                                                 <td>1Total</td>
                                                 <td></td>
                                                 <td></td>
@@ -299,7 +302,7 @@ $end_date = $_GET['end_date'];
                                                         $sum = number_format($row['total_price']);
                                                         echo "<b>$sum Rwf</b>";
                                                     } else {
-                                                        echo "<b style='color:black;'>0</b>"; // If no rows are found, display 0 as the sum
+                                                        echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                                     }
                                                     ?>
                                                 </td>
@@ -476,6 +479,8 @@ ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab
                                                 <th>Expense Cost</th>
                                                 <th>Date</th>
                                                 <th>Added By</th>
+                                                <th>Added On</th>
+
 
 
                                             </tr>
@@ -487,10 +492,12 @@ ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab
                                                 <th>Expense Cost</th>
                                                 <th>Date</th>
                                                 <th>Added By</th>
+                                                <th>Added On</th>
+
                                             </tr>
                                         </tfoot>
                                         <tbody>
-                                            <tr style="background-color: green; color:#F1F1F1; font-weight: bold;">
+                                            <tr style="background-color: #6F0118; color:#F1F1F1; font-weight: bold;">
                                                 <td>1Total</td>
                                                 <td></td>
 
@@ -501,12 +508,13 @@ ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab
                                                     if ($result && mysqli_num_rows($result) > 0) {
                                                         $row = mysqli_fetch_assoc($result);
                                                         $sum = number_format($row['total_price']);
-                                                        echo "<b style='color:black;'>$sum Rwf</b>";
+                                                        echo "<b >$sum Rwf</b>";
                                                     } else {
-                                                        echo "<b style='color:black;'>0</b>"; // If no rows are found, display 0 as the sum
+                                                        echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                                     }
                                                     ?>
                                                 </td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
 
@@ -524,8 +532,10 @@ ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab
                                                         <td> <?php echo $row['expense_name']; ?> </td>
                                                         <td> <?php echo $row['expense_class']; ?> </td>
                                                         <td> <?php echo $row['expense_cost']; ?> </td>
-                                                        <td> <?php echo $row['expense_date']; ?></td>
+                                                        <td> <?php echo $row['ab_events_expense_done_data']; ?></td>
                                                         <td> <b><?php echo $row['ab_user_fullname']; ?></b></td>
+                                                        <td> <?php echo $row['expense_date']; ?></td>
+
 
                                                     </tr>
 

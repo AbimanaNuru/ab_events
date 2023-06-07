@@ -199,7 +199,7 @@ AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_even
             <div class="row">
                 <div class="col-12">
                     <h5><strong>NOTE: </strong>&nbsp;</h5>
-                    <h6>- Materials are rented per day, delay in tetourning materials are subject to additional charges.</h6>
+                    <h6>- Materials are rented per day, delays in returning materials are subject to additional charges.</h6>
                     <h6>- Ibikoresho bikodeshwa ku munsi, iyo utinze gutirura, habarwa iminsi ibikoresgo bimaze nabyo bikishurwa</h6>
                 </div>
             </div>
