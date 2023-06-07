@@ -53,7 +53,7 @@ This will only have the address line at a smaller font for the small breakpoints
         </div>
         <div class="row align-items-center">
             <div class="col-sm-12 d-flex justify-content-center">
-                <img src="../img/invoice_logo.png" title="Idea Foundry Logo" alt="Idea Foundry: we make ideas into reality" style="width:200px;" class="img-fluid">
+                <img src="../img/invoice_logo.png" title="Ab Events group Logo" alt="Ab Events group" style="width:200px;" class="img-fluid">
             </div>
             <!-- <div class=" col-sm-5 d-flex justify-content-sm-end justify-content-start">
                    <strong>Client:</strong>&nbsp;05839
