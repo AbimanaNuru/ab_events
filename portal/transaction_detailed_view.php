@@ -3,61 +3,93 @@ include_once('config.php');
 session_start();
 $ab_user_id = $_SESSION['ab_user_id'];
 include "sessionexpired.php";
-if ($user_type !='Administrator') {
+if ($user_type != 'Administrator') {
     header("location: dashboard.php");
 }
 
+switch (true) {
+    case isset($_POST['qty_make_change']):
+        // $m_id = $_POST['m_id'];
+        // $m_quantity = $_POST['m_quantity'];
+        $rent_process_id = mysqli_real_escape_string($connection, $_POST['rent_process_id']);
+        $rent_process_qty = mysqli_real_escape_string($connection, $_POST['rent_process_qty']);
+        // Assuming you have a database connection established, you can use a foreach loop to update rent processes for each $m_id
 
+        # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
+        # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
+        $query = mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process WHERE rent_process_id = '$rent_process_id'");
+        $rent_process = mysqli_fetch_assoc($query);
+        $price = $rent_process['rent_process_price'];
+        $tprice = $rent_process['rent_process_total_price'];
+        $t_code = $rent_process['rent_process_rent_id'];
+        $rent_process_quantity = $rent_process['rent_process_qty'];
+        $total_price = $price * $rent_process_qty;
 
-if (isset($_POST['qty_make_change'])) {
-    // $m_id = $_POST['m_id'];
-    // $m_quantity = $_POST['m_quantity'];
-    $rent_process_id = mysqli_real_escape_string($connection, $_POST['rent_process_id']);
-    $rent_process_qty = mysqli_real_escape_string($connection, $_POST['rent_process_qty']);
-    // Assuming you have a database connection established, you can use a foreach loop to update rent processes for each $m_id
+        $queryv2 = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction WHERE rent_transaction_code = '$t_code'");
+        $t_rent_process = mysqli_fetch_assoc($queryv2);
+        $price_v2 = $t_rent_process['rent_transaction_total_per_day'];
+        $rent_transaction_day = $t_rent_process['rent_transaction_day'];
+        $total_price_v2 = $price_v2 - $tprice;
+        $confirm_total_price_v2 = $total_price_v2 + $total_price;
+        $rent_transaction_total_price = $rent_transaction_day *  $confirm_total_price_v2;
 
-    # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
-    # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
-    $query = mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process WHERE rent_process_id = '$rent_process_id'");
-    $rent_process = mysqli_fetch_assoc($query);
-    $price = $rent_process['rent_process_price'];
-    $tprice = $rent_process['rent_process_total_price'];
-    $t_code = $rent_process['rent_process_rent_id'];
-    $total_price = $price * $rent_process_qty;
+        $query_quantity = mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process,ab_events_material WHERE
+         ab_events_material.ab_events_material_id =  ab_events_material_rent_process.rent_process_material_id AND ab_events_material_rent_process.rent_process_id = '$rent_process_id'");
+        $transaction_quantity = mysqli_fetch_assoc($query_quantity);
+        $material_id = $transaction_quantity['ab_events_material_id'];
+        $material_quantity = $transaction_quantity['ab_events_material_available_qty'];
 
-    $queryv2 = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction WHERE rent_transaction_code = '$t_code'");
-    $t_rent_process = mysqli_fetch_assoc($queryv2);
-    $price_v2 = $t_rent_process['rent_transaction_total_per_day'];
-    $rent_transaction_day = $t_rent_process['rent_transaction_day'];
-    $total_price_v2 = $price_v2 - $tprice;
-    $confirm_total_price_v2 = $total_price_v2 + $total_price;
-    $rent_transaction_total_price = $rent_transaction_day *  $confirm_total_price_v2;
+        $total_quantity = $material_quantity + $rent_process_quantity;
 
+        switch (true) {
+            case ($rent_process_qty > $total_quantity):
+                $fail = "No Available Quantity In Stock";
+                header("Refresh: 2; url=transaction_detailed_view.php");
+                break;
 
+            case ($rent_process_qty > $rent_process_quantity):
+                $new_qty = $total_quantity - $rent_process_qty;
+                $updatematerialquantity = mysqli_query($connection, "UPDATE ab_events_material SET ab_events_material_available_qty ='$new_qty' WHERE ab_events_material_id  = '$material_id'");
+                $updateRentProcess = "UPDATE ab_events_material_rent_process SET rent_process_qty ='$rent_process_qty',
+                rent_process_total_price = '$total_price' WHERE rent_process_id  = '$rent_process_id'";
+                $updateRentTransaction = "UPDATE ab_events_rent_transaction SET rent_transaction_total_per_day ='$confirm_total_price_v2',rent_transaction_total_price ='$rent_transaction_total_price'
+                         WHERE rent_transaction_code  = '$t_code'";
+                break;
 
+            case ($rent_process_qty < $rent_process_quantity):
+                $new_qty_v2 = $rent_process_quantity - $rent_process_qty;
+                $updated_qty = $new_qty_v2 + $material_quantity;
+                $updatematerialquantity = mysqli_query($connection, "UPDATE ab_events_material SET ab_events_material_available_qty ='$updated_qty' WHERE ab_events_material_id  = '$material_id'");
+                $updateRentProcess = "UPDATE ab_events_material_rent_process SET rent_process_qty ='$rent_process_qty',
+                rent_process_total_price = '$total_price' WHERE rent_process_id  = '$rent_process_id'";
+                $updateRentTransaction = "UPDATE ab_events_rent_transaction SET rent_transaction_total_per_day ='$confirm_total_price_v2',rent_transaction_total_price ='$rent_transaction_total_price'
+                         WHERE rent_transaction_code  = '$t_code'";
+                break;
 
+            case ($rent_process_qty == $rent_process_quantity):
+                $updatematerialquantity = mysqli_query($connection, "UPDATE ab_events_material SET ab_events_material_available_qty ='$material_quantity' WHERE ab_events_material_id  = '$material_id'");
+                $updateRentProcess = "UPDATE ab_events_material_rent_process SET rent_process_qty ='$rent_process_qty',
+                rent_process_total_price = '$total_price' WHERE rent_process_id  = '$rent_process_id'";
+                $updateRentTransaction = "UPDATE ab_events_rent_transaction SET rent_transaction_total_per_day ='$confirm_total_price_v2',rent_transaction_total_price ='$rent_transaction_total_price'
+                         WHERE rent_transaction_code  = '$t_code'";
+                break;
+        }
 
-    $updateRentProcess = "UPDATE ab_events_material_rent_process SET rent_process_qty ='$rent_process_qty',
-    rent_process_total_price = '$total_price' WHERE rent_process_id  = '$rent_process_id'";
+        // Example: Assuming you are using mysqli extension
+        $result1 = mysqli_query($connection, $updateRentProcess);
+        $result2 = mysqli_query($connection, $updateRentTransaction);
 
-    $updateRentTransaction = "UPDATE ab_events_rent_transaction SET rent_transaction_total_per_day ='$confirm_total_price_v2',rent_transaction_total_price ='$rent_transaction_total_price'
-             WHERE rent_transaction_code  = '$t_code'";
-
-    // Example: Assuming you are using mysqli extension
-    $result1 = mysqli_query($connection, $updateRentProcess);
-    $result2 = mysqli_query($connection, $updateRentTransaction);
-
-    // Check if both queries were successful
-    if ($result1 && $result2) {
-        // Handle the case when both updates are successful
-        $success = "Material Quantity Edited Successfully";
-        header("Refresh: 2; url=transaction_detailed_view.php");
-    } else {
-        $fail = "Something Went Wrong";
-        header("Refresh: 2; url=transaction_detailed_view.php");
-    }
+        // Check if both queries were successful
+        if ($result1 && $result2 && $updatematerialquantity) {
+            // Handle the case when both updates are successful
+            $success = "Material Quantity Edited Successfully";
+            header("Refresh: 2; url=transaction_detailed_view.php");
+        } else {
+            $fail = "Something Went Wrong";
+            header("Refresh: 2; url=transaction_detailed_view.php");
+        }
+        break;
 }
-
 
 
 ?>

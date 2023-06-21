@@ -27,7 +27,6 @@ if (isset($_POST['save_material'])) {
     $m_name = mysqli_real_escape_string($connection, $_POST['material_name']);
     $indi_price = mysqli_real_escape_string($connection, $_POST['individually_price']);
     $corp_price = mysqli_real_escape_string($connection, $_POST['corporate_price']);
-    $qty_material = mysqli_real_escape_string($connection, $_POST['material_qty']);
     $available_qty = mysqli_real_escape_string($connection, $_POST['available_qty']);
     $d = mysqli_real_escape_string($connection, $_FILES["material_image"]["name"]);
 
@@ -38,17 +37,19 @@ if (isset($_POST['save_material'])) {
     // Validation for allowed extensions
     if (!in_array($extension1, $allowed_extensions)) {
         echo ("<script>  alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');location.href='materials.php';   </script>");
-    } elseif ($available_qty > $qty_material) {
-        echo ("<script>  alert('Something Wrong on Material Quantity');location.href='materials.php';   </script>");
-    } else {
+    }
+    // elseif ($available_qty > $qty_material) {
+    //     echo ("<script>  alert('Something Wrong on Material Quantity');location.href='materials.php';   </script>");
+    // } 
+    else {
         //rename the image file
         $d = md5($d) . $extension1;
         // Code for move image into directory
         move_uploaded_file($_FILES["material_image"]["tmp_name"], "material_image/" . $d);
         // Query for insertion data into database  
         $query = mysqli_query($connection, "insert into  ab_events_material(ab_events_material_added_by,
-        ab_events_material_category,ab_events_material_name,ab_events_material_individual_price,ab_events_material_corporate_price,ab_events_material_quantities,ab_events_material_available_qty,ab_events_material_image,ab_events_material_date) 
-VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$qty_material','$available_qty','$d',NOW())");
+        ab_events_material_category,ab_events_material_name,ab_events_material_individual_price,ab_events_material_corporate_price,ab_events_material_available_qty,ab_events_material_image,ab_events_material_date) 
+VALUES('$ab_user_id','$m_category','$m_name','$indi_price','$corp_price','$available_qty','$d',NOW())");
         if ($query) {
 
             echo ("<script>  alert('Material Added Successfully');location.href='materials.php';   </script>");
@@ -85,29 +86,28 @@ if (isset($_POST['update_material_info'])) {
     $m_name = mysqli_real_escape_string($connection, $_POST['material_name']);
     $indi_price = mysqli_real_escape_string($connection, $_POST['individually_price']);
     $corp_price = mysqli_real_escape_string($connection, $_POST['corporate_price']);
-    $qty_material = mysqli_real_escape_string($connection, $_POST['material_qty']);
     $available_qty = mysqli_real_escape_string($connection, $_POST['available_qty']);
     $material_id = mysqli_real_escape_string($connection, $_POST['material_id']);
-    if ($available_qty > $qty_material) {
-        echo ("<script>  alert('Something Wrong In Material Quantity');location.href='materials.php';   </script>");
-    } else {
-        // Query for insertion data into database  
-        $query = mysqli_query($connection, "UPDATE  ab_events_material SET 
+    // if ($available_qty > $qty_material) {
+    //     echo ("<script>  alert('Something Wrong In Material Quantity');location.href='materials.php';   </script>");
+    // }
+
+    // Query for insertion data into database  
+    $query = mysqli_query($connection, "UPDATE  ab_events_material SET 
     ab_events_material_category = '$m_category',
     ab_events_material_name = '$m_name',
         ab_events_material_individual_price = '$indi_price',
         ab_events_material_corporate_price = '$corp_price',
-        ab_events_material_quantities = '$qty_material',
         ab_events_material_available_qty = '$available_qty'
          WHERE ab_events_material_id ='$material_id'");
-        if ($query) {
+    if ($query) {
 
-            echo ("<script>  alert('Material Edited Successfully');location.href='materials.php'; </script>");
-        } else {
-            echo ("<script>  alert('Something Wrong');location.href='materials.php';   </script>");
-        }
+        echo ("<script>  alert('Material Edited Successfully');location.href='materials.php'; </script>");
+    } else {
+        echo ("<script>  alert('Something Wrong');location.href='materials.php';   </script>");
     }
 }
+
 
 
 if (isset($_POST['update_material_image'])) {
@@ -278,11 +278,8 @@ if (isset($_POST['update_material_image'])) {
                                                         <label>Price For Corporate Client <b class="t_required">*</b></label>
                                                         <input class="form-control" type="text" pattern="[0-9]+" required name="corporate_price" placeholder="Provide Price For Corporate Client">
                                                     </div>
-                                                    <div class="col-sm-3 form-group">
-                                                        <label>Total Quantities <b class="t_required">*</b></label>
-                                                        <input class="form-control" type="text" pattern="[0-9]+" placeholder="Total Quantities" required name="material_qty">
-                                                    </div>
-                                                    <div class="col-sm-3 form-group">
+
+                                                    <div class="col-sm-6 form-group">
                                                         <label>Available Quantities <b class="t_required">*</b></label>
                                                         <input class="form-control" type="text" placeholder="Available Quantities" pattern="[0-9]+" required name="available_qty">
                                                     </div>
@@ -409,7 +406,6 @@ if (isset($_POST['update_material_image'])) {
                                 <th>Image</th>
                                 <th>M_Name</th>
                                 <th>M_Category</th>
-                                <th>Total Qty</th>
                                 <th>Available Qty</th>
                                 <th>Individual Price /Rwf</th>
                                 <th>Corporate Price /Rwf</th>
@@ -422,7 +418,6 @@ if (isset($_POST['update_material_image'])) {
                                 <th>Image</th>
                                 <th>M_Name</th>
                                 <th>M_Category</th>
-                                <th>Total Qty</th>
                                 <th>Available Qty</th>
                                 <th>Individual Price /Rwf</th>
                                 <th>Corporate Price /Rwf</th>
@@ -455,7 +450,6 @@ if (isset($_POST['update_material_image'])) {
                                     <td><img src="material_image/<?php echo $image ?>" alt="" style="width:70px;"></td>
                                     <td><b><?php echo $name; ?></b></td>
                                     <td><?php echo $cat_name; ?></td>
-                                    <td> <span class="badge badge-success badge-circle m-r-5 m-b-5"><?php echo $material_quantity; ?></span> </td>
                                     <td> <a href=""><span class="badge badge-danger badge-circle m-r-5 m-b-5" data-toggle="tooltip" data-placement="top" title="Track Who Rents Other Quantity"><?php echo $available_quantity; ?></span></a></td>
                                     <td><?php echo $price_1; ?></td>
                                     <td><?php echo $price_2; ?></td>
@@ -503,19 +497,16 @@ if (isset($_POST['update_material_image'])) {
                                                             <input class="form-control" type="text" name="material_name" value="<?php echo $name; ?>" required placeholder="Provide Client Fullname">
                                                         </div>
 
-                                                        <div class="col-sm-6 form-group">
+                                                        <div class="col-sm-4 form-group">
                                                             <label>Price For Individual Client <b class="t_required">*</b></label>
                                                             <input class="form-control" type="text" pattern="[0-9]+" value="<?php echo $price_1; ?>" required name="individually_price" placeholder="Provide Price For Individual Client">
                                                         </div>
-                                                        <div class="col-sm-6 form-group">
+                                                        <div class="col-sm-4 form-group">
                                                             <label>Price For Corporate Client <b class="t_required">*</b></label>
                                                             <input class="form-control" type="text" pattern="[0-9]+" required value="<?php echo $price_2; ?>" name="corporate_price" placeholder="Provide Price For Corporate Client">
                                                         </div>
-                                                        <div class="col-sm-6 form-group">
-                                                            <label>Total Quantities <b class="t_required">*</b></label>
-                                                            <input class="form-control" type="text" pattern="[0-9]+" value="<?php echo $material_quantity; ?>" placeholder="Total Quantities" required name="material_qty">
-                                                        </div>
-                                                        <div class="col-sm-6 form-group">
+
+                                                        <div class="col-sm-4 form-group">
                                                             <label>Available Quantities <b class="t_required">*</b></label>
                                                             <input class="form-control" type="text" placeholder="Available Quantities" value="<?php echo $available_quantity; ?>" pattern="[0-9]+" required name="available_qty">
                                                         </div>

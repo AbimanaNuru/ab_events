@@ -39,7 +39,7 @@
                 <h6>Get In Touch</h6>
                 <p>Kicurciro Near Simba</p>
                 <ul>
-                    <li>info@ab.events.rw</li>
+                    <li>info@abeventsgroup.com</li>
                     <li>+250 788 643 162</li>
                     <li>+250 785 752 797</li>
                     <li>+250 788 336 932</li>

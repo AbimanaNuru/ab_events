@@ -147,8 +147,8 @@ if (isset($_POST['update_clients'])) {
                                         </div>
 
                                         <div class="col-sm-4 form-group">
-                                            <label>Email <b class="t_required">*</b></label>
-                                            <input class="form-control" type="text" required name="c_email" placeholder="Provide Client Email address">
+                                            <label>Email</label>
+                                            <input class="form-control" type="text" name="c_email" placeholder="Provide Client Email address">
                                         </div>
                                         <div class="col-sm-4 form-group">
                                             <label>Gender <b class="t_required">*</b></label>
@@ -267,7 +267,7 @@ if (isset($_POST['update_clients'])) {
 
                                                     <div class="form-group">
                                                         <label>Email</label>
-                                                        <input class="form-control" type="text" required name="c_email" value="<?php echo $email; ?>" placeholder="Provide Client Email address">
+                                                        <input class="form-control" type="text"  name="c_email" value="<?php echo $email; ?>" placeholder="Provide Client Email address">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Gender</label>

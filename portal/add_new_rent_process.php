@@ -18,6 +18,8 @@ if (isset($_POST['process_rents'])) {
     $payment = mysqli_real_escape_string($connection, $_POST['payment_mode']);
     $rent_day = mysqli_real_escape_string($connection, $_POST['rent_day']);
     $proof_image = mysqli_real_escape_string($connection, $_FILES["support_documents"]["name"]);
+    @$notify = mysqli_real_escape_string($connection, $_POST['nofity_client']);
+
 
     $extension1 = substr($proof_image, strlen($proof_image) - 4, strlen($proof_image));
     $proof_image = md5($proof_image) . $extension1;
@@ -110,28 +112,31 @@ if (isset($_POST['process_rents'])) {
         }
     }
     // Check the success status of the inserts
-    if ($insertSuccess) {
-        $data = array(
-            "sender" => 'AB EVENTS',
-            "recipients" => "$client_phonenumber",
-            "message" => "Hello! R_ID: $rents_id, Cost: $transaction_allday_price Rwf, Day:$rent_day, Rent Date:$rent_date, Return Date:$return_date, Book Us: 0788643162 | www.abeventsgroup.com",
-            "dlrurl" => ""
-        );
-        $url = "https://www.intouchsms.co.rw/api/sendsms/.json";
-        $data = http_build_query($data);
-        $username = "abelia.ltd";
-        $password = "abelia.ltd";
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $result = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+    if ($insertSuccess) {
+        if ($notify == 'on') {
+            $data = array(
+                "sender" => 'AB EVENTS',
+                "recipients" => "$client_phonenumber",
+                "message" => "Hello! R_ID: $rents_id, Cost: $transaction_allday_price Rwf, Day:$rent_day, Rent Date:$rent_date, Return Date:$return_date, Book Us: 0788336932 | www.abeventsgroup.com",
+                "dlrurl" => ""
+            );
+            $url = "https://www.intouchsms.co.rw/api/sendsms/.json";
+            $data = http_build_query($data);
+            $username = "abelia.ltd";
+            $password = "abelia.ltd";
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            $result = curl_exec($ch);
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+        }
         // Both inserts were successful
         header("Refresh: 2; url= invoice.php?invoice_code=$rents_id");
     } else {
@@ -141,6 +146,7 @@ if (isset($_POST['process_rents'])) {
         }
     }
 }
+
 
 
 
@@ -337,7 +343,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                         </div>
 
                                         <div class="col-sm-6 form-group">
-                                            <label class="form-control-label">Select Client <b class="required">*</b></label>
+                                            <label class="form-control-label">Select Client <b class="required">*</b> <input type="checkbox" name="nofity_client" value="on"> <b style="color: green; font-size: 12px;">Notify Client By Message</b> </label>
                                             <select class="form-control select2_demo_1" name="m_client" required>
                                                 <option value="">Select Client:</option>
                                                 <?php
@@ -434,7 +440,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                     </div>
                                 </form>
                             </div>
-                        </div>                        
+                        </div>
                     </div>
 
                 </div>
@@ -648,7 +654,6 @@ if (isset($_POST['make_change_rent_transactions'])) {
 
             // Append the product fields to the container
             productsContainer.insertAdjacentHTML('beforeend', productFields);
-
             // Increment the product index for the next product
             productIndex++;
 
@@ -661,6 +666,10 @@ if (isset($_POST['make_change_rent_transactions'])) {
                 const productField = removeButton.parentNode;
                 productField.remove();
             });
+
+            // Initialize select2 plugin for the new select element
+            const newSelectElement = productsContainer.querySelector('.product-row:last-of-type .get_product');
+            initializeSelect2(newSelectElement);
         });
 
         function validateQuantity(input) {
@@ -675,6 +684,17 @@ if (isset($_POST['make_change_rent_transactions'])) {
                 // Reset the error message if the validation passes
                 input.setCustomValidity("");
             }
+        }
+
+        $(document).ready(function() {
+            // Initialize select2 plugin for the first select element on page load
+            const initialSelectElement = productsContainer.querySelector('.get_product');
+        });
+
+        initializeSelect2(initialSelectElement);
+
+        function initializeSelect2(element) {
+            $(element).select2();
         }
     </script>
 
