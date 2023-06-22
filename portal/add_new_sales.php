@@ -118,7 +118,7 @@ if (isset($_POST['process_rents'])) {
             $data = array(
                 "sender" => 'AB EVENTS',
                 "recipients" => "$client_phonenumber",
-                "message" => "Hello! R_ID: $rents_id, Cost: $transaction_allday_price Rwf, Day:$rent_day, Rent Date:$rent_date, Return Date:$return_date, Book Us: 0788336932 | www.abeventsgroup.com",
+                "message" => "Hello! R_ID: $rents_id, Cost: $transaction_allday_price Rwf, Day:$rent_day, Rent Date:$rent_date, Return Date:$return_date, Book Us: 0783236256 | www.abeventsgroup.com",
                 "dlrurl" => ""
             );
             $url = "https://www.intouchsms.co.rw/api/sendsms/.json";
@@ -138,7 +138,7 @@ if (isset($_POST['process_rents'])) {
             curl_close($ch);
         }
         // Both inserts were successful
-        header("Refresh: 2; url= invoice.php?invoice_code=$rents_id");
+        header("Refresh: 1; url= invoice.php?invoice_code=$rents_id", "_blank");
     } else {
         // At least one insert failed
         if (!$sqlSuccess or !$sql2Success) {
@@ -146,83 +146,6 @@ if (isset($_POST['process_rents'])) {
         }
     }
 }
-
-
-
-
-if (isset($_POST['make_change'])) {
-    // $m_id = $_POST['m_id'];
-    // $m_quantity = $_POST['m_quantity'];
-    $m_comment = $_POST['m_comment'];
-    $code = $_POST['rent_id'];
-    // Assuming you have a database connection established, you can use a foreach loop to update rent processes for each $m_id
-
-    # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
-    # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
-    $query = mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process WHERE rent_process_rent_id = '$code'");
-    $materials = mysqli_fetch_all($query, MYSQLI_ASSOC);
-
-    foreach ($materials as $material) {
-        $material_id = $material['rent_process_material_id'];
-        #add rent_process_qty
-        $material_quantity = $material['rent_process_qty'];
-        #select from ab_events_material where ab_events_material_id = $material_id and update ab_events_material_quantities = $material_quantity
-        $query = mysqli_query($connection, "SELECT * FROM ab_events_material WHERE ab_events_material_id = $material_id");
-        $material = mysqli_fetch_assoc($query);
-        $product_quantity = $material['ab_events_material_available_qty'];
-        $pquantity = $product_quantity + $material_quantity;
-        $query = mysqli_query($connection, "UPDATE ab_events_material SET ab_events_material_available_qty = '$pquantity' WHERE ab_events_material_id = '$material_id'");
-    }
-    // Perform an UPDATE query based on $id
-    $query = "UPDATE ab_events_rent_transaction SET rent_transaction_status ='Returned',
-    rent_process_return_comments = '$m_comment'
-         WHERE rent_transaction_code = '$code'";
-
-    // Example: Assuming you are using mysqli extension
-    $result = mysqli_query($connection, $query);
-
-    // Check if the query was successful
-    if ($result) {
-        // Handle the case when the update is successful
-        $success = "Material Returned Successfully";
-        header("Refresh: 2; url= rent_process.php");
-    } else {
-        $fail = "Something Wrong";
-        header("Refresh: 2; url= rent_process.php");
-    }
-}
-
-if (isset($_POST['make_change_rent_transactions'])) {
-    $rent_date = mysqli_real_escape_string($connection, $_POST['rent_date']);
-    $return_date = mysqli_real_escape_string($connection, $_POST['return_date']);
-    // Create DateTime objects from the rent and return dates
-    $rentDateTime = new DateTime($rent_date);
-    $returnDateTime = new DateTime($return_date);
-    // Calculate the difference between the two dates
-    $interval = $rentDateTime->diff($returnDateTime);
-    // Get the number of days from the interval
-    $rent_day = $interval->days;
-    $rent_id = mysqli_real_escape_string($connection, $_POST['rent_id']);
-
-    $rent_query = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction WHERE rent_transaction_code = '$rent_id'");
-    $rent_transaction = mysqli_fetch_assoc($rent_query);
-    $money_per_day = $rent_transaction['rent_transaction_total_per_day'];
-    $total_money = 1000;
-    $query = "UPDATE ab_events_rent_transaction SET  rent_transaction_rent_date= '$rent_date',rent_transaction_return_date = '$return_date',rent_transaction_day = '$rent_day',
-    rent_transaction_total_price = '$total_money' WHERE rent_transaction_code = '$rent_id'";
-    // Example: Assuming you are using mysqli extension
-    $result = mysqli_query($connection, $query);
-    // Check if the query was successful
-    if ($result) {
-        // Handle the case when the update is successful
-        $success = "Rent Trsaction Edited Successfully";
-        header("Refresh: 2; url= rent_process.php");
-    } else {
-        $fail = "Something Wrong";
-        header("Refresh: 2; url= rent_process.php");
-    }
-}
-
 
 
 ?>
@@ -235,7 +158,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
 
-    <title>Material Rents Managemnets | AB Events | an exceptional experience</title>
+    <title>Material Sales Managemnets | AB Events | an exceptional experience</title>
     <link rel="icon" href="../img/ab_favicon.png">
     <!-- GLOBAL MAINLY STYLES-->
     <link href="assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -278,7 +201,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
         <div class="content-wrapper">
             <!-- START PAGE CONTENT-->
             <div class="page-heading">
-                <h1 class="page-title">Material Rents Managements</h1>
+                <h1 class="page-title">Material Sales Managements</h1>
 
             </div>
             <div class="page-content fade-in-up">
@@ -317,7 +240,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
 
                             ?>
                             <div class="ibox-head">
-                                <div class="ibox-title">Rent Material</div>
+                                <div class="ibox-title">Sale Material</div>
                                 <div class="ibox-tools">
                                     <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
 
@@ -715,4 +638,4 @@ if (isset($_POST['make_change_rent_transactions'])) {
     </script>
 </body>
 
-</html>
+</html>a

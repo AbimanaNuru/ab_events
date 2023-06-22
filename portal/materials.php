@@ -407,6 +407,7 @@ if (isset($_POST['update_material_image'])) {
                                 <th>M_Name</th>
                                 <th>M_Category</th>
                                 <th>Available Qty</th>
+                                <th>Who Rents</th>
                                 <th>Individual Price /Rwf</th>
                                 <th>Corporate Price /Rwf</th>
                                 <th>M_Added.by</th>
@@ -445,15 +446,24 @@ if (isset($_POST['update_material_image'])) {
                                 $material_quantity = $ab_material['ab_events_material_quantities'];
                                 $available_quantity = $ab_material['ab_events_material_available_qty'];
                                 $material_id = $ab_material['ab_events_material_id'];
+
+
+                                $sales_material = mysqli_query($connection, "SELECT * from  ab_events_material_rent_process,ab_events_material,ab_events_rent_transaction,ab_events_clients where ab_events_material_rent_process.rent_process_material_id=ab_events_material.ab_events_material_id AND
+                                ab_events_rent_transaction.rent_transaction_code = ab_events_material_rent_process.rent_process_rent_id 
+                                AND ab_events_clients.client_id = ab_events_rent_transaction.rent_transaction_clients_id and ab_events_material_rent_process.rent_process_material_id = '$material_id'");
                             ?>
                                 <tr>
                                     <td><img src="material_image/<?php echo $image ?>" alt="" style="width:70px;"></td>
                                     <td><b><?php echo $name; ?></b></td>
                                     <td><?php echo $cat_name; ?></td>
-                                    <td> <a href=""><span class="badge badge-danger badge-circle m-r-5 m-b-5" data-toggle="tooltip" data-placement="top" title="Track Who Rents Other Quantity"><?php echo $available_quantity; ?></span></a></td>
+                                    <td> <span class="badge badge-danger badge-circle m-r-5 m-b-5"><?php echo $available_quantity; ?></span></a></td>
+                                    <td>
+                                        <button class="btn btn-success badge-circle  btn-xs m-r-5" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Track Who Rents Other Quantity" data-target="#rents<?php echo $material_id; ?>">Sales Details</button>
+                                    </td>
                                     <td><?php echo $price_1; ?></td>
                                     <td><?php echo $price_2; ?></td>
                                     <td><?php echo $added_by; ?></td>
+
                                     <td>
                                         <button class="btn btn-info btn-xs m-r-5" data-toggle="modal" data-target="#material<?php echo $material_id; ?>" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil font-14"></i></button>
                                     </td>
@@ -540,6 +550,57 @@ if (isset($_POST['update_material_image'])) {
                                         </div>
                                     </div>
                                 </div>
+
+
+
+                                <!-- Start View Who rents material -->
+
+                                <div class="modal fade bd-example-modal-lg" id="rents<?php echo $material_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Material Sales Details</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <?php
+
+                                                while ($pro_quantity = mysqli_fetch_assoc($sales_material)) {
+                                                    $agent_name = $pro_quantity['ab_events_material_name'];
+                                                    $return_status = $pro_quantity['rent_transaction_status'];
+
+
+                                                ?>
+                                                    <div style="padding:10px; background-color: #E3E7EB; border-radius: 10px;">
+
+                                                        <h6><b>Client Name: </b><?php echo $pro_quantity['client_fullname']; ?></h6>
+                                                        <h6><b>Material Name: </b><?php echo $agent_name; ?></h6>
+                                                        <h6><b>Material Quantity: </b><?php echo $pro_quantity['rent_process_qty']; ?></h6>
+                                                        <h6><b>Transaction Code: </b><?php echo $pro_quantity['rent_process_rent_id']; ?></h6>
+                                                        <h6><b>Startus: </b><?php if ($return_status == 'Returned') {
+                                                                                echo "<b style='color:green;'>$return_status</b>";
+                                                                            } else {
+                                                                                echo "<b style='color:red;'>$return_status</b>";
+                                                                            }  ?></h6>
+                                                        <h6><b>Rent Date: </b><?php echo $pro_quantity['rent_transaction_rent_date']; ?> , <b>Return Date: </b><?php echo $pro_quantity['rent_transaction_return_date']; ?>, <b>Day: </b><?php echo $pro_quantity['rent_transaction_day']; ?></h6>
+
+
+
+                                                    </div>
+                                                    <hr>
+                                                <?php
+                                                }
+                                                ?>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Ends View Who rents material -->
                             <?php } ?>
 
                         </tbody>
@@ -588,6 +649,7 @@ if (isset($_POST['update_material_image'])) {
     <script>
         $(document).ready(function() {
             $('#example').DataTable({
+                responsive: true,
 
                 lengthMenu: [
                     [20, 25, 50, -1],

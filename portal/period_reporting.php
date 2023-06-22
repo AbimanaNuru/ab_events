@@ -242,7 +242,7 @@ if (!isset($sort) || empty($sort)) {
 
                                 <div class="tab">
                                     <center>
-                                        <button class="tablinks" onclick="openCity(event, 'rent')" id="defaultOpen">AB Events Report</button>
+                                        <button class="tablinks" onclick="openCity(event, 'rent')" id="defaultOpen">AB Events Sales</button>
                                         <button class="tablinks" onclick="openCity(event, 'expense')">AB Events Expense</button>
                                         <button class="tablinks" onclick="openCity(event, 'client')">AB Events Clients</button>
                                     </center>

@@ -10,12 +10,20 @@ if (isset($_POST['make_change'])) {
     // $m_quantity = $_POST['m_quantity'];
     $m_comment = $_POST['m_comment'];
     $code = $_POST['rent_id'];
+    @$notify = mysqli_real_escape_string($connection, $_POST['nofity_client']);
+    $c_id = mysqli_real_escape_string($connection, $_POST['clients_id']);
+
+    $get_client = mysqli_query($connection, "SELECT * from ab_events_clients WHERE client_id  = '$c_id' ");
+    $clients_info = mysqli_fetch_assoc($get_client);
+    $client_phonenumber = $clients_info['client_phonenumber'];
+
     // Assuming you have a database connection established, you can use a foreach loop to update rent processes for each $m_id
 
     # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
     # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
     $query = mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process WHERE rent_process_rent_id = '$code'");
     $materials = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
 
     foreach ($materials as $material) {
         $material_id = $material['rent_process_material_id'];
@@ -38,9 +46,33 @@ if (isset($_POST['make_change'])) {
 
     // Check if the query was successful
     if ($result) {
-        // Handle the case when the update is successful
         $success = "Material Returned Successfully";
         header("Refresh: 2; url= rent_process.php");
+        if ($notify == 'on') {
+            $data = array(
+                "sender" => 'AB EVENTS',
+                "recipients" => "$client_phonenumber",
+                "message" => "Hello! Thank Your For Returning Materials : R_ID: $code, Book Us: 0785752797,0783236256 | www.abeventsgroup.com",
+                "dlrurl" => ""
+            );
+            $url = "https://www.intouchsms.co.rw/api/sendsms/.json";
+            $data = http_build_query($data);
+            $username = "abelia.ltd";
+            $password = "abelia.ltd";
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            $result = curl_exec($ch);
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+        }
+        // Handle the case when the update is successful
+
     } else {
         $fail = "Something Wrong";
         header("Refresh: 2; url= rent_process.php");
@@ -133,7 +165,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
         <div class="content-wrapper">
             <!-- START PAGE CONTENT-->
             <div class="page-heading">
-                <h1 class="page-title">Material Rents Managements</h1>
+                <h1 class="page-title">Material Sales Managements</h1>
 
             </div>
             <div class="page-content fade-in-up">
@@ -153,7 +185,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
                         } ?>
                         <div class="ibox">
                             <div class="ibox-head">
-                                <div class="ibox-title">Rents</div>
+                                <div class="ibox-title">Sales Transaction List</div>
                                 <?php
                                 // Financial
                                 if ($user_type == 'Administrator') {
@@ -211,9 +243,11 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                         if (mysqli_num_rows($result) > 0) {
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 $rents_id = $row['rent_transaction_code'];
+                                                $client_id = $row['client_id'];
                                                 $day = $row['rent_transaction_day'];
                                                 $price_day = $row['rent_transaction_total_per_day'];
                                                 $toatl_day_price = $day * $price_day;
+
                                                 $submenu =  mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process,ab_events_material WHERE
                     ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab_events_material_id  AND ab_events_material_rent_process.rent_process_rent_id = '$rents_id'");
 
@@ -372,11 +406,13 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                                                         }
                                                                         ?>
                                                                         <input type="hidden" name="rent_id" value="<?php echo $trans_code; ?>">
+                                                                        <input type="hidden" name="clients_id" value="<?php echo $client_id; ?>">
 
                                                                         <div class="col-md-12">
                                                                             <label for="">Add Comments</label>
 
                                                                             <textarea name="m_comment" id="" class="form-control" placeholder="Provide Comments" cols="3" rows="2" required></textarea>
+                                                                            <input type="checkbox" name="nofity_client" value="on"> <b style="color: green; font-size: 12px;">Notify Client By Message</b>
                                                                         </div>
 
 

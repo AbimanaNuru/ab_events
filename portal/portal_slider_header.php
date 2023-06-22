@@ -89,10 +89,10 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
                     <span class="nav-label">AB Events Rents</span><i class="fa fa-angle-left arrow"></i></a>
                 <ul class="nav-2-level collapse">
                     <li>
-                        <a class="<?= ($activePage == 'add_new_rent_process') ? 'active' : ''; ?>" href="add_new_rent_process">Add Rent Process</a>
+                        <a class="<?= ($activePage == 'add_new_sales') ? 'active' : ''; ?>" href="add_new_sales">Add New Sales</a>
                     </li>
                     <li>
-                        <a class="<?= ($activePage == 'rent_process') ? 'active' : ''; ?>" href="rent_process">Manage Rents</a>
+                        <a class="<?= ($activePage == 'rent_process') ? 'active' : ''; ?>" href="rent_process">Manage Sales</a>
                     </li>
                     <?php
                     // Financial
@@ -100,7 +100,7 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
                     ?>
 
                         <li>
-                            <a class="<?= ($activePage == 'transaction_detailed_view') ? 'active' : ''; ?>" href="transaction_detailed_view">Detailed View</a>
+                            <a class="<?= ($activePage == 'transaction_detailed_view') ? 'active' : ''; ?>" href="transaction_detailed_view">Sales Detailed View</a>
                         </li>
                     <?php
                     } ?>

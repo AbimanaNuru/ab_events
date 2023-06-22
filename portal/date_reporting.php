@@ -104,7 +104,7 @@ $end_date = $_GET['end_date'];
         <div class="content-wrapper">
             <!-- START PAGE CONTENT-->
             <div class="page-heading">
-                <h1 class="page-title">AB Events Report By Period <b>[ <?php echo $start_date; ?> - <?php echo $end_date; ?> ] </b></h1>
+                <h1 class="page-title">AB Events Report By Date <b>[ <?php echo $start_date; ?> - <?php echo $end_date; ?> ] </b></h1>
 
 
             </div>
@@ -246,7 +246,7 @@ $end_date = $_GET['end_date'];
 
                                 <div class="tab">
                                     <center>
-                                        <button class="tablinks" onclick="openCity(event, 'rent')" id="defaultOpen">AB Events Report</button>
+                                        <button class="tablinks" onclick="openCity(event, 'rent')" id="defaultOpen">AB Events Sales</button>
                                         <button class="tablinks" onclick="openCity(event, 'expense')">AB Events Expense</button>
                                         <button class="tablinks" onclick="openCity(event, 'client')">AB Events Clients</button>
                                     </center>
