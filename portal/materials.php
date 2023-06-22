@@ -419,6 +419,7 @@ if (isset($_POST['update_material_image'])) {
                                 <th>M_Name</th>
                                 <th>M_Category</th>
                                 <th>Available Qty</th>
+                                <th>Who Rents</th>
                                 <th>Individual Price /Rwf</th>
                                 <th>Corporate Price /Rwf</th>
                                 <th>M_Added.by</th>
@@ -529,7 +530,7 @@ if (isset($_POST['update_material_image'])) {
 
                                                 <form action="" method="post" enctype="multipart/form-data">
                                                     <h5> <b> Material Image</b></h5>
-                                                    <input type="hidden" name="material_id" accept="image/*"  value="<?php echo $material_id; ?>">
+                                                    <input type="hidden" name="material_id" accept="image/*" value="<?php echo $material_id; ?>">
 
                                                     <div class="row">
                                                         <div class="col-sm-12 form-group">
@@ -548,8 +549,6 @@ if (isset($_POST['update_material_image'])) {
                                         </div>
                                     </div>
                                 </div>
-
-
 
                                 <!-- Start View Who rents material -->
 
