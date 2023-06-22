@@ -40,7 +40,7 @@ if (isset($_POST['invite_user'])) {
             $data = array(
                 "sender" => 'AB EVENTS',
                 "recipients" => "$phone",
-                "message" => "Hello $name! Email: $email, Password: $randomString | www.abevents.com",
+                "message" => "Hello $name! Email: $email, Password: $randomString | www.portal.abeventsgroup.com",
                 "dlrurl" => ""
             );
             $url = "https://www.intouchsms.co.rw/api/sendsms/.json";

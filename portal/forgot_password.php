@@ -24,7 +24,7 @@ if (isset($_POST['recover_password'])) {
             $data = array(
                 "sender" => 'AB EVENTS',
                 "recipients" => "$fetch_user_phonenumber",
-                "message" => "Hello $fetch_user_fullname! , Email:$fetch_user_email Password: $randomString",
+                "message" => "Hello $fetch_user_fullname! , Email:$fetch_user_email Password: $randomString | Login : www.portal.abeventsgroup.com",
                 "dlrurl" => ""
             );
             $url = "https://www.intouchsms.co.rw/api/sendsms/.json";
