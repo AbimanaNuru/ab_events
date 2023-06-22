@@ -267,7 +267,7 @@ if (isset($_POST['send_Reminder'])) {
                                             <?php
                                                 }
                                             } else {
-                                                echo "<h5 style='color:red; '>No Ordered Product</h5>";
+                                                echo "<h5 style='color:red; '>No Data Found</h5>";
                                             }
                                             ?>
 
