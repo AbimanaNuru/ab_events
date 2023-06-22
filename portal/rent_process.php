@@ -438,7 +438,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                         <?php
                                             }
                                         } else {
-                                            echo "<h5 style='color:red; '>No Ordered Product</h5>";
+                                            echo "<h5 style='color:red; '>No Data Found</h5>";
                                         }
                                         ?>
 
