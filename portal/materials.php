@@ -285,7 +285,7 @@ if (isset($_POST['update_material_image'])) {
                                                     </div>
                                                     <div class="col-sm-6 form-group">
                                                         <label>Material Image <b class="t_required">*</b></label>
-                                                        <input class="form-control" type="file" required name="material_image">
+                                                        <input class="form-control" type="file" accept="image/*" required name="material_image">
                                                     </div>
                                                     <div class="col-lg-12">
 
@@ -529,7 +529,7 @@ if (isset($_POST['update_material_image'])) {
 
                                                 <form action="" method="post" enctype="multipart/form-data">
                                                     <h5> <b> Material Image</b></h5>
-                                                    <input type="hidden" name="material_id" value="<?php echo $material_id; ?>">
+                                                    <input type="hidden" name="material_id" accept="image/*"  value="<?php echo $material_id; ?>">
 
                                                     <div class="row">
                                                         <div class="col-sm-12 form-group">
@@ -640,8 +640,6 @@ if (isset($_POST['update_material_image'])) {
     <!-- DataTables Responsive -->
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-
-
 
 
     <script>
