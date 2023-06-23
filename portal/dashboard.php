@@ -95,7 +95,7 @@ include "sessionexpired.php";
                                         echo "<b>$material</b>";
                                         ?>
                                     </h2>
-                                    <div class="m-b-5">MATERIAL CATEGORIES</div><i class="fa fa-product-hunt widget-stat-icon"></i>
+                                    <div class="m-b-5"> ALL MATERIAL</div><i class="fa fa-product-hunt widget-stat-icon"></i>
                                 </div>
                             </div>
                         </a>
@@ -112,7 +112,7 @@ include "sessionexpired.php";
                                                                     echo "<b>$category</b>";
                                                                     ?>
                                     </h2>
-                                    <div class="m-b-5"> ALL MATERIAL</div><i class="fa fa-product-hunt widget-stat-icon"></i>
+                                    <div class="m-b-5">MATERIAL CATEGORIES</div><i class="fa fa-product-hunt widget-stat-icon"></i>
                                 </div>
                             </div>
                         </a>
