@@ -14,7 +14,7 @@ if (isset($_POST['save_clients'])) {
     $gender = mysqli_real_escape_string($connection, $_POST['c_gender']);
     $address = mysqli_real_escape_string($connection, $_POST['c_address']);
 
-    $slquery2 = "SELECT client_email,client_phonenumber  FROM  ab_events_clients WHERE client_email = '$email' OR client_phonenumber = '$phone'";
+    $slquery2 = "SELECT client_email,client_phonenumber  FROM  ab_events_clients WHERE client_phonenumber = '$phone'";
     $selectresult2 = mysqli_query($connection, $slquery2);
 
     if (mysqli_num_rows($selectresult2) > 0) {

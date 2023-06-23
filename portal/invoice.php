@@ -117,7 +117,7 @@ AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_even
                             <strong>Rented By:</strong><br>
                             <address class="address"><b>AB EVENTS GROUP</b><br>
                             +250 785 752 797<br>+250 783 236 256<br>
-                                info@ab.events.rw
+                            info@abeventsgroup.com
                             </address>
                         </div>
                     </div>
