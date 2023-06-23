@@ -447,7 +447,6 @@ if (isset($_POST['update_material_image'])) {
                                 $available_quantity = $ab_material['ab_events_material_available_qty'];
                                 $material_id = $ab_material['ab_events_material_id'];
 
-
                                 $sales_material = mysqli_query($connection, "SELECT * from  ab_events_material_rent_process,ab_events_material,ab_events_rent_transaction,ab_events_clients where ab_events_material_rent_process.rent_process_material_id=ab_events_material.ab_events_material_id AND
                                 ab_events_rent_transaction.rent_transaction_code = ab_events_material_rent_process.rent_process_rent_id 
                                 AND ab_events_clients.client_id = ab_events_rent_transaction.rent_transaction_clients_id and ab_events_material_rent_process.rent_process_material_id = '$material_id'");
