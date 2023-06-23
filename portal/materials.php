@@ -458,7 +458,7 @@ if (isset($_POST['update_material_image'])) {
                                     <td><?php echo $cat_name; ?></td>
                                     <td> <span class="badge badge-danger badge-circle m-r-5 m-b-5"><?php echo $available_quantity; ?></span></a></td>
                                     <td>
-                                        <button class="btn btn-success badge-circle  btn-xs m-r-5" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Track Who Rents Other Quantity" data-target="#rents<?php echo $material_id; ?>">Sales Details</button>
+                                        <button class="btn btn-success badge-circle  btn-xs m-r-5" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Track Who Rents Other Quantity" data-target="#rents<?php echo $material_id; ?>">Sale Details</button>
                                     </td>
                                     <td><?php echo $price_1; ?></td>
                                     <td><?php echo $price_2; ?></td>
