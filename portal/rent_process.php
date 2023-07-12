@@ -101,6 +101,9 @@ if (isset($_POST['make_change_rent_transactions'])) {
     $result = mysqli_query($connection, $query);
     // Check if the query was successful
     if ($result) {
+
+
+
         // Handle the case when the update is successful
         $success = "Rent Trsaction Edited Successfully";
         header("Refresh: 2; url= rent_process.php");
@@ -108,6 +111,93 @@ if (isset($_POST['make_change_rent_transactions'])) {
         $fail = "Something Wrong";
         header("Refresh: 2; url= rent_process.php");
     }
+}
+if (isset($_POST['save_paid_money'])) {
+
+    $rent_id = mysqli_real_escape_string($connection, $_POST['rent_id']);
+    @$notify = mysqli_real_escape_string($connection, $_POST['nofity_client']);
+
+    $paid_money = mysqli_real_escape_string($connection, $_POST['paid_amount']);
+
+    $rent_query = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction,ab_events_clients WHERE ab_events_clients.client_id = ab_events_rent_transaction.rent_transaction_clients_id AND  ab_events_rent_transaction.rent_transaction_code = '$rent_id'");
+    $rent_transaction = mysqli_fetch_assoc($rent_query);
+    $current_money = $rent_transaction['rent_transaction_credit_money'];
+    $client_phone = $rent_transaction['client_phonenumber'];
+    $client_id = $rent_transaction['rent_transaction_clients_id'];
+
+    if ($paid_money > $current_money) {
+        $fail = " Added Payment cannot be greater than Current Credited Money";
+        header("Refresh: 2; url= rent_process.php");
+    } else {
+        $updated_credited_money = $current_money - $paid_money;
+
+        $query = mysqli_query($connection, "UPDATE ab_events_rent_transaction SET rent_transaction_credit_money = '$updated_credited_money'
+    WHERE rent_transaction_code = '$rent_id'");
+
+        $query = mysqli_query($connection, "INSERT INTO tracking_payment(t_code,client_id,current_credit,track_paid_money,updated_credited_money,track_date_added) 
+        VALUES('$rent_id','$client_id','$current_money','$paid_money','$updated_credited_money',NOW())");
+        // Check if the query was successful
+        if ($query) {
+            if ($notify == 'on') {
+                $data = array(
+                    "sender" => 'AB EVENTS',
+                    "recipients" => "$client_phone",
+                    "message" => "Hello! Thank Your For Payments, Credits: $updated_credited_money Rwf Book Us: 0785752797,0783236256 | www.abeventsgroup.com",
+                    "dlrurl" => ""
+                );
+                $url = "https://www.intouchsms.co.rw/api/sendsms/.json";
+                $data = http_build_query($data);
+                $username = "abelia.ltd";
+                $password = "abelia.ltd";
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                $result = curl_exec($ch);
+                $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                curl_close($ch);
+            }
+            // Handle the case when the update is successful
+            $success = "Payment Addded Successfully";
+            header("Refresh: 1; url= rent_process.php");
+        } else {
+            $fail = "Something Wrong";
+            header("Refresh: 1; url= rent_process.php");
+        }
+    }
+}
+
+if (isset($_POST['resend_sms'])) {
+
+    $phonenumber = mysqli_real_escape_string($connection, $_POST['phone__number']);
+    $message = mysqli_real_escape_string($connection, $_POST['resend_message']);
+    $data = array(
+        "sender" => 'AB EVENTS',
+        "recipients" => "$phonenumber",
+        "message" => "$message",
+        "dlrurl" => ""
+    );
+    $url = "https://www.intouchsms.co.rw/api/sendsms/.json";
+    $data = http_build_query($data);
+    $username = "abelia.ltd";
+    $password = "abelia.ltd";
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    $result = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    $success = "Message Resend Successfully";
+    header("Refresh: 1; url= rent_process.php");
 }
 
 
@@ -150,8 +240,8 @@ if (isset($_POST['make_change_rent_transactions'])) {
 
         .table td,
         .table th {
-            padding: 3px;
-            font-size: 12px;
+            padding: 2px;
+            font-size: 11px;
         }
     </style>
 </head>
@@ -191,7 +281,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                 if ($user_type == 'Administrator') {
                                 ?>
 
-                                    <a href="transaction_detailed_view"><button class='btn btn-dark' id='day1'>Transaction Detailed View</button></a>
+                                    <a href="sales_detailed_view"><button class='btn btn-dark' id='day1'>Transaction Detailed View</button></a>
                                 <?php
                                 }
                                 ?>
@@ -203,12 +293,15 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                     <thead>
                                         <tr>
                                             <th>Rent ID</th>
-                                            <th>C_Name</th>
-                                            <th>C_Phone</th>
+                                            <th>Sale Mode</th>
+                                            <th>Name</th>
+                                            <th>Phone</th>
                                             <th>Detail</th>
                                             <th>Price/Day</th>
                                             <th>Day</th>
-                                            <th>Total/Rwf</th>
+                                            <th>Total/F</th>
+                                            <th>Credit</th>
+
                                             <th>Rent Date</th>
                                             <th>Return Date</th>
                                             <th>Actions</th>
@@ -220,12 +313,15 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                     <tfoot>
                                         <tr>
                                             <th>Rent ID</th>
-                                            <th>C_Name</th>
-                                            <th>C_Phone</th>
+                                            <th>Sale Mode</th>
+                                            <th>Name</th>
+                                            <th>Phone</th>
                                             <th>Detail</th>
                                             <th>Price/Day</th>
                                             <th>Day</th>
-                                            <th>Total/Rwf</th>
+                                            <th>Total/F</th>
+                                            <th>Credit</th>
+
                                             <th>Rent Date</th>
                                             <th>Return Date</th>
                                             <th>Actions</th>
@@ -246,7 +342,15 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                                 $client_id = $row['client_id'];
                                                 $day = $row['rent_transaction_day'];
                                                 $price_day = $row['rent_transaction_total_per_day'];
+                                                $credited_money = $row['rent_transaction_credit_money'];
+                                                $s_mode = $row['rent_transaction_sale_mode'];
+                                                $r_date = $row['rent_transaction_rent_date'];
+                                                $re_date = $row['rent_transaction_return_date'];
                                                 $toatl_day_price = $day * $price_day;
+
+                                                $payment_tracking = mysqli_query($connection, "SELECT * FROM  ab_events_rent_transaction,tracking_payment WHERE
+                                                ab_events_rent_transaction.rent_transaction_code = tracking_payment.t_code AND tracking_payment.t_code = '$rents_id'");
+
 
                                                 $submenu =  mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process,ab_events_material WHERE
                     ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab_events_material_id  AND ab_events_material_rent_process.rent_process_rent_id = '$rents_id'");
@@ -257,20 +361,37 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                                 <tr>
 
                                                     <td><b><?php echo $rents_id; ?> </b></td>
+                                                    <td> <?php if ($s_mode == 'full_paid') {
+                                                                echo "<b style='color:#6F0118;'>FULL PAID</b>";
+                                                            }
+                                                            if ($s_mode == 'booked_sale') {
+                                                                echo "<b>BOOKED</b>";
+                                                            } ?> </td>
                                                     <td> <?php echo $row['client_fullname']; ?> </td>
                                                     <td> <?php echo $row['client_phonenumber']; ?> </td>
-                                                    <td> <a class='badge badge-info badge-pill' data-toggle='modal' data-target='#view<?php echo $rents_id; ?>' style='color:white;'>View Details </a></td>
+                                                    <td> <a class='badge badge-info badge-pill' data-toggle='modal' data-target='#view<?php echo $rents_id; ?>' style='color:white;'><i class="fa fa-eye" aria-hidden="true"></i> </a></td>
                                                     <td> <?php echo $row['rent_transaction_total_per_day']; ?></td>
                                                     <td> <?php echo $row['rent_transaction_day']; ?></td>
                                                     <td> <?php echo " <b>$toatl_day_price</b>"; ?></td>
+                                                    <td> <?php echo " <b>$credited_money</b>"; ?></td>
                                                     <td> <?php echo $row['rent_transaction_rent_date']; ?></td>
                                                     <td> <?php echo $row['rent_transaction_return_date']; ?></td>
                                                     <td> <?php
                                                             if ($row['rent_transaction_status'] == 'Not Returned') {
                                                                 // Financial
                                                                 if ($user_type == 'Administrator') {
-                                                                    echo "  <a class='badge badge-danger badge-pill' data-toggle='modal' data-target='#edit$rents_id' style='color:white;'>Edit </a>";
+                                                                    echo "  <a class='badge badge-danger badge-pill' data-toggle='modal' data-target='#edit$rents_id' style='color:white;'><i class='fa fa-pencil'></i>
+                                                                    </a>";
                                                                 }
+
+                                                                echo "  <a class='badge badge-primary badge-pill' data-toggle='modal' data-target='#send$rents_id'  style='color:white;'><i class='fa fa-paper-plane'></i>
+                                                                    </a>";
+                                                                if ($s_mode == 'booked_sale') {
+
+                                                                    echo "  <a class='badge badge-primary badge-pill' data-toggle='modal' data-target='#credit$rents_id' style='color:white;'><i class='fa fa-plus-circle'></i>
+                                                                        </a>";
+                                                                }
+
 
                                                                 echo "  <a class='badge badge-danger badge-pill' data-toggle='modal' data-target='#$rents_id' style='color:white;'>Return </a>";
                                                             } else {
@@ -357,6 +478,124 @@ if (isset($_POST['make_change_rent_transactions'])) {
                                                         </div>
                                                     </div>
                                                 </div>
+
+
+                                                <!-- Start add new payments for booked Sale -->
+                                                <div class="modal fade bd-example-modal-lg" id="credit<?php echo  $rents_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle"><b>Transaction Credits Managements</b></h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <form action="" method="POST">
+                                                                <div style="padding: 20px;">
+                                                                    <div class="row">
+                                                                        <input type="hidden" name="rent_id" value="<?php echo $rents_id; ?>">
+                                                                        <div class="col-sm-6 form-group">
+                                                                            <label>Current Credited Money <b class="required">*</b></label>
+                                                                            <input class="form-control" type="text" name="rent_date" readonly value="<?php echo $credited_money; ?>" required>
+                                                                        </div>
+                                                                        <div class="col-sm-6 form-group">
+                                                                            <label>Add Payment<b class="required">*</b></label>
+                                                                            <input class="form-control" type="text" placeholder="Add Payment" name="paid_amount" required>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <input type="checkbox" name="nofity_client" value="on"> <b style="color: green; font-size: 12px;">Notify Client By Message</b>
+                                                                            <button class="btn btn-dark btn-block" type="submit" name="save_paid_money">Save Changes</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </form>
+
+                                                            <center>
+                                                                <p> <b> Previous Payments History</b></p>
+                                                            </center>
+                                                            <?php
+
+                                                            while ($tra = mysqli_fetch_assoc($payment_tracking)) {
+                                                                $added_date = $tra['track_date_added'];
+                                                                $current_credit = number_format($tra['current_credit']);
+                                                                $track_paid_money = number_format($tra['track_paid_money']);
+                                                                $updated_credited_money = number_format($tra['updated_credited_money']);
+
+
+                                                            ?>
+                                                                <!-- <div class="col-md-6"> <input type="text" value=""> </div> -->
+                                                                <div class="col-md-12 ">
+                                                                    <div style="background-color: #F1F1F1; border-radius: 20px; padding: 10px;">
+                                                                        <h6><b>Current Credit:</b> <?php echo $current_credit; ?></h6>
+                                                                        <h6><b>Paid Money:</b> <?php echo $track_paid_money; ?></h6>
+                                                                        <h6><b>New Credit:</b> <?php echo $updated_credited_money; ?></h6>
+                                                                        <h6><b>Date:</b> <?php echo $added_date; ?></h6>
+                                                                    </div>
+                                                                    <hr>
+                                                                </div>
+
+
+
+                                                            <?php
+                                                            }
+                                                            ?>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Ends add new payments for booked Sale -->
+
+                                                <!-- start resend sms -->
+                                                <div class="modal fade bd-example-modal-sm" id="send<?php echo  $rents_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered  modal-md" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle"><b>Resend Message</b></h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+
+                                                            <?php if ($s_mode == 'full_paid') {
+                                                            ?>
+                                                                <form action="" method="POST">
+                                                                    <input type="hidden" name="phone__number" value="<?php echo $row['client_phonenumber']; ?>">
+                                                                    <div class="col-md-12">
+                                                                        <textarea name="resend_message" cols="100" rows="10" maxlength="160"><?php echo "Hello! R_ID: $rents_id, Cost: $toatl_day_price Rwf, Day:$day, Rent Date:$r_date, Return Date:$re_date, Book Us: 0783236256 | www.abeventsgroup.com"; ?></textarea>
+                                                                    </div>
+                                                                    <div class="col-md-12"> <br>
+                                                                        <button class="btn btn-dark btn-block" type="submit" name="resend_sms">Resend</button>
+                                                                    </div>
+                                                                </form>
+
+                                                            <?php }
+                                                            if ($s_mode == 'booked_sale') {
+                                                            ?>
+                                                                <form action="" method="POST">
+                                                                    <input type="hidden" name="phone__number" value="<?php echo $row['client_phonenumber']; ?>">
+                                                                    <div class="col-md-12">
+                                                                        <textarea name="resend_message" cols="100" rows="10" maxlength="160"><?php echo "Hello! B_ID: $rents_id, Cost: $toatl_day_price Rwf, Credit:$credited_money Rwf, Rent Date:$r_date, Return Date:$re_date, Book Us: 0783236256 | www.abeventsgroup.com"; ?></textarea>
+                                                                    </div>
+                                                                    <div class="col-md-12"> <br>
+                                                                        <button class="btn btn-dark btn-block" type="submit" name="resend_sms">Resend</button>
+                                                                    </div>
+                                                                </form>
+                                                            <?php
+                                                            } ?>
+
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- end resend sms -->
 
 
 
@@ -489,6 +728,7 @@ if (isset($_POST['make_change_rent_transactions'])) {
     <!-- DataTables Responsive -->
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+
 
     <script>
         $(document).ready(function() {

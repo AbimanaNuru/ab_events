@@ -31,7 +31,6 @@ if (isset($_POST['process_rents'])) {
     $clients_info = mysqli_fetch_assoc($get_client);
     $client_phonenumber = $clients_info['client_phonenumber'];
 
-
     $insertSuccess = true;
     $sqlSuccess = true;
     $sql2Success = true;
@@ -51,19 +50,9 @@ if (isset($_POST['process_rents'])) {
             // Query for insertion data into database 
             $transaction_allday_price = $rent_day * $sum;
             $sql = mysqli_query($connection, "INSERT INTO ab_events_material_rent_process (
-                rent_process_rent_id,              
-                rent_process_material_id,
-                rent_process_qty,
-                rent_process_price,
-                rent_process_total_price,
-                rent_process_added_on
+                rent_process_rent_id,rent_process_material_id,rent_process_qty,rent_process_price,rent_process_total_price,rent_process_added_on
             ) VALUES (
-                '$rents_id',       
-                '$m_names',
-                '{$m_quantity[$i]}', 
-                '{$m_price[$i]}', 
-                '$total',
-                 NOW()
+                '$rents_id','$m_names','{$m_quantity[$i]}','{$m_price[$i]}','$total',NOW()
             )");
 
             // Execute $sql2 insertion outside of the loop
@@ -77,32 +66,10 @@ if (isset($_POST['process_rents'])) {
             }
         }
         $sql2 =  mysqli_query($connection, "INSERT INTO ab_events_rent_transaction (
-            rent_transaction_code,
-            rent_transaction_clients_id,
-            rent_transaction_proccessed_by,
-            rent_transaction_rent_date,
-            rent_transaction_return_date,
-            rent_transaction_total_per_day,
-            rent_transaction_day,
-            rent_transaction_total_price,
-            rent_transaction_status,
-            rent_process_support_documents,
-            rent_process_payment_mode,
-            ab_events_rent_transaction_date
-        ) VALUES (
-            '$rents_id',
-            '$client_phone_id',
-            '$ab_user_id',
-            '$rent_date',
-            '$return_date',
-            '$sum',
-            '$rent_day',
-            '$transaction_allday_price',
-            'Not Returned',
-            '$proof_image',
-            '$payment',
-            NOW()
-        )");
+        rent_transaction_code,rent_transaction_clients_id,rent_transaction_proccessed_by,rent_transaction_rent_date,rent_transaction_return_date,rent_transaction_total_per_day,
+        rent_transaction_day,rent_transaction_total_price,rent_transaction_sale_mode,rent_transaction_paid_money,rent_transaction_credit_money,rent_transaction_status,rent_process_support_documents,rent_process_payment_mode,ab_events_rent_transaction_date
+    ) VALUES ('$rents_id','$client_phone_id','$ab_user_id','$rent_date','$return_date','$sum','$rent_day',
+        '$transaction_allday_price','full_paid',0,0,'Not Returned','$proof_image','$payment',NOW())");
         if ($sql2 !== TRUE) {
             // If the insert fails, set the success status to false
             $insertSuccess = false;
@@ -158,7 +125,7 @@ if (isset($_POST['process_rents'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
 
-    <title>Material Sales Managemnets | AB Events | an exceptional experience</title>
+    <title>Full Paid Sale | AB Events | an exceptional experience</title>
     <link rel="icon" href="../img/ab_favicon.png">
     <!-- GLOBAL MAINLY STYLES-->
     <link href="assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -201,7 +168,7 @@ if (isset($_POST['process_rents'])) {
         <div class="content-wrapper">
             <!-- START PAGE CONTENT-->
             <div class="page-heading">
-                <h1 class="page-title">Material Sales Managements</h1>
+                <h1 class="page-title">Full Paid Sale</h1>
 
             </div>
             <div class="page-content fade-in-up">
@@ -240,7 +207,7 @@ if (isset($_POST['process_rents'])) {
 
                             ?>
                             <div class="ibox-head">
-                                <div class="ibox-title">Sale Material</div>
+                                <div class="ibox-title">Add New Sale</div>
                                 <div class="ibox-tools">
                                     <a class="ibox-collapse"><i class="fa fa-minus"></i></a>
 
@@ -399,6 +366,7 @@ if (isset($_POST['process_rents'])) {
     <script src="assets/js/app.min.js" type="text/javascript"></script>
     <!-- PAGE LEVEL SCRIPTS-->
     <script src="assets/js/scripts/form-plugins.js" type="text/javascript"></script>
+    <script src="newjs.js" type="text/javascript"></script>
 
     <!-- DataTables -->
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -407,124 +375,7 @@ if (isset($_POST['process_rents'])) {
     <!-- DataTables Responsive -->
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-
     <script>
-        const avQuantityInput = document.querySelector('.box_avialable');
-        const quantityInput = document.querySelector('.box2');
-
-        avQuantityInput.addEventListener('select', validateForm);
-        quantityInput.addEventListener('input', validateForm);
-
-        function validateForm() {
-            const avQuantity = parseInt(avQuantityInput.value);
-            const quantity = parseInt(quantityInput.value);
-
-            if (quantity > avQuantity) {
-                // Set a custom error message for the quantityInput
-                quantityInput.setCustomValidity("Quantity cannot be greater than Av Quantity!");
-            } else {
-                // Reset the error message if the validation passes
-                quantityInput.setCustomValidity("");
-            }
-        }
-
-
-        var rentDateInputs = document.getElementsByClassName('rent-date-input');
-
-        for (var i = 0; i < rentDateInputs.length; i++) {
-            rentDateInputs[i].addEventListener('input', validateDates);
-        }
-
-        function validateDates() {
-            var rentDateInput = document.getElementsByClassName('rent-date-input')[0];
-            var returnDateInput = document.getElementsByClassName('rent-date-input')[1];
-            var daysCountInput = document.getElementById('days-count-input');
-            var rentDate = new Date(rentDateInput.value);
-            var returnDate = new Date(returnDateInput.value);
-            if (returnDate < rentDate) {
-                returnDateInput.setCustomValidity('Return date cannot be earlier than rent date');
-            } else {
-                returnDateInput.setCustomValidity('');
-                var timeDiff = Math.abs(returnDate.getTime() - rentDate.getTime());
-                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                daysCountInput.value = diffDays;
-            }
-        }
-        $(document).ready(function() {
-            $('#example').DataTable({
-                lengthMenu: [
-                    [20, 25, 50, -1],
-                    [20, 25, 50, 'All'],
-                ]
-            });
-        });
-    </script>
-    <script>
-        // Get all elements with the specified class name
-        var rentDateInputs = document.getElementsByClassName("rent-date-input");
-
-        // Get the current date
-        var today = new Date().toISOString().split('T')[0];
-
-        // Set the minimum value for each input field to today's date
-        for (var i = 0; i < rentDateInputs.length; i++) {
-            rentDateInputs[i].setAttribute('min', today);
-        }
-
-
-
-        function code() {
-            var box1 = document.getElementsByClassName('box1');
-            var box2 = document.getElementsByClassName('box2');
-            var costs = document.getElementsByClassName('cost');
-
-            for (var i = 0; i < costs.length; i++) {
-                var total = parseFloat(box1[i].value) * parseFloat(box2[i].value);
-                costs[i].value = total;
-            }
-        }
-
-
-        $(document).ready(function() {
-            $(document).on('change', '.get_product', function() {
-
-                var product_id = this.value;
-                var $box1 = $(this).closest('.row').find('.box1');
-
-                $.ajax({
-                    url: "get_price",
-                    type: "POST",
-                    data: {
-                        product_id: product_id,
-                    },
-                    cache: false,
-                    success: function(result) {
-                        $box1.html(result);
-                    }
-                });
-            });
-        });
-        $(document).ready(function() {
-            $(document).on('change', '.get_quantity', function() {
-
-                var product_id = this.value;
-                var $box_available = $(this).closest('.row').find('.box_avialable');
-
-                $.ajax({
-                    url: "get_quantiry",
-                    type: "POST",
-                    data: {
-                        product_id: product_id,
-                    },
-                    cache: false,
-                    success: function(result) {
-                        $box_available.html(result);
-                    }
-                });
-            });
-        });
-
-
         const productsContainer = document.getElementById('products-container');
         const addProductButton = document.getElementById('add-product');
 
@@ -535,45 +386,45 @@ if (isset($_POST['process_rents'])) {
 
             // Create the HTML elements for the product fields
             const productFields = `
-    <div class="product-row">
-      <div class="row">
-        <div class="col-sm-3 form-group">
-          <label class="form-control-label">Select Material</label>
-          <select class="form-control select2_demo_1 get_product get_quantity" name="m_name[]" required>
-            <option value="">Select Material:</option>
-            <?php
-            $query = "SELECT * FROM `ab_events_material` ";
-            if ($result = mysqli_query($connection, $query)) {
-                while ($row = mysqli_fetch_array($result)) { ?>
-                <option value="<?php echo $row['ab_events_material_id'] ?>"><?php echo $row['ab_events_material_name'] ?> [Qty:<?php echo $row['ab_events_material_available_qty'] ?>]</option>
-            <?php }
-            } ?>
-          </select>
-        </div>
-        <div class="col-sm-2 form-group">
-                                                    <label>Av.Qty <b class="required">*</b></label>
-                                                    <select class="form-control box_avialable">
+<div class="product-row">
+<div class="row">
+<div class="col-sm-3 form-group">
+  <label class="form-control-label">Select Material</label>
+  <select class="form-control select2_demo_1 get_product get_quantity" name="m_name[]" required>
+    <option value="">Select Material:</option>
+    <?php
+    $query = "SELECT * FROM `ab_events_material` ";
+    if ($result = mysqli_query($connection, $query)) {
+        while ($row = mysqli_fetch_array($result)) { ?>
+        <option value="<?php echo $row['ab_events_material_id'] ?>"><?php echo $row['ab_events_material_name'] ?> [Qty:<?php echo $row['ab_events_material_available_qty'] ?>]</option>
+    <?php }
+    } ?>
+  </select>
+</div>
+<div class="col-sm-2 form-group">
+                                            <label>Av.Qty <b class="required">*</b></label>
+                                            <select class="form-control box_avialable">
 
-                                                    </select>
-                                                </div>
-        <div class="col-sm-1 form-group">
-          <label>Qty <b class="required">*</b></label>
-          <input type="text" class="form-control box2" name="m_quantity[]" pattern="[0-9]+" required onchange="validateQuantity(this)" placeholder="Qty ">
-        </div>
-        <div class="col-sm-3 form-group">
-          <label>Price:</label>
-          <select class="form-control box1" name="m_price[]" required onchange="code(1)">
-            <option value="">Product Price</option>
-          </select>
-        </div>
-        <div class="col-sm-2 form-group">
-          <label>Total Price:</label>
-          <input type="text" class="form-control cost" readonly pattern="[0-9]+" required name="m_total_price" onfocus="code()" placeholder="">
-        </div>
-        <span class="remove-product"> <i class="fa fa-trash" style="color:red;"></i></span>
-      </div>
-    </div>
-  `;
+                                            </select>
+                                        </div>
+<div class="col-sm-1 form-group">
+  <label>Qty <b class="required">*</b></label>
+  <input type="text" class="form-control box2" name="m_quantity[]" pattern="[0-9]+" required onchange="validateQuantity(this)" placeholder="Qty ">
+</div>
+<div class="col-sm-3 form-group">
+  <label>Price:</label>
+  <select class="form-control box1" name="m_price[]" required onchange="code(1)">
+    <option value="">Product Price</option>
+  </select>
+</div>
+<div class="col-sm-2 form-group">
+  <label>Total Price:</label>
+  <input type="text" class="form-control cost" readonly pattern="[0-9]+" required name="m_total_price" onfocus="code()" placeholder="">
+</div>
+<span class="remove-product"> <i class="fa fa-trash" style="color:red;"></i></span>
+</div>
+</div>
+`;
 
             // Append the product fields to the container
             productsContainer.insertAdjacentHTML('beforeend', productFields);
@@ -594,48 +445,7 @@ if (isset($_POST['process_rents'])) {
             const newSelectElement = productsContainer.querySelector('.product-row:last-of-type .get_product');
             initializeSelect2(newSelectElement);
         });
-
-        function validateQuantity(input) {
-            const avQuantityInput = input.parentNode.parentNode.querySelector('.box_avialable');
-            const avQuantity = parseInt(avQuantityInput.value);
-            const quantity = parseInt(input.value);
-
-            if (quantity > avQuantity) {
-                // Set a custom error message for the input
-                input.setCustomValidity("Quantity cannot be greater than Av Quantity!");
-            } else {
-                // Reset the error message if the validation passes
-                input.setCustomValidity("");
-            }
-        }
-
-        $(document).ready(function() {
-            // Initialize select2 plugin for the first select element on page load
-            const initialSelectElement = productsContainer.querySelector('.get_product');
-        });
-
-        initializeSelect2(initialSelectElement);
-
-        function initializeSelect2(element) {
-            $(element).select2();
-        }
-    </script>
-
-    <script type="text/javascript">
-        $(function() {
-            $('#example-table').DataTable({
-                pageLength: 10,
-                //"ajax": './assets/demo/data/table_data.json',
-                /*"columns": [
-                    { "data": "name" },
-                    { "data": "office" },
-                    { "data": "extn" },
-                    { "data": "start_date" },
-                    { "data": "salary" }
-                ]*/
-            });
-        })
     </script>
 </body>
 
-</html>a
+</html>

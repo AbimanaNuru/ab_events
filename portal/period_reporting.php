@@ -44,8 +44,8 @@ if (!isset($sort) || empty($sort)) {
     <style>
         .table td,
         .table th {
-            padding: 3px;
-            font-size: 12px;
+            padding: 1px;
+            font-size: 11px;
         }
 
         /* Style the tab */
@@ -259,7 +259,9 @@ if (!isset($sort) || empty($sort)) {
                                                 <th>Detail</th>
                                                 <th>Price/Day</th>
                                                 <th>Day</th>
-                                                <th>Total/Rwf</th>
+                                                <th>Total/F</th>
+                                                <th>Credits</th>
+
                                                 <th>Rent Date</th>
                                                 <th>Return Date</th>
                                                 <th>Actions</th>
@@ -274,7 +276,8 @@ if (!isset($sort) || empty($sort)) {
                                                 <th>Detail</th>
                                                 <th>Price/Day</th>
                                                 <th>Day</th>
-                                                <th>Total/Rwf</th>
+                                                <th>Total/F</th>
+                                                <th>Credits</th>
                                                 <th>Rent Date</th>
                                                 <th>Return Date</th>
                                                 <th>Actions</th>
@@ -296,7 +299,20 @@ if (!isset($sort) || empty($sort)) {
                                                     if ($result && mysqli_num_rows($result) > 0) {
                                                         $row = mysqli_fetch_assoc($result);
                                                         $sum = number_format($row['total_price']);
-                                                        echo "<b>$sum Rwf</b>";
+                                                        echo "<b>$sum F</b>";
+                                                    } else {
+                                                        echo "<b >0</b>"; // If no rows are found, display 0 as the sum
+                                                    }
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <?php
+                                                    $query = "SELECT SUM(rent_transaction_credit_money) AS credited_money FROM ab_events_rent_transaction WHERE rent_transaction_rent_date >= DATE_SUB('$today', INTERVAL $sort)";
+                                                    $result = mysqli_query($connection, $query);
+                                                    if ($result && mysqli_num_rows($result) > 0) {
+                                                        $row = mysqli_fetch_assoc($result);
+                                                        $credited_money = number_format($row['credited_money']);
+                                                        echo "<b>$credited_money F</b>";
                                                     } else {
                                                         echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                                     }
@@ -333,6 +349,8 @@ ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab
                                                         <td> <?php echo $row['rent_transaction_total_per_day']; ?></td>
                                                         <td> <?php echo $row['rent_transaction_day']; ?></td>
                                                         <td> <?php echo " <b>$toatl_day_price</b>"; ?></td>
+                                                        <td> <b><?php echo $row['rent_transaction_credit_money']; ?></b></td>
+
                                                         <td> <?php echo $row['rent_transaction_rent_date']; ?></td>
                                                         <td> <?php echo $row['rent_transaction_return_date']; ?></td>
                                                         <td> <?php if ($row['rent_transaction_status'] == 'Not Returned') {

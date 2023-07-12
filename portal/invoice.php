@@ -60,15 +60,7 @@ This will only have the address line at a smaller font for the small breakpoints
                </div> -->
         </div>
         <hr>
-
-
-
-
         <?php
-
-
-
-
         $result = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction,ab_events_clients
 WHERE ab_events_rent_transaction.rent_transaction_clients_id =  ab_events_clients.client_id AND  ab_events_rent_transaction.rent_transaction_code = '$invoice_i_code' ");
 

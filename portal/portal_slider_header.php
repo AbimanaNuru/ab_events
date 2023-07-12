@@ -13,7 +13,7 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
     #sidebar {
         overflow-y: scroll;
         scrollbar-width: thin;
-        scrollbar-color: green; 
+        scrollbar-color: green;
     }
 </style>
 
@@ -83,25 +83,39 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
                 </a>
             </li>
 
-            <li class="<?= ($activePage == 'rent_process') || ($activePage == 'add_new_rent_process') ||
+            <li class="<?= ($activePage == 'sales_detailed_view') || ($activePage == 'rent_process') || ($activePage == 'full_paid_sale') || ($activePage == 'booked_sale') || ($activePage == 'add_new_rent_process') ||
                             ($activePage == 'transaction_detailed_view') || ($activePage == 'ab_events_reminder') ? 'active' : ''; ?>">
+
+
                 <a href="javascript:;"><i class="sidebar-item-icon fa fa-bar-chart"></i>
                     <span class="nav-label">AB Events Rents</span><i class="fa fa-angle-left arrow"></i></a>
                 <ul class="nav-2-level collapse">
                     <li>
-                        <a class="<?= ($activePage == 'add_new_sales') ? 'active' : ''; ?>" href="add_new_sales">Add New Sales</a>
+                        <a href="javascript:;" class="<?= ($activePage == 'full_paid_sale') || ($activePage == 'booked_sale') ? 'active' : ''; ?>">
+                            <span class="nav-label">Add New Sales</span><i class="fa fa-angle-left arrow"></i></a>
+                        <ul class="nav-3-level collapse">
+                            <li>
+                                <a href="full_paid_sale" class="<?= ($activePage == 'full_paid_sale') ? 'active' : ''; ?>">Full Paid Sale</a>
+                            </li>
+                            <li>
+                                <a href="booked_sale" class="<?= ($activePage == 'booked_sale') ? 'active' : ''; ?>">Booked Sale</a>
+                            </li>
+                        </ul>
                     </li>
+
+
                     <li>
                         <a class="<?= ($activePage == 'rent_process') ? 'active' : ''; ?>" href="rent_process">Manage Sales</a>
+                    </li>
+                    <li>
+                        <a class="<?= ($activePage == 'sales_detailed_view') ? 'active' : ''; ?>" href="sales_detailed_view">Sales Detailed View</a>
                     </li>
                     <?php
                     // Financial
                     if ($user_type == 'Administrator') {
                     ?>
+                   
 
-                        <li>
-                            <a class="<?= ($activePage == 'transaction_detailed_view') ? 'active' : ''; ?>" href="transaction_detailed_view">Sales Detailed View</a>
-                        </li>
                     <?php
                     } ?>
                     <li>
@@ -145,6 +159,7 @@ $past30Days = date("Y-m-d", strtotime("-30 days"));
                     <span class="nav-label">AB Events Booking</span>
                 </a>
             </li>
+
 
             <li class="<?= ($activePage == 'period_reporting') || ($activePage == 'date_reporting') ? 'active' : ''; ?>">
                 <a href="javascript:;"><i class="sidebar-item-icon fa fa-bar-chart"></i>

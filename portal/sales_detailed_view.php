@@ -47,7 +47,7 @@ if (isset($_POST['qty_make_change'])) {
     switch (true) {
         case ($rent_process_qty > $total_quantity):
             $fail = "No Available Quantity In Stock";
-            header("Refresh: 2; url=transaction_detailed_view.php");
+            header("Refresh: 2; url=sales_detailed_view.php");
             break;
 
         case ($rent_process_qty > $rent_process_quantity):
@@ -71,14 +71,94 @@ if (isset($_POST['qty_make_change'])) {
             rent_process_total_price = '$total_price' WHERE rent_process_id  = '$rent_process_id'";
             $updateRentTransaction = "UPDATE ab_events_rent_transaction SET rent_transaction_total_per_day ='$confirm_total_price_v2',rent_transaction_total_price ='$rent_transaction_total_price'
                      WHERE rent_transaction_code  = '$t_code'";
+            $updatematerialquantity = mysqli_query($connection, "INSERT INTO abe_events_rent_qty_tracking(qty_tracking_material_id,qty_tracking_transaction_code,qty_tracking_user_id,qty_tracking_current_qty,qty_tracking_new_qty,qty_tracking_material_stock_before,qty_tracking_left_material_stock,qty_tracking_comment,qty_tracking_date_time) 
+                                 VALUES('$material_id','$t_code','$ab_user_id','$rent_process_quantity','$rent_process_qty','$material_quantity','$updated_qty','$change_qty_comment',NOW())");
             break;
 
         case ($rent_process_qty == $rent_process_quantity):
-            $updatematerialquantity = mysqli_query($connection, "UPDATE ab_events_material SET ab_events_material_available_qty ='$material_quantity' WHERE ab_events_material_id  = '$material_id'");
+
+            break;
+    }
+}
+
+if (isset($_POST['booked_qty_make_change'])) {
+    // $m_id = $_POST['m_id'];
+    // $m_quantity = $_POST['m_quantity'];
+    $rent_process_id = mysqli_real_escape_string($connection, $_POST['rent_process_id']);
+    $rent_process_qty = mysqli_real_escape_string($connection, $_POST['rent_process_qty']);
+    $change_qty_comment = mysqli_real_escape_string($connection, $_POST['m_comment']);
+    // Assuming you have a database connection established, you can use a foreach loop to update rent processes for each $m_id
+
+    # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
+    # here add select from ab_events_material_rent_process where rent_process_rent_id = $code
+    $query = mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process WHERE rent_process_id = '$rent_process_id'");
+    $rent_process = mysqli_fetch_assoc($query);
+    $price = $rent_process['rent_process_price'];
+    $tprice = $rent_process['rent_process_total_price'];
+    $t_code = $rent_process['rent_process_rent_id'];
+    $rent_process_quantity = $rent_process['rent_process_qty'];
+    $total_price = $price * $rent_process_qty;
+
+    $queryv2 = mysqli_query($connection, "SELECT * FROM ab_events_rent_transaction WHERE rent_transaction_code = '$t_code'");
+    $t_rent_process = mysqli_fetch_assoc($queryv2);
+    $price_v2 = $t_rent_process['rent_transaction_total_per_day'];
+    $rent_transaction_day = $t_rent_process['rent_transaction_day'];
+    $transaction_total_price = $t_rent_process['rent_transaction_total_price'];
+    $transaction_total_paid_money = $t_rent_process['rent_transaction_paid_money'];
+    $total_price_v2 = $price_v2 - $tprice;
+    $confirm_total_price_v2 = $total_price_v2 + $total_price;
+    $rent_transaction_total_price = $rent_transaction_day *  $confirm_total_price_v2;
+
+    $query_quantity = mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process,ab_events_material WHERE
+     ab_events_material.ab_events_material_id =  ab_events_material_rent_process.rent_process_material_id AND ab_events_material_rent_process.rent_process_id = '$rent_process_id'");
+    $transaction_quantity = mysqli_fetch_assoc($query_quantity);
+    $material_id = $transaction_quantity['ab_events_material_id'];
+    $material_quantity = $transaction_quantity['ab_events_material_available_qty'];
+
+    $total_quantity = $material_quantity + $rent_process_quantity;
+
+    $pre_total = $transaction_total_price - $tprice;
+    $new_total_price = $rent_process_qty * $price;
+    $final_price = $new_total_price - $transaction_total_paid_money;
+
+    $updateRentProcess = ""; // Initialize the variable
+    $updateRentTransaction = ""; // Initialize the variable
+
+    switch (true) {
+        case ($rent_process_qty > $total_quantity):
+            $fail = "No Available Quantity In Stock";
+            header("Refresh: 2; url=sales_detailed_view.php");
+            break;
+
+        case ($rent_process_qty > $rent_process_quantity):
+            $new_qty = $total_quantity - $rent_process_qty;
+
+
+
+            $updatematerialquantity = mysqli_query($connection, "UPDATE ab_events_material SET ab_events_material_available_qty ='$new_qty' WHERE ab_events_material_id  = '$material_id'");
             $updateRentProcess = "UPDATE ab_events_material_rent_process SET rent_process_qty ='$rent_process_qty',
             rent_process_total_price = '$total_price' WHERE rent_process_id  = '$rent_process_id'";
-            $updateRentTransaction = "UPDATE ab_events_rent_transaction SET rent_transaction_total_per_day ='$confirm_total_price_v2',rent_transaction_total_price ='$rent_transaction_total_price'
+            $updateRentTransaction = "UPDATE ab_events_rent_transaction SET rent_transaction_credit_money='$final_price',rent_transaction_total_per_day ='$confirm_total_price_v2',rent_transaction_total_price ='$rent_transaction_total_price'
                      WHERE rent_transaction_code  = '$t_code'";
+            $updatematerialquantity = mysqli_query($connection, "INSERT INTO abe_events_rent_qty_tracking(qty_tracking_material_id,qty_tracking_transaction_code,qty_tracking_user_id,qty_tracking_current_qty,qty_tracking_new_qty,qty_tracking_material_stock_before,qty_tracking_left_material_stock,qty_tracking_comment,qty_tracking_date_time) 
+ VALUES('$material_id','$t_code','$ab_user_id','$rent_process_quantity','$rent_process_qty','$material_quantity','$new_qty','$change_qty_comment',NOW())");
+
+
+            break;
+
+        case ($rent_process_qty < $rent_process_quantity):
+            $new_qty_v2 = $rent_process_quantity - $rent_process_qty;
+            $updated_qty = $new_qty_v2 + $material_quantity;
+            $updatematerialquantity = mysqli_query($connection, "UPDATE ab_events_material SET ab_events_material_available_qty ='$updated_qty' WHERE ab_events_material_id  = '$material_id'");
+            $updateRentProcess = "UPDATE ab_events_material_rent_process SET rent_process_qty ='$rent_process_qty',
+            rent_process_total_price = '$total_price' WHERE rent_process_id  = '$rent_process_id'";
+            $updateRentTransaction = "UPDATE ab_events_rent_transaction SET rent_transaction_credit_money='$final_price',rent_transaction_total_per_day ='$confirm_total_price_v2',rent_transaction_total_price ='$rent_transaction_total_price'
+                     WHERE rent_transaction_code  = '$t_code'";
+            $updatematerialquantity = mysqli_query($connection, "INSERT INTO abe_events_rent_qty_tracking(qty_tracking_material_id,qty_tracking_transaction_code,qty_tracking_user_id,qty_tracking_current_qty,qty_tracking_new_qty,qty_tracking_material_stock_before,qty_tracking_left_material_stock,qty_tracking_comment,qty_tracking_date_time) 
+                                 VALUES('$material_id','$t_code','$ab_user_id','$rent_process_quantity','$rent_process_qty','$material_quantity','$updated_qty','$change_qty_comment',NOW())");
+            break;
+        case ($rent_process_qty == $rent_process_quantity):
+
             break;
     }
 
@@ -92,10 +172,10 @@ if (isset($_POST['qty_make_change'])) {
         if ($result1 && $result2 && $updatematerialquantity) {
             // Handle the case when both updates are successful
             $success = "Material Quantity Edited Successfully";
-            header("Refresh: 2; url=transaction_detailed_view.php");
+            header("Refresh: 2; url=sales_detailed_view.php");
         } else {
             $fail = "Something Went Wrong";
-            header("Refresh: 2; url=transaction_detailed_view.php");
+            header("Refresh: 2; url=sales_detailed_view.php");
         }
     }
 }
@@ -113,7 +193,7 @@ if (isset($_POST['qty_make_change'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
 
-    <title>Material Transaction Sale Details | AB Events | an exceptional experience</title>
+    <title>Sales Detailed View | AB Events | an exceptional experience</title>
     <link rel="icon" href="../img/ab_favicon.png">
     <!-- GLOBAL MAINLY STYLES-->
     <link href="assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -141,8 +221,8 @@ if (isset($_POST['qty_make_change'])) {
 
         .table td,
         .table th {
-            padding: 3px;
-            font-size: 12px;
+            padding: 2px;
+            font-size: 11px;
         }
     </style>
 </head>
@@ -156,7 +236,7 @@ if (isset($_POST['qty_make_change'])) {
         <div class="content-wrapper">
             <!-- START PAGE CONTENT-->
             <div class="page-heading">
-                <h1 class="page-title">Transaction Detailed View</h1>
+                <h1 class="page-title">Sales Detailed View</h1>
 
             </div>
             <div class="page-content fade-in-up">
@@ -189,12 +269,14 @@ if (isset($_POST['qty_make_change'])) {
                                     <thead>
                                         <tr>
                                             <th>Rent ID</th>
+                                            <th>Sale Mode</th>
                                             <th>C_Name</th>
                                             <th>P_Name</th>
                                             <th>Qty</th>
                                             <th></th>
                                             <th>Price</th>
-                                            <th>Total/Rwf</th>
+                                            <th>Total/ F</th>
+                                            <th>Credits</th>
                                             <th>Rent Date</th>
                                             <th>Return Date</th>
                                             <th>Actions</th>
@@ -206,12 +288,14 @@ if (isset($_POST['qty_make_change'])) {
                                     <tfoot>
                                         <tr>
                                             <th>Rent ID</th>
+                                            <th>Sale Mode</th>
                                             <th>C_Name</th>
                                             <th>P_Name</th>
                                             <th>Qty</th>
                                             <th></th>
                                             <th>Price</th>
-                                            <th>Total/Rwf</th>
+                                            <th>Total/ F</th>
+                                            <th>Credits</th>
                                             <th>Rent Date</th>
                                             <th>Return Date</th>
                                             <th>Actions</th>
@@ -235,21 +319,33 @@ if (isset($_POST['qty_make_change'])) {
                                                 $rents_process_id = $row['rent_process_id'];
                                                 $rents_material_id = $row['rent_process_material_id'];
                                                 $abevent_material_id = $row['ab_events_material_id'];
+                                                $s_mode = $row['rent_transaction_sale_mode'];
+                                                $credited_money = $row['rent_transaction_credit_money'];
 
-                                                $change_material = mysqli_query($connection, "SELECT * from  abe_events_rent_qty_tracking,ab_events_material WHERE  abe_events_rent_qty_tracking.qty_tracking_transaction_code='$rents_id'
-                                                 AND abe_events_rent_qty_tracking.qty_tracking_material_id=ab_events_material.ab_events_material_id AND abe_events_rent_qty_tracking.qty_tracking_material_id='$rents_material_id'");
+
+
+                                                $change_material = mysqli_query($connection, "SELECT * from  abe_events_rent_qty_tracking,ab_events_material WHERE
+                                                 abe_events_rent_qty_tracking.qty_tracking_material_id=ab_events_material.ab_events_material_id AND ab_events_material.ab_events_material_id = '$rents_material_id'");
                                         ?>
 
                                                 <tr>
                                                     <td><b><?php echo $rents_id; ?> </b></td>
+                                                    <td> <?php if ($s_mode == 'full_paid') {
+                                                                echo "<b style='color:#6F0118;'>FULL PAID</b>";
+                                                            }
+                                                            if ($s_mode == 'booked_sale') {
+                                                                echo "<b>BOOKED</b>";
+                                                            } ?> </td>
                                                     <td> <?php echo $row['client_fullname']; ?> </td>
                                                     <td> <b><?php echo $row['ab_events_material_name']; ?> </b></td>
                                                     <td> <?php echo $row['rent_process_qty']; ?></td>
                                                     <td>
-                                                        <button class="btn btn-success badge-circle  btn-xs m-r-5" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Track Who Rents Other Quantity" data-target="#material<?php echo $rents_id; ?>">Quantity Changes</button>
+                                                        <button class="btn btn-success badge-circle  btn-xs m-r-5" data-toggle="modal" data-toggle="tooltip" data-placement="top" title="Track Who Rents Other Quantity" data-target="#material<?php echo $rents_material_id; ?>">Qty Changes</button>
                                                     </td>
                                                     <td> <?php echo $row['rent_process_price']; ?></td>
                                                     <td> <?php echo $row['rent_process_total_price']; ?></td>
+                                                    <td> <?php echo " <b>$credited_money</b>"; ?></td>
+
                                                     <td> <?php echo $row['rent_transaction_rent_date']; ?></td>
                                                     <td> <?php echo $row['rent_transaction_return_date']; ?></td>
                                                     <td> <?php if ($row['rent_transaction_status'] == 'Not Returned') {
@@ -259,7 +355,11 @@ if (isset($_POST['qty_make_change'])) {
                                                             }
                                                             ?>
                                                         <?php if ($row['rent_transaction_status'] == 'Not Returned') {
-                                                            echo " <a class='badge badge-danger badge-pill' data-toggle='modal' data-target='#$rents_process_id' style='color:white;'><i class='fa fa-pencil' aria-hidden='true'></i> Edit</a>";
+                                                            if ($s_mode == 'booked_sale') {
+                                                                echo " <a class='badge badge-danger badge-pill' data-toggle='modal' data-target='#booked$rents_process_id' style='color:white;'><i class='fa fa-pencil-square-o' aria-hidden='true'></i> Edit</a>";
+                                                            } else {
+                                                                echo " <a class='badge badge-danger badge-pill' data-toggle='modal' data-target='#$rents_process_id' style='color:white;'><i class='fa fa-pencil' aria-hidden='true'></i> Edit</a>";
+                                                            }
                                                         } else {
                                                         }
                                                         ?>
@@ -271,7 +371,7 @@ if (isset($_POST['qty_make_change'])) {
 
 
                                                 <!-- Start  track how  quantity changed -->
-                                                <div class="modal fade bd-example-modal-lg" id="material<?php echo $rents_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal fade bd-example-modal-lg" id="material<?php echo $rents_material_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -285,6 +385,9 @@ if (isset($_POST['qty_make_change'])) {
                                                                 if (mysqli_num_rows($change_material) > 0) {
                                                                     while ($pro_quantity = mysqli_fetch_assoc($change_material)) {
                                                                 ?>
+                                                                        <center>
+                                                                            <p> <b><?php echo $pro_quantity['ab_events_material_name']; ?></b> </p>
+                                                                        </center>
                                                                         <div style="padding:10px; background-color: #E3E7EB; border-radius: 10px;">
                                                                             <h6><b>Material Transaction Code: </b><?php echo $pro_quantity['qty_tracking_transaction_code']; ?></h6>
                                                                             <h6><b>Sales Current Quantity: </b><?php echo $pro_quantity['qty_tracking_current_qty']; ?></h6>
@@ -349,6 +452,57 @@ if (isset($_POST['qty_make_change'])) {
 
                                                                         <div class="col-md-12"> <br>
                                                                             <button class="btn btn-dark btn-block" type="submit" name="qty_make_change">Save Changes</button>
+                                                                        </div>
+
+                                                                    </div>
+
+
+
+
+                                                                </div>
+                                                            </form>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- ends of model -->
+
+
+
+                                                <!-- start of model -->
+                                                <div class="modal fade" id="booked<?php echo  $rents_process_id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle"><b>Material Edit Quantity</b></h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form action="" method="POST">
+                                                                <div class="modal-body">
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <p style="padding: 5px; background-color: #700018;color:white; width:100;text-align: center;"><?php echo $rents_id; ?></p>
+                                                                        </div><br>
+                                                                        <br>
+
+                                                                        <input type="hidden" name="rent_process_id" value="<?php echo $rents_process_id; ?>">
+
+                                                                        <div class="col-md-12">
+                                                                            <label for="">Product Quantity</label>
+                                                                            <input type="text" name="rent_process_qty" pattern="[0-9]+" value="<?php echo $row['rent_process_qty']; ?>" class="form-control" placeholder="Provide Qty" required></input>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <label for="">Why You Change This Quantity</label>
+                                                                            <textarea name="m_comment" id="" class="form-control" placeholder="Provide Comments" cols="3" rows="2" required></textarea>
+                                                                        </div>
+
+                                                                        <div class="col-md-12"> <br>
+                                                                            <button class="btn btn-dark btn-block" type="submit" name="booked_qty_make_change">Save Changes</button>
                                                                         </div>
 
                                                                     </div>
