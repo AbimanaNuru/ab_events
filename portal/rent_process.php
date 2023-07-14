@@ -126,7 +126,7 @@ if (isset($_POST['save_paid_money'])) {
     $client_id = $rent_transaction['rent_transaction_clients_id'];
 
     if ($paid_money > $current_money) {
-        $fail = " Added Payment cannot be greater than Current Credited Money";
+        $fail = " Added Payment cannot be greater than Current Balance Money";
         header("Refresh: 2; url= rent_process.php");
     } else {
         $updated_credited_money = $current_money - $paid_money;
@@ -142,7 +142,7 @@ if (isset($_POST['save_paid_money'])) {
                 $data = array(
                     "sender" => 'AB EVENTS',
                     "recipients" => "$client_phone",
-                    "message" => "Hello! Thank Your For Payments, Credits: $updated_credited_money Rwf Book Us: 0785752797,0783236256 | www.abeventsgroup.com",
+                    "message" => "Hello! Thank Your For Payments, Paid:$paid_money Rwf; Balance: $updated_credited_money Rwf Book Us: 0785752797,0783236256 | www.abeventsgroup.com",
                     "dlrurl" => ""
                 );
                 $url = "https://www.intouchsms.co.rw/api/sendsms/.json";
@@ -300,7 +300,7 @@ if (isset($_POST['resend_sms'])) {
                                             <th>Price/Day</th>
                                             <th>Day</th>
                                             <th>Total/F</th>
-                                            <th>Credit</th>
+                                            <th>Balance</th>
 
                                             <th>Rent Date</th>
                                             <th>Return Date</th>
@@ -320,7 +320,7 @@ if (isset($_POST['resend_sms'])) {
                                             <th>Price/Day</th>
                                             <th>Day</th>
                                             <th>Total/F</th>
-                                            <th>Credit</th>
+                                            <th>Balance</th>
 
                                             <th>Rent Date</th>
                                             <th>Return Date</th>
@@ -485,7 +485,7 @@ if (isset($_POST['resend_sms'])) {
                                                     <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLongTitle"><b>Transaction Credits Managements</b></h5>
+                                                                <h5 class="modal-title" id="exampleModalLongTitle"><b>Transaction Balance Managements</b></h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
@@ -496,7 +496,7 @@ if (isset($_POST['resend_sms'])) {
                                                                     <div class="row">
                                                                         <input type="hidden" name="rent_id" value="<?php echo $rents_id; ?>">
                                                                         <div class="col-sm-6 form-group">
-                                                                            <label>Current Credited Money <b class="required">*</b></label>
+                                                                            <label>Current Balance Money <b class="required">*</b></label>
                                                                             <input class="form-control" type="text" name="rent_date" readonly value="<?php echo $credited_money; ?>" required>
                                                                         </div>
                                                                         <div class="col-sm-6 form-group">
@@ -509,9 +509,7 @@ if (isset($_POST['resend_sms'])) {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
                                                             </form>
-
                                                             <center>
                                                                 <p> <b> Previous Payments History</b></p>
                                                             </center>
@@ -522,15 +520,13 @@ if (isset($_POST['resend_sms'])) {
                                                                 $current_credit = number_format($tra['current_credit']);
                                                                 $track_paid_money = number_format($tra['track_paid_money']);
                                                                 $updated_credited_money = number_format($tra['updated_credited_money']);
-
-
                                                             ?>
                                                                 <!-- <div class="col-md-6"> <input type="text" value=""> </div> -->
                                                                 <div class="col-md-12 ">
                                                                     <div style="background-color: #F1F1F1; border-radius: 20px; padding: 10px;">
-                                                                        <h6><b>Current Credit:</b> <?php echo $current_credit; ?></h6>
+                                                                        <h6><b>Current Balance:</b> <?php echo $current_credit; ?></h6>
                                                                         <h6><b>Paid Money:</b> <?php echo $track_paid_money; ?></h6>
-                                                                        <h6><b>New Credit:</b> <?php echo $updated_credited_money; ?></h6>
+                                                                        <h6><b>New Balance:</b> <?php echo $updated_credited_money; ?></h6>
                                                                         <h6><b>Date:</b> <?php echo $added_date; ?></h6>
                                                                     </div>
                                                                     <hr>
@@ -579,7 +575,7 @@ if (isset($_POST['resend_sms'])) {
                                                                 <form action="" method="POST">
                                                                     <input type="hidden" name="phone__number" value="<?php echo $row['client_phonenumber']; ?>">
                                                                     <div class="col-md-12">
-                                                                        <textarea name="resend_message" cols="100" rows="10" maxlength="160"><?php echo "Hello! B_ID: $rents_id, Cost: $toatl_day_price Rwf, Credit:$credited_money Rwf, Rent Date:$r_date, Return Date:$re_date, Book Us: 0783236256 | www.abeventsgroup.com"; ?></textarea>
+                                                                        <textarea name="resend_message" cols="100" rows="10" maxlength="160"><?php echo "Hello! B_ID: $rents_id, Cost: $toatl_day_price Rwf,Paid: $track_paid_money F,Balance:$credited_money F,Rent:$r_date,Return:$re_date, Book Us: 0783236256 | www.abeventsgroup.com"; ?></textarea>
                                                                     </div>
                                                                     <div class="col-md-12"> <br>
                                                                         <button class="btn btn-dark btn-block" type="submit" name="resend_sms">Resend</button>

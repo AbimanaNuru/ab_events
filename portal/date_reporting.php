@@ -50,7 +50,6 @@ $end_date = $_GET['end_date'];
             padding: 1px;
             font-size: 11px;
         }
-
         /* Style the tab */
         .tab {
             overflow: hidden;
@@ -265,7 +264,7 @@ $end_date = $_GET['end_date'];
                                                 <th>Price/Day</th>
                                                 <th>Day</th>
                                                 <th>Total/F</th>
-                                                <th>Credits</th>
+                                                <th>Balance</th>
                                                 <th>Rent Date</th>
                                                 <th>Return Date</th>
                                                 <th>Actions</th>
@@ -281,7 +280,7 @@ $end_date = $_GET['end_date'];
                                                 <th>Price/Day</th>
                                                 <th>Day</th>
                                                 <th>Total/F</th>
-                                                <th>Credits</th>
+                                                <th>Balance</th>
                                                 <th>Rent Date</th>
                                                 <th>Return Date</th>
                                                 <th>Actions</th>

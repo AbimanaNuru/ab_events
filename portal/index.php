@@ -21,7 +21,7 @@ if (isset($_POST['login'])) {
                 $dbactive = $row['ab_user_status'];
 
                 if ($password == $dbpass) {
-                    if ($dbactive == 'Activee') {
+                    if ($dbactive == 'Active') {
                         $userid = $row['ab_user_id'];
                         $name = $row['ab_user_fullname'];
                         $user_type = $row['ab_user_usertype'];
@@ -97,7 +97,7 @@ if (isset($_POST['login'])) {
 
         <form id="login-form" action="" method="post">
             <h2 class="login-title">Log in</h2>
-            <h2 class="login-title" style="color: red;">Under Maintainance</h2>
+            <!-- <h2 class="login-title" style="color: red;">Under Maintainance</h2> -->
             <div class="form-group">
                 <div class="input-group-icon right">
                     <input class="form-control" type="email" name="email" placeholder="Email" autocomplete="off">

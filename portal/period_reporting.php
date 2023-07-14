@@ -260,7 +260,7 @@ if (!isset($sort) || empty($sort)) {
                                                 <th>Price/Day</th>
                                                 <th>Day</th>
                                                 <th>Total/F</th>
-                                                <th>Credits</th>
+                                                <th>Balance</th>
 
                                                 <th>Rent Date</th>
                                                 <th>Return Date</th>
@@ -277,7 +277,7 @@ if (!isset($sort) || empty($sort)) {
                                                 <th>Price/Day</th>
                                                 <th>Day</th>
                                                 <th>Total/F</th>
-                                                <th>Credits</th>
+                                                <th>Balance</th>
                                                 <th>Rent Date</th>
                                                 <th>Return Date</th>
                                                 <th>Actions</th>
@@ -299,7 +299,7 @@ if (!isset($sort) || empty($sort)) {
                                                     if ($result && mysqli_num_rows($result) > 0) {
                                                         $row = mysqli_fetch_assoc($result);
                                                         $sum = number_format($row['total_price']);
-                                                        echo "<b>$sum F</b>";
+                                                        echo "<b>$sum Rwf</b>";
                                                     } else {
                                                         echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                                     }
@@ -312,7 +312,7 @@ if (!isset($sort) || empty($sort)) {
                                                     if ($result && mysqli_num_rows($result) > 0) {
                                                         $row = mysqli_fetch_assoc($result);
                                                         $credited_money = number_format($row['credited_money']);
-                                                        echo "<b>$credited_money F</b>";
+                                                        echo "<b>$credited_money Rwf</b>";
                                                     } else {
                                                         echo "<b >0</b>"; // If no rows are found, display 0 as the sum
                                                     }

@@ -276,7 +276,7 @@ if (isset($_POST['booked_qty_make_change'])) {
                                             <th></th>
                                             <th>Price</th>
                                             <th>Total/ F</th>
-                                            <th>Credits</th>
+                                            <th>Balance</th>
                                             <th>Rent Date</th>
                                             <th>Return Date</th>
                                             <th>Actions</th>
@@ -295,7 +295,7 @@ if (isset($_POST['booked_qty_make_change'])) {
                                             <th></th>
                                             <th>Price</th>
                                             <th>Total/ F</th>
-                                            <th>Credits</th>
+                                            <th>Balance</th>
                                             <th>Rent Date</th>
                                             <th>Return Date</th>
                                             <th>Actions</th>
