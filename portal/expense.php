@@ -15,33 +15,37 @@ if (isset($_POST['save_expense'])) {
     $e_date = mysqli_real_escape_string($connection, $_POST['expense_done_date']);
     $d = mysqli_real_escape_string($connection, $_FILES["support_documents"]["name"]);
 
+    // Get the file extension
+    $file_extension = strtolower(pathinfo($d, PATHINFO_EXTENSION));
+    // Allowed extensions
+    $allowed_extensions = array("jpg", "jpeg", "png", "gif", "pdf", "doc", "docx", "xls", "xlsx");
 
-    // get the image extension
-    $extension1 = substr($d, strlen($d) - 4, strlen($d));
-    // allowed extensions
-    $allowed_extensions = array(".JPG", ".PNG", ".JPEG", ".jpg", ".jpeg", ".png", ".gif", ".pdf", ".PDF");
-    // Validation for allowed extensions
-    if (!in_array($extension1, $allowed_extensions)) {
-        $fail = "Invalid format. Only jpg / jpeg/ png /gif format allowed";
-        header("Refresh: 1; url= expense.php");
+    // Validate the file extension
+    if (!in_array($file_extension, $allowed_extensions)) {
+        $fail = "Invalid format. Only jpg, jpeg, png, gif, pdf, doc, docx, xls, and xlsx formats are allowed.";
+        header("Refresh: 1; url=expense.php");
     } else {
-        //rename the image file
-        $d = md5($d) . $extension1;
-        // Code for move image into directory
-        move_uploaded_file($_FILES["support_documents"]["tmp_name"], "expense_support_documents/" . $d);
-        // Query for insertion data into database  
-        $query = mysqli_query($connection, "insert into ab_events_expense(
-            expense_added_by,expense_name,expense_class,expense_cost,ab_events_expense_done_data,expense_support_document,expense_date) 
-VALUES('$ab_user_id','$e_name','$e_class','$e_cost','$e_date','$d',NOW())");
+        // Generate a unique filename
+        $unique_filename = md5(uniqid()) . "." . $file_extension;
+        // Move the uploaded file to the desired directory
+        $upload_path = "expense_support_documents/" . $unique_filename;
+        move_uploaded_file($_FILES["support_documents"]["tmp_name"], $upload_path);
+
+        // Query for inserting data into the database
+        $query = mysqli_query($connection, "INSERT INTO ab_events_expense (
+            expense_added_by, expense_name, expense_class, expense_cost, ab_events_expense_done_data, expense_support_document, expense_date) 
+            VALUES ('$ab_user_id', '$e_name', '$e_class', '$e_cost', '$e_date', '$unique_filename', NOW())");
+
         if ($query) {
             $success = "Expense Added Successfully";
-            header("Refresh: 3; url= expense.php");
+            header("Refresh: 3; url=expense.php");
         } else {
-            $success = "Something Wrong";
-            header("Refresh: 3; url= expense.php");
+            $success = "Something Went Wrong";
+            header("Refresh: 3; url=expense.php");
         }
     }
 }
+
 
 
 
@@ -211,7 +215,14 @@ VALUES('$ab_user_id','$e_name','$e_class','$e_cost','$e_date','$d',NOW())");
 
                                 ?>
                                     <tr>
-                                        <td><img src="expense_support_documents/<?php echo $e_documents ?>" alt="" style="width:70px;"></td>
+                                        <td>
+                                            <a href="expense_support_documents/<?php echo $e_documents; ?>" target="_blank">
+                                                <button>
+                                                    View Document
+                                                </button>
+                                            </a>
+                                        </td>
+
                                         <td><b><?php echo $e_name; ?></b></td>
                                         <td><b><?php echo $done_date; ?></b></td>
                                         <td><?php echo $e_class; ?></td>

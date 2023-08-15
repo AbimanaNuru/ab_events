@@ -373,7 +373,7 @@ if (isset($_POST['resend_sms'])) {
                                                     <td> <?php echo $row['rent_transaction_total_per_day']; ?></td>
                                                     <td> <?php echo $row['rent_transaction_day']; ?></td>
                                                     <td> <?php echo " <b>$toatl_day_price</b>"; ?></td>
-                                                    <td> <?php echo " <b>$credited_money</b>"; ?></td>
+                                                    <td> <?php echo " <b style='color:red;'>$credited_money</b>"; ?></td>
                                                     <td> <?php echo $row['rent_transaction_rent_date']; ?></td>
                                                     <td> <?php echo $row['rent_transaction_return_date']; ?></td>
                                                     <td> <?php

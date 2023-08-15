@@ -68,6 +68,10 @@ WHERE ab_events_rent_transaction.rent_transaction_clients_id =  ab_events_client
             while ($row = mysqli_fetch_assoc($result)) {
                 $rents_id = $row['rent_transaction_code'];
                 $rent_day = $row['rent_transaction_day'];
+                $sale_mode = $row['rent_transaction_sale_mode'];
+                $paid_money = number_format($row['rent_transaction_paid_money']);
+                $balance = number_format($row['rent_transaction_credit_money']);
+
 
                 $submenu =  mysqli_query($connection, "SELECT * FROM ab_events_material_rent_process,ab_events_material,ab_material_category WHERE
 ab_events_material_rent_process.rent_process_material_id = ab_events_material.ab_events_material_id 
@@ -81,7 +85,15 @@ AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_even
                         <div> <!-- div wrapper around header and address to make content stack properly-->
                             <h6><b>Rent Date:</b> <?php echo $row['rent_transaction_rent_date']  ?></h6>
                             <h6><b>Return Date:</b> <?php echo $row['rent_transaction_return_date']  ?></h6>
+
+                            <h6><b>Rent Status:</b> <?php if ($sale_mode == 'booked_sale') {
+                                                        echo "BOOKED";
+                                                    } else {
+                                                        echo "FULL PAID";
+                                                    } ?></h6>
+
                             <h6><b>Day:</b> <?php echo $rent_day; ?></h6>
+
                         </div>
                     </div>
                     <div class="col-6 d-flex justify-content-end">
@@ -108,8 +120,8 @@ AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_even
                         <div>
                             <strong>Rented By:</strong><br>
                             <address class="address"><b>AB EVENTS GROUP</b><br>
-                            +250 785 752 797<br>+250 783 236 256<br>
-                            info@abeventsgroup.com
+                                +250 785 752 797<br>+250 783 236 256<br>
+                                info@abeventsgroup.com
                             </address>
                         </div>
                     </div>
@@ -169,6 +181,19 @@ AND  ab_material_category.ab_material_category_id  = ab_events_material. ab_even
                                 <td colspan="4"> <b> Total:</b></td>
                                 <td class="text-end"><?php echo "<b>$invoice_total Rwf</b>";  ?></td>
                             </tr>
+                            <?php if ($sale_mode == 'booked_sale') { ?>
+                                <tr>
+                                    <td colspan="4"> <b> First Payment:</b></td>
+                                    <td class="text-end"><?php echo "<b>$paid_money Rwf</b>";  ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"> <b> Balance:</b></td>
+                                    <td class="text-end"><?php echo "<b style='color:red'>$balance Rwf</b>";  ?></td>
+                                </tr>
+                            <?php
+
+                            }
+                            ?>
                         </tfoot>
                     </table>
                 </div>
