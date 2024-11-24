@@ -127,7 +127,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <img src="img/ab_about.gif" alt="" style="width:100px;">
+                        <img src="img/ab_favicon.png" alt="" style="width:100px;">
                         <h2>AB EVENTS GROUP </h2>
                         <div class="footer__social">
                             <a href="https://www.instagram.com/abevents_250/"><button type="button" class="btn btn-info rounded-circle"><i class="fa fa-instagram"></i></button></a>
