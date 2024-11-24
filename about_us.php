@@ -62,7 +62,7 @@
                         <ul>
                             <li><a href="index.php">Home</a></li>
                             <li>
-                                <a href="#">Our Brands</a>
+                                <a href="#">Our Services</a>
                                 <ul class="dropdown">
                                     <li>
                                         <a href="elegance-decor.php">Elegance Decor</a>
@@ -127,16 +127,12 @@
                         <div class="about__page__services__text">
                             <p>
 
-                                AB Events is a events management company with 7 years of experience in facilitating clients in need of planning and management of their events needs either corporate or social ones.
+                                With over eight years of experience in event management, AB Events Group has earned
+                                a reputation as a trusted leader in curating unforgettable moments.
+                                Based in Kigali, Rwanda, we specialize in crafting events that blend creativity, precision,
+                                and a deep understanding of our clients' visions. From breathtaking weddings to flawless corporate functions,
+                                our expert team is committed to delivering unparalleled service tailored to your unique needs.
 
-                                <br>
-                                AB Events is employing a team of talented, specialized, creative and enthusiastic people who are always ready to create both a large and intimate branded events of all kinds.
-                                <br>
-
-                                At AB Events we are strongly committed to design, fabricate and executes any size event, branded environment or tour. Our skilled team collaborates with our clients to transform their events into interactive experiences.
-                            </p>
-
-                            <p> Our main focus are corporate and social events decoration and renting of different materials for all kinds of events through our brand ELEGANCE DECOR, Photography and Videography services through FOTOLAND Studio and sound system through MAGIC SOUND.
 
                             </p>
                             <button type="button" class="btn brand_link" id="videoModalButton" data-bs-toggle="modal" data-bs-target="#videoModal">

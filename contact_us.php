@@ -57,7 +57,7 @@
                         <ul>
                             <li><a href="index.php">Home</a></li>
                             <li>
-                                <a href="#">Our Brands</a>
+                                <a href="#">Our Services</a>
                                 <ul class="dropdown">
                                     <li>
                                         <a href="elegance-decor.php">Elegance Decor</a>
@@ -136,7 +136,7 @@
                         </div>
                         <div class="contact__widget__item__text">
                             <h5>Email Address</h5>
-                            <span>info@abeventsgroup.com</span>
+                            <span>info@abeventgroup.com</span>
                         </div>
                     </div>
                 </div>

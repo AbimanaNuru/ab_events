@@ -94,7 +94,7 @@ if (isset($_POST['book_us'])) {
                         <ul>
                             <li><a href="index.php">Home</a></li>
                             <li>
-                                <a href="#">Our Brands</a>
+                                <a href="#">Our Services</a>
                                 <ul class="dropdown">
                                     <li>
                                         <a href="elegance-decor.php">Elegance Decor</a>
@@ -183,12 +183,11 @@ if (isset($_POST['book_us'])) {
                                     <label for="">Service:</label>
                                     <select name="service" id="" required class="form-control">
                                         <option value="">Select Service</option>
-                                        <option value="Photography">Photography</option>
-                                        <option value="Weeding Planning">Weeding Planning</option>
-                                        <option value="Weeding And Events Decoration">Weeding And Events Decoration</option>
-                                        <option value="Events Equipments Ranting">Events Equipments Ranting</option>
-                                        <option value="Videography">Videography</option>
-                                        <option value="Sound System">Sound System</option>
+                                        <option value="Wedding Planning">Wedding Planning</option>
+                                        <option value="Wedding Decoration">Wedding Decoration</option>
+                                        <option value="Event Rentals">Event Rentals</option>
+                                        <option value="Transport Services">Transport Services</option>
+                                        <option value="Destination Management Services">Destination Management Services</option>
                                     </select>
                                 </div>
 

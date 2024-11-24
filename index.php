@@ -30,6 +30,89 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+  <style>
+    .project-details {
+      background-color: #f8f9fa;
+    }
+
+    .card {
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .text-primary {
+      color: #8b4513 !important;
+      /* Wedding-themed brown color */
+    }
+
+    .callto {
+      padding: 120px 0;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      color: #fff;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1;
+    }
+
+    .container {
+      z-index: 2;
+    }
+
+    .subtitle {
+      color: #d4a762;
+      font-weight: 600;
+      letter-spacing: 2px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .subtitle:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background-color: #d4a762;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .icon-wrapper {
+      color: #d4a762;
+    }
+
+    .h5 {
+      font-weight: 600;
+    }
+
+
+
+    .lead {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+  </style>
+
 </head>
 
 <body>
@@ -67,7 +150,7 @@
               <li class="active"><a href="index.php">Home</a></li>
 
               <li>
-                <a href="#">Our Brands</a>
+                <a href="#">Our Services</a>
                 <ul class="dropdown">
                   <li>
                     <a href="elegance-decor.php">Elegance Decor</a>
@@ -97,24 +180,22 @@
   <!-- Hero Section Begin -->
   <section class="hero">
     <div class="hero__slider owl-carousel">
-      <div class="hero__items set-bg" data-setbg="img/hero/v3.png">
+      <div class="hero__items set-bg" data-setbg="img/hero/v4.png">
         <div class="hero__text">
           <h2>
             welcome to <br />
             ab events group.
           </h2>
-          <p><b>" an exceptional experience "</b> </button>
+          <p><b>"Where Exceptional Events Begin"</b> </button>
           </p>
 
           <div class="hero__social">
-            <a href="https://www.youtube.com/@abeventsgroup490"><button type="button" class="btn btn-info rounded-circle btn-sm"><i class="fa fa-youtube-play"></i></button><span class="social_footer_title"> Elegance Decor</span></a>
-            <a href="https://www.instagram.com/elegancedecor_250/"><button type="button" class="btn btn-info rounded-circle btn-sm"><i class="fa fa-instagram"></i></button><span class="social_footer_title"> Elegance Decor</span></a>
-            <a href="https://www.instagram.com/fotoland_250/"><button type="button" class="btn btn-info rounded-circle btn-sm"><i class="fa fa-instagram"></i></button><span class="social_footer_title"> Fotoland</span></a>
-            <a href="https://www.instagram.com/magicsound_250/"><button type="button" class="btn btn-info rounded-circle btn-sm"><i class="fa fa-instagram"></i></button><span class="social_footer_title"> Magic Sound</span> </a>
+          <a href="https://www.instagram.com/abevents_250/"><button type="button" class="btn btn-info rounded-circle"><i class="fa fa-instagram"></i></button></a>
+          <a href="https://www.youtube.com/@abeventsgroup490"><button type="button" class="btn btn-info rounded-circle"><i class="fa fa-youtube-play"></i></button></a>
           </div>
         </div>
       </div>
-      <div class="hero__items set-bg" data-setbg="img/hero/elegance.png">
+      <!-- <div class="hero__items set-bg" data-setbg="img/hero/elegance.png">
         <div class="hero__text">
           <h2>Elegance Decor</h2>
 
@@ -122,26 +203,8 @@
             <a href="https://www.instagram.com/elegancedecor_250/"><button type="button" class="btn btn-info rounded-circle "><i class="fa fa-instagram"></i></button><span class="social_footer_title"> Elegance Decor</span></a>
           </div>
         </div>
-      </div>
-      <div class="hero__items set-bg" data-setbg="img/hero/photo.png">
-        <div class="hero__text">
-          <h2>FotoLand</h2>
-
-          <div class="hero__social">
-            <a href="https://www.instagram.com/fotoland_250/"><button type="button" class="btn btn-info rounded-circle "><i class="fa fa-instagram"></i></button><span class="social_footer_title"> Fotoland</span></a>
-          </div>
-        </div>
-      </div>
-      <div class="hero__items set-bg" data-setbg="img/hero/magic.png">
-        <div class="hero__text">
-          <h2>Magic Sound</h2>
-          <p><b>" quality sound system guaranteed "</b></p>
-
-          <div class="hero__social">
-            <a href="https://www.instagram.com/magicsound_250/"><button type="button" class="btn btn-info rounded-circle "><i class="fa fa-instagram"></i></button><span class="social_footer_title"> Magic Sound</span> </a>
-          </div>
-        </div>
-      </div>
+      </div> -->
+ 
     </div>
     <!-- <div class="slide-num" id="snh-1"></div> -->
     <div class="slider__progress"><span></span></div>
@@ -160,15 +223,16 @@
             </div>
             <div class="about__para__text">
               <p>
-                AB Events is a events management company with 7 years of experience in facilitating clients in need of planning and management of their events needs either corporate or social ones.
-                <br>
-                AB Events is employing a team of talented, specialized, creative and enthusiastic people who are always ready to create both a large and intimate branded events of all kinds.
-                <br>
+                With over eight years of experience in event management, AB Events Group has earned
+                a reputation as a trusted leader in curating unforgettable moments.
+                Based in Kigali, Rwanda, we specialize in crafting events that blend creativity, precision,
+                and a deep understanding of our clients' visions. From breathtaking weddings to flawless corporate functions,
+                our expert team is committed to delivering unparalleled service tailored to your unique needs.
 
-                At AB Events we are strongly committed to design, fabricate and executes any size event, branded environment or tour. Our skilled team collaborates with our clients to transform their events into interactive experiences.
+
               </p>
             </div>
-            <a href="about_us.php" class="primary-btn normal-btn">Read More</a>
+            <a href="about_us.php" class="primary-btn normal-btn ">Read More</a>
             <a href="about_us.php" id="videoModalButton" data-bs-toggle="modal" data-bs-target="#videoModal" class="primary-btn normal-btn">AB EVENTS GROUP VIDEOS</a>
           </div>
         </div>
@@ -184,240 +248,249 @@
     </div>
   </section>
   <!-- About Section End -->
-
-  <!-- Services Section Begin -->
-  <section class="services spad">
+  <!-- Start of wedding planning service -->
+  <section class="project-details py-5">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
 
           <div class="section-title text-center">
             <span>AB EVENTS GROUP</span>
-            <h2>Our Brands</h2>
+            <h2>Our Services</h2>
           </div>
 
         </div>
       </div>
+      <!-- Main Content Row -->
       <div class="row">
-
-        <div class="col-lg-4 col-md-6 col-sm-6">
-          <div class="services__item text-center">
-
-
-            <img src="img/elegance.png" style="width:100px;" alt="">
-            <h4>Elegance Decor</h4>
-            <p class="brank_summary">One of the services that our brand Elegance Décor is about wedding planning, design and management service. We assist our clients in creating memorable, magical celebrations that exceed expectations.</p>
-            <br>
-            <a href="elegance-decor.php" class="brand_link">Read More</a>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 col-sm-6">
-          <div class="services__item text-center">
-
-            <img src="img/fotoand.png" style="width:100px;" alt="">
-            <h4>Fotoland</h4>
-            <p class="brank_summary"> Fotoland Studio specializes in events coverage through photography services including corporate and social event photography, wedding photography, photo printing, and album creation.</p>
-            <br>
-            <a href="fotoland.php" class="brand_link">Read More</a>
+        <!-- Left Content -->
+        <div class="col-lg-8">
+          <div class="content-wrapper bg-white p-4 rounded shadow-sm">
+            <h2 class="display-5 mb-4 text-primary">Wedding Planning</h2>
+            <p>
+              Your love story deserves a celebration as extraordinary as the bond you share. At AB Events Group, we bring your dream wedding to life by providing comprehensive planning services that reflect your personal style and story.
+            </p>
+            <a href="wedding_planning.php" class="primary-btn normal-btn">Read More</a>
 
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-6">
-          <div class="services__item text-center">
 
-            <img src="img/magic.png" style="width:95px;" alt="">
-            <h4>Magic Sound</h4>
-            <p class="brank_summary">We have trained sound engineers that take time to understand the needs of our clients in term of the event content, kind of event, Sound system needs depending on the size of the event and venu</p>
-            <br>
-            <a href="magic-sound.php" class="brand_link">Read More</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="counter__content">
-        <div class="row">
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="counter__item">
-              <div class="counter__item__number">
-                <h2 class="count">240</h2>
-              </div>
-              <div class="counter__item__text">
-                <h5>
-                  Successful<br />
-                  Projects
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="counter__item">
-              <div class="counter__item__number">
-                <h2 class="count">89</h2>
-              </div>
-              <div class="counter__item__text">
-                <h5>
-                  Happy<br />
-                  Clients
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="counter__item">
-              <div class="counter__item__number">
-                <h2 class="count">4</h2>
-              </div>
-              <div class="counter__item__text">
-                <h5>
-                  Awards<br />
-                  Received
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="counter__item">
-              <div class="counter__item__number">
-                <h2 class="count">5</h2>
-              </div>
-              <div class="counter__item__text">
-                <h5>
-                  Our<br />
-                  Services
-                </h5>
-              </div>
-            </div>
+        <!-- Right Content -->
+        <div class="col-lg-4">
+          <div class="image-wrapper">
+            <img src="img/weeding_planning.jpg"
+              class="img-fluid rounded shadow"
+              alt="AB Events Group Wedding Planning Photo">
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- Services Section End -->
+  <!-- End of wedding planning service -->
 
-  <!-- Project Section Begin -->
-  <section class="project">
-    <div class="container-fluid">
+  <!-- Start of Wedding Decorationservice -->
+  <section class="project-details py-5">
+    <div class="container">
+      <!-- Main Content Row -->
       <div class="row">
-        <div class="col-lg-12 text-center">
-          <div class="section-title">
-            <span>AB EVENTS GROUP</span>
-            <h2>Our works</h2>
+        <!-- Left Content -->
+
+        <div class="col-lg-4">
+          <div class="image-wrapper">
+            <img src="img/photos/deco_1.jpg"
+              class="img-fluid rounded shadow"
+              alt="AB Events Group Wedding Planning Photo">
           </div>
         </div>
+        <!-- Right Content -->
+
+        <div class="col-lg-8">
+          <div class="content-wrapper bg-white p-4 rounded shadow-sm">
+            <h2 class="display-5 mb-4 text-primary">Wedding Decoration</h2>
+            <p>
+              Transform your venue into a masterpiece with our bespoke decoration services. We take pride in creating stunning visuals that capture the essence of your special day.
+            </p>
+            <a href="wedding_decoration.php" class="primary-btn normal-btn">Read More</a>
+
+          </div>
+        </div>
+
+
       </div>
+    </div>
+  </section>
+  <!-- End of Wedding Decoration service -->
+
+
+
+  <!-- Start of Event Rentals service -->
+  <section class="project-details py-5">
+    <div class="container">
+      <!-- Main Content Row -->
       <div class="row">
-        <div class="project__slider owl-carousel">
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/DSC_1246.jpg">
-              <div class="project__slider__item__hover">
-                <span>Fotoland Product</span>
-                <h5>
-                  <a href="https://www.instagram.com/fotoland_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/HON_5673.jpg">
-              <div class="project__slider__item__hover">
-                <span>Elegance Decor</span>
-                <h5>
-                  <a href="https://www.instagram.com/elegancedecor_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/DSC_0654.JPG">
-              <div class="project__slider__item__hover">
-                <span>Fotoland Product</span>
-                <h5>
-                  <a href="https://www.instagram.com/fotoland_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
+        <!-- Left Content -->
+        <div class="col-lg-8">
+          <div class="content-wrapper bg-white p-4 rounded shadow-sm">
+            <h2 class="display-5 mb-4 text-primary">Event Rentals</h2>
+            <p>
+              Elevate your event with our wide range of high-quality rental options, designed to suit any occasion and style.
+            </p>
+            <a href="event_rentals.php" class="primary-btn normal-btn">Read More</a>
 
-              </div>
-            </div>
           </div>
+        </div>
 
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/jk.jpg">
-              <div class="project__slider__item__hover">
-                <span>Fotoland Product</span>
-                <h5>
-                  <a href="https://www.instagram.com/fotoland_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/DSC_9959.jpg">
-              <div class="project__slider__item__hover">
-                <span>Fotoland Product</span>
-                <h5>
-                  <a href="https://www.instagram.com/fotoland_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/HON_6136.jpg">
-              <div class="project__slider__item__hover">
-                <span>Elegance Decor</span>
-                <h5>
-                  <a href="https://www.instagram.com/elegancedecor_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/DSC_5989.JPG">
-              <div class="project__slider__item__hover">
-                <span>Elegance Decor</span>
-                <h5>
-                  <a href="https://www.instagram.com/elegancedecor_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/flowers_2.jpg">
-              <div class="project__slider__item__hover">
-                <span>Elegance Decor</span>
-                <h5>
-                  <a href="https://www.instagram.com/elegancedecor_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/DSC_6496.JPG">
-              <div class="project__slider__item__hover">
-                <span>Magic Sound</span>
-                <h5>
-                  <a href="https://www.instagram.com/magicsound_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="project__slider__item set-bg" data-setbg="img/photos/HON_6261.JPG">
-              <div class="project__slider__item__hover">
-                <span>Elegance Decor</span>
-                <h5>
-                  <a href="https://www.instagram.com/elegancedecor_250/" target="_blank"><button type="button" class="btn btn-primary rounded-circle"><i class="fa fa-instagram"></i></button></a>
-                </h5>
-              </div>
-            </div>
+        <!-- Right Content -->
+        <div class="col-lg-4">
+          <div class="image-wrapper">
+            <img src="img/event_rentals.png"
+              class="img-fluid rounded shadow"
+              alt="AB Events Group Wedding Planning Photo">
           </div>
         </div>
       </div>
     </div>
   </section>
-  <!-- Project Section End -->
+  <!-- End of Event Rentals service -->
 
 
+
+  <!-- Start of Transport Services service -->
+  <section class="project-details py-5">
+    <div class="container">
+      <!-- Main Content Row -->
+      <div class="row">
+        <!-- Left Content -->
+
+        <div class="col-lg-4">
+          <div class="image-wrapper">
+            <img src="img/transport_services.png"
+              class="img-fluid rounded shadow"
+              alt="AB Events Group Wedding Planning Photo">
+          </div>
+        </div>
+        <!-- Right Content -->
+
+        <div class="col-lg-8">
+          <div class="content-wrapper bg-white p-4 rounded shadow-sm">
+            <h2 class="display-5 mb-4 text-primary">Transport Services</h2>
+            <p>
+              Ensure smooth and hassle-free transportation for your event with our reliable and punctual services. </p>
+            <a href="transport_services.php" class="primary-btn normal-btn">Read More</a>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+  <!-- End of Transport Services service -->
+
+
+
+  <!-- Start of Destination Management Services -->
+  <section class="project-details py-5">
+    <div class="container">
+      <!-- Main Content Row -->
+      <div class="row">
+        <!-- Left Content -->
+        <div class="col-lg-8">
+          <div class="content-wrapper bg-white p-4 rounded shadow-sm">
+            <h2 class="display-5 mb-4 text-primary">Destination Management Services</h2>
+            <p>
+              Planning a destination event? AB Events Group offers end-to-end destination management to bring your vision to life in any location. </p>
+            <a href="destination-management-services.php" class="primary-btn normal-btn">Read More</a>
+
+          </div>
+        </div>
+
+        <!-- Right Content -->
+        <div class="col-lg-4">
+          <div class="image-wrapper">
+            <img src="img/destination-management-services.png"
+              class="img-fluid rounded shadow"
+              alt="AB Events Group Destination Management Services Photo">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End of Destination Management Services  -->
+
+
+
+
+
+  <!-- Call To Action Section Begin -->
+  <section class="why-choose py-5" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('img/footer-bg.jpg') center/cover;">
+    <div class="container">
+      <!-- Header -->
+      <div class="row justify-content-center text-center text-white mb-5">
+        <div class="col-lg-10">
+          <span class="text-primary text-uppercase fw-bold mb-3 d-block">Why Choose AB Events Group?</span>
+          <h2 class="display-5 mb-4">Transform Your Ideas Into Extraordinary Memories</h2>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="row g-4 mb-5">
+        <!-- Expertise -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 bg-transparent text-white border-0">
+            <div class="card-body text-center">
+              <i class="fas fa-award fa-2x text-primary mb-3"></i>
+              <h3 class="h5 fw-bold mb-3">Expertise You Can Trust</h3>
+              <p class="text-white-50">With over eight years in the industry, we bring unparalleled experience and professionalism to every event.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Attention -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 bg-transparent text-white border-0">
+            <div class="card-body text-center">
+              <i class="fa fa-search-plus fa-2x text-primary mb-3"></i>
+              <h3 class="h5 fw-bold mb-3">Attention to Detail</h3>
+              <p class="text-white-50">Every aspect of your event is meticulously planned and executed to perfection.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 bg-transparent text-white border-0">
+            <div class="card-body text-center">
+              <i class="fas fa-user-check fa-2x text-primary mb-3"></i>
+              <h3 class="h5 fw-bold mb-3">Personalized Approach</h3>
+              <p class="text-white-50">We take the time to understand your vision and make it a reality.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Excellence -->
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 bg-transparent text-white border-0">
+            <div class="card-body text-center">
+              <i class="fa fa-star fa-2x text-primary mb-3"></i>
+              <h3 class="h5 fw-bold mb-3">Commitment to Excellence</h3>
+              <p class="text-white-50">Our team is dedicated to delivering exceptional service and unforgettable experiences.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-8">
+          <p class="lead text-white mb-4">Let AB Events Group transform your ideas into extraordinary memories.</p>
+          <a href="contact_us" class="primary-btn normal-btn" style="color:white">Contact Us Today</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call To Action Section End -->
 
   <br>
   <!-- Testimonial Section Begin -->
