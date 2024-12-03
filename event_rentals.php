@@ -149,10 +149,10 @@
                 <!-- Left Content -->
                 <div class="col-lg-8">
                     <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-                        <h2 class="display-5 mb-4 text-primary">Event Rentals</h2>
-                        <p class="lead text-muted">
-                            Elevate your event with our wide range of high-quality rental options, designed to suit any occasion and style.
-                        </p>
+                        <span class="display-5 mb-4 ab-text-primary">Event Rentals</h2>
+                            <p class="lead text-muted">
+                                Elevate your event with our wide range of high-quality rental options, designed to suit any occasion and style.
+                            </p>
                     </div>
                 </div>
 
@@ -169,59 +169,39 @@
             <!-- Wedding Services Section -->
             <div class="row mt-5">
                 <div class="col-12">
-                    <h3 class="h4 mb-4 text-primary">Our Event Rentals Services Include:</h3>
+                    <span class="display-5 mb-4 ab-text-primary">Our Event Rentals Services Include:</h3>
 
-                    <div class="row g-4">
-                        <!-- Service Card 1 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Furniture:</h5>
-                                    <p class="lead text-muted">A variety of tables, chairs, lounges, and custom furniture pieces.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <ul class="list-unstyled">
+                            <!-- Service Item 1 -->
+                            <li class="mb-4 p-3 border-bottom">
+                                <p class="text-primary mb-2">Furniture</p>
+                                <p class="text-muted">A variety of tables, chairs, lounges, and custom furniture pieces.</p>
+                            </li>
 
-                        <!-- Service Card 2 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Tents and Marquees: </h5>
-                                    <p class="lead text-muted">Stylish and weather-resistant structures for outdoor events.</p>
-                                </div>
-                            </div>
-                        </div>
+                            <!-- Service Item 2 -->
+                            <li class="mb-4 p-3 border-bottom">
+                                <p class="text-primary mb-2">Tents and Marquees</p>
+                                <p class="text-muted">Stylish and weather-resistant structures for outdoor events.</p>
+                            </li>
 
-                        <!-- Service Card 3 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Lighting and Sound Equipment: </h5>
-                                    <p class="lead text-muted">Premium audiovisual systems for a seamless and immersive experience.</p>
-                                </div>
-                            </div>
-                        </div>
+                            <!-- Service Item 3 -->
+                            <li class="mb-4 p-3 border-bottom">
+                                <p class="text-primary mb-2">Lighting and Sound Equipment</p>
+                                <p class="text-muted">Premium audiovisual systems for a seamless and immersive experience.</p>
+                            </li>
 
-                        <!-- Service Card 4 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Tableware and Linens: </h5>
-                                    <p class="lead text-muted">A wide selection of elegant plates, glasses, cutlery, and linens to complement your theme.</p>
-                                </div>
-                            </div>
-                        </div>
+                            <!-- Service Item 4 -->
+                            <li class="mb-4 p-3 border-bottom">
+                                <p class="text-primary mb-2">Tableware and Linens</p>
+                                <p class="text-muted">A wide selection of elegant plates, glasses, cutlery, and linens to complement your theme.</p>
+                            </li>
 
-                        <!-- Service Card 5 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Specialized Items: </h5>
-                                    <p class="lead text-muted">Unique additions like dance floors, stages, photo booths, and decorative features to make your event truly stand out.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                            <!-- Service Item 5 -->
+                            <li class="mb-4 p-3 border-bottom">
+                                <p class="text-primary mb-2">Specialized Items</p>
+                                <p class="text-muted">Unique additions like dance floors, stages, photo booths, and decorative features to make your event truly stand out.</p>
+                            </li>
+                        </ul>
                 </div>
             </div>
         </div>

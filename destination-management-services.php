@@ -149,9 +149,9 @@
                 <!-- Left Content -->
                 <div class="col-lg-8">
                     <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-                        <h2 class="display-5 mb-4 text-primary">Destination Management Services </h2>
+                        <span class="display-5 mb-4 ab-text-primary">Destination Management Services </span>
                         <p class="lead text-muted">
-                        Planning a destination event? AB Events Group offers end-to-end destination management to bring your vision to life in any location. </p>
+                            Planning a destination event? AB Events Group offers end-to-end destination management to bring your vision to life in any location. </p>
                     </div>
                 </div>
 
@@ -168,62 +168,42 @@
             <!-- Wedding Services Section -->
             <div class="row mt-5">
                 <div class="col-12">
-                    <h3 class="h4 mb-4 text-primary">Our Destination Management Services offerings include:</h3>
+                    <span class="display-5 mb-4 ab-text-primary">Our Destination Management Services Offerings Include:</span>
 
-                    <div class="row g-4">
-                        <!-- Service Card 1 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Event Concept and Planning: </h5>
-                                    <p class="lead text-muted">Customized solutions for destination weddings, corporate retreats, and celebrations.</p>
-                                </div>
-                            </div>
-                        </div>
+                    <ul class="list-unstyled">
+                        <!-- Service Item 1 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Event Concept and Planning</p>
+                            <p class="text-muted">Customized solutions for destination weddings, corporate retreats, and celebrations.</p>
+                        </li>
 
-                        <!-- Service Card 2 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Travel and Accommodation: </h5>
-                                    <p class="lead text-muted">Coordination of flights, lodging, and ground transportation for you and your guests.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Service Item 2 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Travel and Accommodation</p>
+                            <p class="text-muted">Coordination of flights, lodging, and ground transportation for you and your guests.</p>
+                        </li>
 
-                        <!-- Service Card 3 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Local Vendor Sourcing: </h5>
-                                    <p class="lead text-muted">Partnering with trusted local vendors for catering, décor, and entertainment.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Service Item 3 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Local Vendor Sourcing</p>
+                            <p class="text-muted">Partnering with trusted local vendors for catering, décor, and entertainment.</p>
+                        </li>
 
-                        <!-- Service Card 4 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Cultural Integration: </h5>
-                                    <p class="lead text-muted">Incorporating local traditions and customs to make your event authentic and memorable.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Service Card 5 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Pre- and Post-Event Activities: </h5>
-                                    <p class="lead text-muted">Organizing tours, excursions, and experiences to enhance your guests’ stay.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Service Item 4 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Cultural Integration</p>
+                            <p class="text-muted">Incorporating local traditions and customs to make your event authentic and memorable.</p>
+                        </li>
 
-
-                    </div>
+                        <!-- Service Item 5 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Pre- and Post-Event Activities</p>
+                            <p class="text-muted">Organizing tours, excursions, and experiences to enhance your guests' stay.</p>
+                        </li>
+                    </ul>
                 </div>
             </div>
+
         </div>
     </section>
 

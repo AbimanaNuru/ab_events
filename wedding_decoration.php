@@ -149,7 +149,7 @@
                 <!-- Left Content -->
                 <div class="col-lg-8">
                     <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-                        <h2 class="display-5 mb-4 text-primary">Wedding Decoration</h2>
+                        <span class="display-5 mb-4 ab-text-primary">Wedding Decoration</span>
                         <p class="lead text-muted">
                             Transform your venue into a masterpiece with our bespoke decoration services. We take pride in creating stunning visuals that capture the essence of your special day. </p>
                     </div>
@@ -168,59 +168,39 @@
             <!-- Wedding Services Section -->
             <div class="row mt-5">
                 <div class="col-12">
-                    <h3 class="h4 mb-4 text-primary">Our decoration services include::</h3>
+                    <span class="display-5 mb-4 ab-text-primary">Our decoration services include:</span>
 
-                    <div class="row g-4">
-                        <!-- Service Card 1 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Custom Design Concepts: </h5>
-                                    <p class="lead text-muted">Unique designs tailored to your wedding theme—be it rustic, classic, modern, or whimsical.</p>
-                                </div>
-                            </div>
-                        </div>
+                    <ul class="list-unstyled">
+                        <!-- Service Item 1 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Custom Design Concepts</p>
+                            <p class="text-muted">Unique designs tailored to your wedding theme—be it rustic, classic, modern, or whimsical.</p>
+                        </li>
 
-                        <!-- Service Card 2 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Floral Arrangements: </h5>
-                                    <p class="lead text-muted">Exquisite bouquets, centerpieces, and floral installations crafted by talented.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Service Item 2 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Floral Arrangements</p>
+                            <p class="text-muted">Exquisite bouquets, centerpieces, and floral installations crafted by talented designers.</p>
+                        </li>
 
-                        <!-- Service Card 3 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Lighting and Draping: </h5>
-                                    <p class="lead text-muted">Sophisticated lighting designs and draping solutions that enhance your venue’s ambiance.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Service Item 3 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Lighting and Draping</p>
+                            <p class="text-muted">Sophisticated lighting designs and draping solutions that enhance your venue's ambiance.</p>
+                        </li>
 
-                        <!-- Service Card 4 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Table Settings and Accessories: </h5>
-                                    <p class="lead text-muted">Beautifully curated tablescapes, including elegant linens, chair décor, and bespoke accents.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Service Item 4 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Table Settings and Accessories</p>
+                            <p class="text-muted">Beautifully curated tablescapes, including elegant linens, chair décor, and bespoke accents.</p>
+                        </li>
 
-                        <!-- Service Card 5 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Stage and Aisle Décor: </h5>
-                                    <p class="lead text-muted">Striking backdrops, arches, and aisle decorations to create unforgettable ceremony and reception spaces.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <!-- Service Item 5 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Stage and Aisle Décor</p>
+                            <p class="text-muted">Striking backdrops, arches, and aisle decorations to create unforgettable ceremony and reception spaces.</p>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

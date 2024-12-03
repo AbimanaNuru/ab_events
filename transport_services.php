@@ -149,9 +149,9 @@
                 <!-- Left Content -->
                 <div class="col-lg-8">
                     <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-                        <h2 class="display-5 mb-4 text-primary">Transport Services</h2>
-                        <p class="lead text-muted">
-                            Ensure smooth and hassle-free transportation for your event with our reliable and punctual services. </p>
+                        <span class="display-5 mb-4 ab-text-primary">Transport Services</p>
+                            <p class="lead text-muted">
+                                Ensure smooth and hassle-free transportation for your event with our reliable and punctual services. </p>
                     </div>
                 </div>
 
@@ -168,51 +168,33 @@
             <!-- Wedding Services Section -->
             <div class="row mt-5">
                 <div class="col-12">
-                    <h3 class="h4 mb-4 text-primary">Our transport Services offerings include:</h3>
+                    <span class="display-5 mb-4 ab-text-primary">Our Transport Services Offerings Include:</p>
 
-                    <div class="row g-4">
-                        <!-- Service Card 1 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Equipment Delivery: </h5>
-                                    <p class="lead text-muted">Secure and on-time transport of rented materials to your event venue.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <ul class="list-unstyled">
+                            <!-- Service Item 1 -->
+                            <li class="mb-4 p-3 border-bottom">
+                                <p class="text-primary mb-2">Equipment Delivery</p>
+                                <p class="text-muted">Secure and on-time transport of rented materials to your event venue.</p>
+                            </li>
 
-                        <!-- Service Card 2 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Guest Shuttles: </h5>
-                                    <p class="lead text-muted">Convenient transportation for guests between venues, hotels, and parking areas.</p>
-                                </div>
-                            </div>
-                        </div>
+                            <!-- Service Item 2 -->
+                            <li class="mb-4 p-3 border-bottom">
+                                <p class="text-primary mb-2">Guest Shuttles</p>
+                                <p class="text-muted">Convenient transportation for guests between venues, hotels, and parking areas.</p>
+                            </li>
 
-                        <!-- Service Card 3 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Vendor Coordination: </h5>
-                                    <p class="lead text-muted">Ensuring timely arrival and departure of vendors with all necessary equipment and supplies.</p>
-                                </div>
-                            </div>
-                        </div>
+                            <!-- Service Item 3 -->
+                            <li class="mb-4 p-3 border-bottom">
+                                <p class="text-primary mb-2">Vendor Coordination</p>
+                                <p class="text-muted">Ensuring timely arrival and departure of vendors with all necessary equipment and supplies.</p>
+                            </li>
 
-                        <!-- Service Card 4 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Post-Event Pickup: </h5>
-                                    <p class="lead text-muted">Efficient collection of rented items and materials after your event concludes.</p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
+                            <!-- Service Item 4 -->
+                            <li class="mb-4 p-3 border-bottom">
+                                <p class="text-primary mb-2">Post-Event Pickup</p>
+                                <p class="text-muted">Efficient collection of rented items and materials after your event concludes.</p>
+                            </li>
+                        </ul>
                 </div>
             </div>
         </div>

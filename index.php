@@ -43,10 +43,7 @@
       transform: translateY(-5px);
     }
 
-    .text-primary {
-      color: #8b4513 !important;
-      /* Wedding-themed brown color */
-    }
+    
 
     .callto {
       padding: 120px 0;
@@ -72,7 +69,6 @@
       position: relative;
       padding-bottom: 15px;
     }
-
     .subtitle:after {
       content: '';
       position: absolute;
@@ -266,7 +262,7 @@
         <!-- Left Content -->
         <div class="col-lg-8">
           <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-            <h2 class="display-5 mb-4 text-primary">Wedding Planning</h2>
+            <span class="display-5 mb-4 ab-text-primary">Wedding Planning   </span>
             <p>
               Your love story deserves a celebration as extraordinary as the bond you share. At AB Events Group, we bring your dream wedding to life by providing comprehensive planning services that reflect your personal style and story.
             </p>
@@ -306,7 +302,7 @@
 
         <div class="col-lg-8">
           <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-            <h2 class="display-5 mb-4 text-primary">Wedding Decoration</h2>
+          <span class="display-5 mb-4 ab-text-primary">Wedding Decoration</span>
             <p>
               Transform your venue into a masterpiece with our bespoke decoration services. We take pride in creating stunning visuals that capture the essence of your special day.
             </p>
@@ -331,7 +327,7 @@
         <!-- Left Content -->
         <div class="col-lg-8">
           <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-            <h2 class="display-5 mb-4 text-primary">Event Rentals</h2>
+          <span class="display-5 mb-4 ab-text-primary">Event Rentals</span>
             <p>
               Elevate your event with our wide range of high-quality rental options, designed to suit any occasion and style.
             </p>
@@ -373,7 +369,7 @@
 
         <div class="col-lg-8">
           <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-            <h2 class="display-5 mb-4 text-primary">Transport Services</h2>
+          <span class="display-5 mb-4 ab-text-primary">Transport Services</span>
             <p>
               Ensure smooth and hassle-free transportation for your event with our reliable and punctual services. </p>
             <a href="transport_services.php" class="primary-btn normal-btn">Read More</a>
@@ -397,7 +393,7 @@
         <!-- Left Content -->
         <div class="col-lg-8">
           <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-            <h2 class="display-5 mb-4 text-primary">Destination Management Services</h2>
+          <span class="display-5 mb-4 ab-text-primary">Destination Management Services</span>
             <p>
               Planning a destination event? AB Events Group offers end-to-end destination management to bring your vision to life in any location. </p>
             <a href="destination-management-services.php" class="primary-btn normal-btn">Read More</a>
@@ -428,7 +424,7 @@
       <!-- Header -->
       <div class="row justify-content-center text-center text-white mb-5">
         <div class="col-lg-10">
-          <span class="text-primary text-uppercase fw-bold mb-3 d-block">Why Choose AB Events Group?</span>
+          <span class="text-uppercase fw-bold mb-3 d-block">Why Choose AB Events Group?</span>
           <h2 class="display-5 mb-4">Transform Your Ideas Into Extraordinary Memories</h2>
         </div>
       </div>
@@ -439,7 +435,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="card h-100 bg-transparent text-white border-0">
             <div class="card-body text-center">
-              <i class="fas fa-award fa-2x text-primary mb-3"></i>
+              <i class="fas fa-award fa-2x  mb-3"></i>
               <h3 class="h5 fw-bold mb-3">Expertise You Can Trust</h3>
               <p class="text-white-50">With over eight years in the industry, we bring unparalleled experience and professionalism to every event.</p>
             </div>
@@ -450,7 +446,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="card h-100 bg-transparent text-white border-0">
             <div class="card-body text-center">
-              <i class="fa fa-search-plus fa-2x text-primary mb-3"></i>
+              <i class="fa fa-search-plus fa-2x mb-3"></i>
               <h3 class="h5 fw-bold mb-3">Attention to Detail</h3>
               <p class="text-white-50">Every aspect of your event is meticulously planned and executed to perfection.</p>
             </div>
@@ -461,7 +457,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="card h-100 bg-transparent text-white border-0">
             <div class="card-body text-center">
-              <i class="fas fa-user-check fa-2x text-primary mb-3"></i>
+              <i class="fas fa-user-check fa-2x  mb-3"></i>
               <h3 class="h5 fw-bold mb-3">Personalized Approach</h3>
               <p class="text-white-50">We take the time to understand your vision and make it a reality.</p>
             </div>
@@ -472,7 +468,7 @@
         <div class="col-md-6 col-lg-3">
           <div class="card h-100 bg-transparent text-white border-0">
             <div class="card-body text-center">
-              <i class="fa fa-star fa-2x text-primary mb-3"></i>
+              <i class="fa fa-star fa-2x  mb-3"></i>
               <h3 class="h5 fw-bold mb-3">Commitment to Excellence</h3>
               <p class="text-white-50">Our team is dedicated to delivering exceptional service and unforgettable experiences.</p>
             </div>

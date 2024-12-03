@@ -148,7 +148,7 @@
                 <!-- Left Content -->
                 <div class="col-lg-8">
                     <div class="content-wrapper bg-white p-4 rounded shadow-sm">
-                        <h2 class="display-5 mb-4 text-primary">Wedding Planning</h2>
+                        <span class="display-5 mb-4 ab-text-primary">Wedding Planning</span>
                         <p class="lead text-muted">
                             Your love story deserves a celebration as extraordinary as the bond you share. At AB Events Group, we bring your dream wedding to life by providing comprehensive planning services that reflect your personal style and story.
                         </p>
@@ -168,59 +168,40 @@
             <!-- Wedding Services Section -->
             <div class="row mt-5">
                 <div class="col-12">
-                    <h3 class="h4 mb-4 text-primary">Our Wedding Planning Services Include:</h3>
 
-                    <div class="row g-4">
-                        <!-- Service Card 1 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Venue Selection</h5>
-                                    <p class="lead text-muted">Guidance in choosing the perfect setting, from grand halls and scenic gardens to exotic destination venues.</p>
-                                </div>
-                            </div>
-                        </div>
+                    <span class="display-5 mb-4 ab-text-primary">Our Wedding Planning Services Include:</span>
 
-                        <!-- Service Card 2 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Theme and Concept Design</h5>
-                                    <p class="lead text-muted">Customizing event themes and creative concepts to match your preferences and personality.</p>
-                                </div>
-                            </div>
-                        </div>
+                    <ul class="list-unstyled">
+                        <!-- Service Item 1 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Venue Selection</p>
+                            <p class="text-muted">Guidance in choosing the perfect setting, from grand halls and scenic gardens to exotic destination venues.</p>
+                        </li>
 
-                        <!-- Service Card 3 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Vendor Coordination</h5>
-                                    <p class="lead text-muted">Organizing and managing vendors, including catering, photography, videography, entertainment, and more.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Service Item 2 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Theme and Concept Design</p>
+                            <p class="text-muted">Customizing event themes and creative concepts to match your preferences and personality.</p>
+                        </li>
 
-                        <!-- Service Card 4 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">Timeline and Scheduling</h5>
-                                    <p class="lead text-muted">Detailed event timelines to ensure smooth transitions and seamless execution.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Service Item 3 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Vendor Coordination</p>
+                            <p class="text-muted">Organizing and managing vendors, including catering, photography, videography, entertainment, and more.</p>
+                        </li>
 
-                        <!-- Service Card 5 -->
-                        <div class="col-md-6 p-2">
-                            <div class="card h-100 border-0 shadow-sm">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary">On-the-Day Coordination</h5>
-                                    <p class="lead text-muted">Dedicated support on your wedding day to oversee logistics and handle last-minute details, allowing you to fully enjoy every precious moment.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <!-- Service Item 4 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">Timeline and Scheduling</p>
+                            <p class="text-muted">Detailed event timelines to ensure smooth transitions and seamless execution.</p>
+                        </li>
+
+                        <!-- Service Item 5 -->
+                        <li class="mb-4 p-3 border-bottom">
+                            <p class="text-primary mb-2">On-the-Day Coordination</p>
+                            <p class="text-muted">Dedicated support on your wedding day to oversee logistics and handle last-minute details, allowing you to fully enjoy every precious moment.</p>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

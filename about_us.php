@@ -64,11 +64,11 @@
                             <li>
                                 <a href="#">Our Services</a>
                                 <ul class="dropdown">
-                                    <li>
-                                        <a href="elegance-decor.php">Elegance Decor</a>
-                                    </li>
-                                    <li><a href="fotoland.php">Fotoland</a></li>
-                                    <li><a href="magic-sound.php">Magic Sound</a></li>
+                                    <li><a href="wedding_planning.php">Wedding Planning</a></li>
+                                    <li><a href="wedding_decoration.php">Wedding Decoration</a></li>
+                                    <li><a href="event_rentals.php">Event Rentals</a></li>
+                                    <li><a href="transport_services.php">Transport Services</a></li>
+                                    <li><a href="destination-management-services.php">Destination Management Services</a></li>
                                 </ul>
                             </li>
                             <li class="active"><a href="about_us.php">About Us</a></li>
